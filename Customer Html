@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Amaya Exchange & Telkom</title>
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  font-family:Arial,sans-serif;
+  color:#111827;
+  overflow-x:hidden;
+}
+
+button,
+input{
+  font-family:inherit;
+}
+
+.app{
+  width:100%;
+  min-height:100vh;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+  background:#111827;
+  color:#fff;
+  padding:17px 15px 16px;
+}
+
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.header-title{
+  font-size:19px;
+  line-height:1.2;
+  font-weight:700;
+}
+
+.header-sub{
+  margin-top:4px;
+  color:#cbd5e1;
+  font-size:11px;
+  line-height:1.3;
+}
+
+
+/* =========================================
+   CONTACT BUTTON
+========================================= */
+
+.contact-button{
+
+  flex-shrink:0;
+
+  width:auto;
+  height:34px;
+
+  margin:0;
+
+  padding:0 12px;
+
+  border:1px solid rgba(255,255,255,.22);
+
+  border-radius:18px;
+
+  background:#ffffff;
+
+  color:#111827;
+
+  font-size:11px;
+
+  font-weight:700;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:5px;
+
+  box-shadow:
+    0 3px 9px rgba(0,0,0,.20);
+
+  cursor:pointer;
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.contact-button:active{
+
+  transform:scale(.94);
+
+  box-shadow:
+    0 2px 5px rgba(0,0,0,.15);
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.container{
+  width:100%;
+  padding:12px;
+}
+
+
+/* =========================================
+   LOGIN CARD
+========================================= */
+
+.card{
+  width:100%;
+  background:#fff;
+  border-radius:17px;
+  padding:18px;
+  margin-bottom:12px;
+  box-shadow:0 3px 14px rgba(0,0,0,.055);
+}
+
+.login-title{
+  font-size:20px;
+  font-weight:700;
+  color:#111827;
+  margin-bottom:5px;
+}
+
+.login-sub{
+  font-size:13px;
+  line-height:1.4;
+  color:#777;
+  margin-bottom:17px;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  color:#374151;
+  margin:13px 0 6px;
+}
+
+input{
+  width:100%;
+  height:49px;
+
+  border:1px solid #d8dce2;
+  border-radius:11px;
+
+  padding:0 13px;
+
+  background:#fff;
+  color:#111827;
+
+  font-size:16px;
+
+  outline:none;
+
+  transition:border-color .15s,
+             box-shadow .15s;
+}
+
+input:focus{
+  border-color:#111827;
+  box-shadow:0 0 0 2px rgba(17,24,39,.06);
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button{
+  width:100%;
+  height:49px;
+
+  border:0;
+  border-radius:11px;
+
+  background:#111827;
+  color:#fff;
+
+  font-size:15px;
+  font-weight:700;
+
+  margin-top:18px;
+
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.55;
+}
+
+
+/* =========================================
+   NOTICE
+========================================= */
+
+.notice{
+  background:#fff9e9;
+  border:1px solid #f3dfaa;
+
+  border-radius:14px;
+
+  padding:13px 14px;
+
+  margin-bottom:12px;
+}
+
+.notice-title{
+  font-size:13px;
+  font-weight:700;
+
+  color:#5f4a10;
+
+  margin-bottom:5px;
+}
+
+.notice-text{
+  font-size:13px;
+  line-height:1.5;
+
+  color:#625b46;
+
+  white-space:pre-wrap;
+}
+
+
+/* =========================================
+   GREETING
+========================================= */
+
+.greeting{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:2px;
+
+  color:#111827;
+
+  font-size:15px;
+  font-weight:600;
+
+  margin-bottom:13px;
+}
+
+.customer-name{
+  font-size:20px;
+  font-weight:800;
+  color:#111827;
+}
+
+
+/* =========================================
+   CURRENT DUE
+========================================= */
+
+.due-card{
+
+  width:100%;
+
+  background:#111827;
+
+  border-radius:21px;
+
+  padding:17px 12px 18px;
+
+  min-height:103px;
+
+  margin-bottom:17px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  box-shadow:
+    0 5px 17px rgba(0,0,0,.10);
+}
+
+.due-label{
+  color:#aeb8c7;
+
+  font-size:12px;
+  font-weight:500;
+
+  margin-bottom:6px;
+
+transform:translateX(-7px);
+}
+
+.due-number{
+  color:#fff;
+
+  font-size:35px;
+  line-height:1;
+
+  font-weight:800;
+
+  letter-spacing:-.6px;
+}
+
+.due-kd{
+  color:#aeb8c7;
+
+  font-size:13px;
+  font-weight:500;
+
+  margin-left:3px;
+}
+
+
+/* =========================================
+   HISTORY HEADER
+========================================= */
+
+.history-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:9px;
+}
+
+.history-title{
+  font-size:18px;
+  line-height:1.2;
+
+  font-weight:800;
+
+  color:#111827;
+}
+
+
+/* =========================================
+   TRANSACTION SCROLL
+========================================= */
+
+.transactions-scroll{
+
+  width:100%;
+
+  max-height:52vh;
+
+  overflow-y:auto;
+
+  overflow-x:hidden;
+
+  padding:1px 2px 2px 1px;
+
+  -webkit-overflow-scrolling:touch;
+
+  scrollbar-width:thin;
+
+  overscroll-behavior:contain;
+}
+
+
+/* =========================================
+   TRANSACTION CARD
+========================================= */
+
+.transaction{
+
+  position:relative;
+
+  width:100%;
+
+  background:#fff;
+
+  border:1px solid #e9edf1;
+
+  border-radius:15px;
+
+  padding:12px 14px 11px;
+
+  margin-bottom:6px;
+
+  box-shadow:
+    0 1px 5px rgba(0,0,0,.035);
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+.transaction-date{
+
+  color:#9ca3af;
+
+  font-size:11px;
+  font-weight:400;
+
+  line-height:1.2;
+
+  margin-bottom:6px;
+
+  padding-right:70px;
+}
+
+
+/* =========================================
+   TYPE
+========================================= */
+
+.transaction-type{
+
+  position:absolute;
+
+  top:12px;
+  right:14px;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  line-height:1.2;
+
+  color:#111827;
+}
+
+
+/* =========================================
+   AMOUNT
+========================================= */
+
+.transaction-main{
+
+  color:#111827;
+
+  font-size:21px;
+  line-height:1.05;
+
+  font-weight:800;
+
+  letter-spacing:-.2px;
+}
+
+.transaction-kd{
+
+  color:#111827;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  margin-left:2px;
+}
+
+
+/* =========================================
+   NOTE
+========================================= */
+
+.transaction-note{
+
+  color:#64748b;
+
+  font-size:12px;
+  font-weight:400;
+
+  line-height:1.25;
+
+  margin-top:5px;
+
+  padding-right:5px;
+}
+
+
+/* =========================================
+   TYPE DIFFERENCE
+========================================= */
+
+.transaction.due-type{
+  border-left:3px solid #111827;
+}
+
+.transaction.paid-type{
+  border-left:3px solid #94a3b8;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout{
+
+  background:#fff;
+
+  color:#555;
+
+  border:1px solid #dcdfe3;
+
+  height:46px;
+
+  font-size:14px;
+
+  margin-top:10px;
+  margin-bottom:7px;
+
+  box-shadow:none;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.message{
+
+  width:100%;
+
+  text-align:center;
+
+  min-height:18px;
+
+  margin-top:10px;
+
+  font-size:13px;
+}
+
+.error{
+  color:#dc2626;
+}
+
+.loading{
+  color:#777;
+}
+
+
+/* =========================================
+   HIDDEN
+========================================= */
+
+.hidden{
+  display:none !important;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer{
+
+  text-align:center;
+
+  padding:14px 10px 16px;
+
+  color:#9ca3af;
+
+  font-size:10px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+  .header{
+    padding:16px 14px;
+  }
+
+  .header-title{
+    font-size:18px;
+  }
+
+  .header-sub{
+    font-size:10px;
+  }
+
+  .contact-button{
+    height:33px;
+    padding:0 11px;
+    font-size:11px;
+    border-radius:18px;
+  }
+
+  .container{
+    padding:11px;
+  }
+
+  .greeting{
+    font-size:15px;
+    margin-bottom:12px;
+  }
+
+  .customer-name{
+    font-size:20px;
+  }
+
+  .due-card{
+    min-height:101px;
+    padding:17px 11px 18px;
+    border-radius:20px;
+    margin-bottom:16px;
+  }
+
+  .due-label{
+    font-size:11px;
+    margin-bottom:6px;
+  }
+
+  .due-number{
+    font-size:34px;
+  }
+
+  .due-kd{
+    font-size:13px;
+  }
+
+  .history-title{
+    font-size:17px;
+  }
+
+  .transactions-scroll{
+    max-height:52vh;
+  }
+
+  .transaction{
+    padding:11px 13px 10px;
+    border-radius:14px;
+    margin-bottom:5px;
+  }
+
+  .transaction-date{
+    font-size:10px;
+    margin-bottom:5px;
+  }
+
+  .transaction-type{
+    top:11px;
+    right:13px;
+    font-size:11px;
+  }
+
+  .transaction-main{
+    font-size:20px;
+  }
+
+  .transaction-kd{
+    font-size:11px;
+  }
+
+  .transaction-note{
+    font-size:11px;
+    margin-top:4px;
+  }
+
+}
+
+
+/* =========================================
+   SMALL PHONE
+========================================= */
+
+@media(max-width:360px){
+
+  .container{
+    padding:9px;
+  }
+
+  .header-title{
+    font-size:16px;
+  }
+
+  .header-sub{
+    font-size:9px;
+  }
+
+  .contact-button{
+    height:32px;
+    padding:0 10px;
+    font-size:10px;
+  }
+
+  .greeting{
+    font-size:14px;
+  }
+
+  .customer-name{
+    font-size:19px;
+  }
+
+  .due-card{
+    min-height:96px;
+    padding:16px 9px;
+    border-radius:18px;
+  }
+
+  .due-number{
+    font-size:32px;
+  }
+
+  .history-title{
+    font-size:16px;
+  }
+
+  .transactions-scroll{
+    max-height:50vh;
+  }
+
+  .transaction{
+    padding:10px 12px 9px;
+    border-radius:13px;
+  }
+
+  .transaction-date{
+    font-size:10px;
+  }
+
+  .transaction-type{
+    top:10px;
+    right:12px;
+    font-size:10px;
+  }
+
+  .transaction-main{
+    font-size:19px;
+  }
+
+  .transaction-kd{
+    font-size:10px;
+  }
+
+  .transaction-note{
+    font-size:10px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<div class="header">
+
+  <div class="header-row">
+
+    <div>
+
+      <div class="header-title">
+        Amaya Exchange
+      </div>
+
+      <div class="header-sub">
+        লেনদেনে আস্থা, সেবায় নির্ভরতা
+      </div>
+
+    </div>
+
+
+    <button
+      class="contact-button"
+      onclick="contactWhatsApp()">
+
+      📞 Contact
+
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================
+     LOGIN PAGE
+===================================== -->
+
+<div id="loginPage" class="container">
+
+  <div class="card">
+
+    <div class="login-title">
+      Customer Login
+    </div>
+
+    <div class="login-sub">
+      আপনার WhatsApp Number এবং Password দিয়ে Login করুন
+    </div>
+
+
+    <label>
+      WhatsApp Number
+    </label>
+
+    <input
+      id="phone"
+      type="tel"
+      inputmode="tel"
+      placeholder="WhatsApp Number"
+      autocomplete="username"
+    >
+
+
+    <label>
+      Password
+    </label>
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+
+    <button
+      id="loginButton"
+      onclick="login()">
+
+      Login
+
+    </button>
+
+
+    <div
+      id="loginMessage"
+      class="message">
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================
+     CUSTOMER PAGE
+===================================== -->
+
+<div
+  id="customerPage"
+  class="container hidden">
+
+
+  <!-- GREETING -->
+
+  <div class="greeting">
+
+    <span>
+      আসসালামু আলাইকুম,
+    </span>
+
+    <span
+      id="customerName"
+      class="customer-name">
+    </span>
+
+    <span>
+      👋
+    </span>
+
+  </div>
+
+
+
+  <!-- GLOBAL NOTICE -->
+
+  <div
+    id="noticeBox"
+    class="notice hidden">
+
+    <div class="notice-title">
+      📢 Notice
+    </div>
+
+    <div
+      id="noticeText"
+      class="notice-text">
+    </div>
+
+  </div>
+
+
+
+  <!-- CURRENT DUE -->
+
+  <div class="due-card">
+
+    <div class="due-label">
+      বর্তমান বাকি
+    </div>
+
+    <div class="due-number">
+
+      <span id="currentDue">
+        0.000
+      </span>
+
+      <span class="due-kd">
+        KD
+      </span>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- HISTORY -->
+
+  <div class="history-header">
+
+    <div class="history-title">
+      Transaction History
+    </div>
+
+  </div>
+
+
+  <!-- TRANSACTION SCROLL AREA -->
+
+  <div
+    id="transactions"
+    class="transactions-scroll">
+
+  </div>
+
+
+
+  <!-- LOGOUT -->
+
+  <button
+    class="logout"
+    onclick="logout()">
+
+    Logout
+
+  </button>
+
+
+</div>
+
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+  Amaya Exchange
+</div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================
+   API
+========================================= */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxv9Y6u320GLBP6Axvzdb8eZpKSkB25Xjbt1656GL-tj5AHuJWjVvdVfp5qRZSu8lfs/exec";
+
+
+/* =========================================
+   CONTACT WHATSAPP
+========================================= */
+
+const CONTACT_WHATSAPP =
+"8801354304315";
+
+
+function contactWhatsApp(){
+
+  const url =
+    "https://wa.me/" +
+    CONTACT_WHATSAPP;
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+let currentCustomer = null;
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+async function login(){
+
+  const phone =
+    document
+      .getElementById("phone")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("password")
+      .value
+      .trim();
+
+
+  const button =
+    document.getElementById(
+      "loginButton"
+    );
+
+
+  if(!phone || !password){
+
+    showMessage(
+      "loginMessage",
+      "WhatsApp Number এবং Password দিন",
+      "error"
+    );
+
+    return;
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "Login হচ্ছে...";
+
+
+  try{
+
+    const url =
+      API_URL +
+      "?action=login" +
+      "&phone=" +
+      encodeURIComponent(phone) +
+      "&password=" +
+      encodeURIComponent(password);
+
+
+    const response =
+      await fetch(url);
+
+
+    const data =
+      await response.json();
+
+
+    if(data.success){
+
+      currentCustomer =
+        data.customer;
+
+
+      localStorage.setItem(
+        "customerSession",
+        JSON.stringify(
+          currentCustomer
+        )
+      );
+
+
+      showCustomer();
+
+    }else{
+
+      showMessage(
+        "loginMessage",
+        data.message ||
+        "Login করা যায়নি",
+        "error"
+      );
+
+    }
+
+  }catch(error){
+
+    showMessage(
+      "loginMessage",
+      "Server-এর সাথে যোগাযোগ করা যাচ্ছে না",
+      "error"
+    );
+
+  }
+
+
+  button.disabled = false;
+
+  button.textContent =
+    "Login";
+
+}
+
+
+/* =========================================
+   SHOW CUSTOMER
+========================================= */
+
+function showCustomer(){
+
+  document
+    .getElementById(
+      "loginPage"
+    )
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById(
+      "customerPage"
+    )
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById(
+      "customerName"
+    )
+    .textContent =
+    currentCustomer.name;
+
+
+  loadNotice();
+
+  loadTransactions();
+
+}
+
+
+/* =========================================
+   NOTICE
+========================================= */
+
+async function loadNotice(){
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?action=notice"
+      );
+
+
+    const data =
+      await response.json();
+
+
+    const box =
+      document.getElementById(
+        "noticeBox"
+      );
+
+
+    const text =
+      document.getElementById(
+        "noticeText"
+      );
+
+
+    if(
+      data.notice &&
+      String(
+        data.notice
+      ).trim() !== ""
+    ){
+
+      text.textContent =
+        data.notice;
+
+
+      box.classList.remove(
+        "hidden"
+      );
+
+    }else{
+
+      box.classList.add(
+        "hidden"
+      );
+
+    }
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+
+/* =========================================
+   TRANSACTIONS
+========================================= */
+
+async function loadTransactions(){
+
+  const box =
+    document.getElementById(
+      "transactions"
+    );
+
+
+  box.innerHTML =
+    '<div class="message loading">লেনদেন লোড হচ্ছে...</div>';
+
+
+  try{
+
+    const url =
+      API_URL +
+      "?action=transactions" +
+      "&customerId=" +
+      encodeURIComponent(
+        currentCustomer.id
+      );
+
+
+    const response =
+      await fetch(url);
+
+
+    const data =
+      await response.json();
+
+
+    /* CURRENT DUE */
+
+    document
+      .getElementById(
+        "currentDue"
+      )
+      .textContent =
+      Number(
+        data.currentDue || 0
+      ).toFixed(3);
+
+
+    box.innerHTML = "";
+
+
+    /* NO TRANSACTION */
+
+    if(
+      !data.transactions ||
+      data.transactions.length === 0
+    ){
+
+      box.innerHTML =
+        '<div class="message loading">কোনো লেনদেন পাওয়া যায়নি</div>';
+
+      return;
+
+    }
+
+
+    /* TRANSACTION LOOP */
+
+    data.transactions.forEach(
+      function(t){
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+
+        /* TYPE CLASS */
+
+        if(t.type === "বাকি"){
+
+          item.className =
+            "transaction due-type";
+
+        }else{
+
+          item.className =
+            "transaction paid-type";
+
+        }
+
+
+        /* SIGN */
+
+        const sign =
+          t.type === "বাকি"
+          ? "+"
+          : "−";
+
+
+        /* NOTE */
+
+        let note =
+          t.note || "";
+
+
+        /* TK AMOUNT */
+
+        if(
+          t.amountTk !== "" &&
+          t.amountTk !== null &&
+          t.amountTk !== undefined
+        ){
+
+          const tk =
+            Number(
+              t.amountTk
+            ).toLocaleString(
+              "en-US"
+            );
+
+
+          if(note){
+
+            note +=
+              " • " +
+              tk +
+              " Tk";
+
+          }else{
+
+            note =
+              tk +
+              " Tk";
+
+          }
+
+        }
+
+
+        /* TRANSACTION HTML */
+
+        item.innerHTML = `
+
+          <div class="transaction-date">
+            ${escapeHTML(t.date)}
+          </div>
+
+
+          <div class="transaction-type">
+            ${escapeHTML(t.type)}
+          </div>
+
+
+          <div class="transaction-main">
+
+            ${sign}${Number(
+              t.amount
+            ).toFixed(3)}
+
+            <span class="transaction-kd">
+              KD
+            </span>
+
+          </div>
+
+
+          ${
+            note
+            ?
+            `
+            <div class="transaction-note">
+              ${escapeHTML(note)}
+            </div>
+            `
+            :
+            ""
+          }
+
+        `;
+
+
+        box.appendChild(
+          item
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    box.innerHTML =
+      '<div class="message error">লেনদেন লোড হয়নি</div>';
+
+  }
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+function logout(){
+
+  localStorage.removeItem(
+    "customerSession"
+  );
+
+
+  currentCustomer =
+    null;
+
+
+  document
+    .getElementById(
+      "customerPage"
+    )
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById(
+      "loginPage"
+    )
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById(
+      "phone"
+    )
+    .value = "";
+
+
+  document
+    .getElementById(
+      "password"
+    )
+    .value = "";
+
+}
+
+
+/* =========================================
+   SAVED LOGIN
+========================================= */
+
+function checkSavedLogin(){
+
+  const saved =
+    localStorage.getItem(
+      "customerSession"
+    );
+
+
+  if(!saved){
+
+    return;
+
+  }
+
+
+  try{
+
+    currentCustomer =
+      JSON.parse(saved);
+
+
+    if(
+      currentCustomer &&
+      currentCustomer.id &&
+      currentCustomer.name
+    ){
+
+      showCustomer();
+
+    }
+
+  }catch(error){
+
+    localStorage.removeItem(
+      "customerSession"
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+function showMessage(
+  id,
+  text,
+  type
+){
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  element.textContent =
+    text;
+
+
+  element.className =
+    "message " +
+    (type || "");
+
+}
+
+
+/* =========================================
+   HTML SAFE
+========================================= */
+
+function escapeHTML(text){
+
+  return String(text)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+checkSavedLogin();
+
+</script>
+
+</body>
+
+</html>
