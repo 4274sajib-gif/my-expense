@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#0B6B4F">
 <title>আমার খরচ</title>
 <link rel="manifest" href="manifest.json">
+
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f7f6;color:#17221f;}
@@ -41,6 +42,14 @@ button{border:0;cursor:pointer;}
 .card-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;}
 .card-brand{font-size:17px;font-weight:900;letter-spacing:.2px;}
 .card-type{font-size:8px;font-weight:800;opacity:.65;letter-spacing:1px;}
+
+#daysLeft{
+font-size:8px;
+font-weight:800;
+opacity:.72;
+margin-top:3px;
+}
+
 .card-chip{position:relative;z-index:2;width:43px;height:31px;margin-top:22px;border-radius:7px;background:linear-gradient(135deg,#d7d1a7,#f1eac6,#a9a47e);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);}
 .card-chip:after{content:"";position:absolute;left:50%;top:0;width:1px;height:100%;background:rgba(80,70,30,.35);}
 .card-number{position:relative;z-index:2;margin-top:17px;font-size:16px;font-weight:700;letter-spacing:1px;white-space:nowrap;}
@@ -62,12 +71,54 @@ button{border:0;cursor:pointer;}
 .category-name{font-size:10px;font-weight:800;color:#4d5754;}
 
 .transaction-card{background:#fff;border-radius:15px;padding:11px 12px;margin-bottom:8px;box-shadow:0 2px 9px rgba(0,0,0,.045);border-left:4px solid #0b6b4f;}
-.txn-row{display:flex;justify-content:space-between;align-items:center;gap:10px;}
-.txn-left{min-width:0;}
-.txn-category{font-size:13px;font-weight:900;}
-.txn-note{font-size:10px;color:#8a9490;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.txn-date{font-size:9px;color:#9ba39f;margin-top:4px;}
-.txn-amount{font-size:15px;font-weight:900;white-space:nowrap;color:#0b6b4f;}
+.txn-row{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.txn-left{
+min-width:0;
+flex:1;
+}
+
+.txn-right{
+min-width:0;
+flex:1;
+text-align:right;
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+}
+
+.txn-amount{
+font-size:15px;
+font-weight:900;
+white-space:nowrap;
+color:#0b6b4f;
+}
+
+.txn-category{
+font-size:13px;
+font-weight:900;
+}
+
+.txn-note{
+font-size:10px;
+color:#8a9490;
+margin-top:3px;
+max-width:180px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.txn-date{
+font-size:9px;
+color:#9ba39f;
+margin-top:4px;
+}
 
 #recentTransactions,#historyTransactions{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px 3px 2px 0;}
 #recentTransactions{max-height:260px;}
@@ -143,6 +194,7 @@ button{border:0;cursor:pointer;}
 }
 </style>
 </head>
+
 <body>
 
 <div id="loginPage">
@@ -150,20 +202,24 @@ button{border:0;cursor:pointer;}
 <div class="login-logo">খ</div>
 <div class="login-title">আমার খরচ</div>
 <div class="login-subtitle">দৈনিক খরচের হিসাব</div>
+
 <div class="input-group">
 <label class="input-label">ID</label>
 <input id="loginId" class="input-box" type="text" autocomplete="username" placeholder="আপনার ID লিখুন">
 </div>
+
 <div class="input-group">
 <label class="input-label">Password</label>
 <input id="loginPassword" class="input-box" type="password" autocomplete="current-password" placeholder="Password লিখুন">
 </div>
+
 <button id="loginBtn" class="login-btn">Login</button>
 <div id="loginError" class="login-error"></div>
 </div>
 </div>
 
 <div id="app" class="hidden">
+
 <div class="topbar">
 <div>
 <div class="top-title">আমার খরচ</div>
@@ -173,24 +229,56 @@ button{border:0;cursor:pointer;}
 </div>
 
 <main id="homePage" class="page active">
+
 <div class="atm-card">
+
 <div class="card-top">
+
 <div class="card-brand">Sajib Hossain</div>
-<div class="card-type">EXPENSE CARD</div>
+
+<div class="card-type">
+EXPENSE CARD
+<div id="daysLeft"></div>
 </div>
+
+</div>
+
 <div class="card-chip"></div>
-<div class="card-number">•••• &nbsp; •••• &nbsp; <span id="cardMonth"></span></div>
+
+<div class="card-number">
+•••• &nbsp; •••• &nbsp; <span id="cardMonth"></span>
+</div>
+
 <div class="card-bottom">
+
 <div>
+
 <div class="card-total-label">BUDGET LEFT</div>
-<div id="cardRemaining" class="card-total">৳0</div>
-<div class="card-progress"><div id="cardProgressBar" class="card-progress-fill"></div></div>
-<div id="cardExpensePercent" class="card-expense-percent">0.0%</div>
+
+<div id="cardRemaining" class="card-total">
+৳0
 </div>
+
+<div class="card-progress">
+<div id="cardProgressBar" class="card-progress-fill"></div>
+</div>
+
+<div id="cardExpensePercent" class="card-expense-percent">
+0.0%
+</div>
+
+</div>
+
 <div>
+
 <div class="card-budget">BUDGET</div>
-<div id="cardBudget" class="card-budget-value">৳0</div>
+
+<div id="cardBudget" class="card-budget-value">
+৳0
 </div>
+
+</div>
+
 </div>
 </div>
 
@@ -198,119 +286,194 @@ button{border:0;cursor:pointer;}
 <h3>খরচ যোগ করুন</h3>
 <span id="homeProfile">Bangladesh</span>
 </div>
+
 <div id="categoryGrid" class="category-grid"></div>
 
 <div class="section-title">
 <h3>সাম্প্রতিক হিসাব</h3>
 <span id="recentCount">0</span>
 </div>
+
 <div id="recentTransactions"></div>
+
 </main>
 
 <main id="historyPage" class="page">
+
 <div class="total-card">
+
 <div>
 <div class="total-label">মোট খরচ</div>
 <div id="historyTotal" class="total-value">৳0</div>
 </div>
-<div id="historyMonth" class="total-month">সেপ্টেম্বর 2026</div>
+
+<div id="historyMonth" class="total-month">
+সেপ্টেম্বর 2026
+</div>
+
 </div>
 
 <div class="filter-box">
+
 <div class="history-filter-grid">
+
 <div class="history-filter-item">
 <label>সাল</label>
 <select id="historyYear"></select>
 </div>
+
 <div class="history-filter-item">
 <label>মাস</label>
 <select id="historyMonthSelect"></select>
 </div>
+
 <div class="history-filter-item">
 <label>Category</label>
 <select id="historyCategory">
 <option value="">সব Category</option>
 </select>
 </div>
+
 </div>
+
 </div>
 
 <div class="section-title">
 <h3>হিসাব</h3>
 <span id="historyProfile">Bangladesh</span>
 </div>
+
 <div id="historyTransactions"></div>
+
 </main>
 
 <main id="profilePage" class="page">
+
 <div class="profile-card">
+
 <div class="profile-head">
+
 <div id="profileAvatar" class="avatar">S</div>
+
 <div>
 <div id="profileName" class="profile-name">Sajib Hossain</div>
 <div id="profileId" class="profile-id">ID</div>
 </div>
+
 </div>
 
 <div class="profile-section">
+
 <div class="profile-section-title">নাম</div>
+
 <input id="nameInput" class="profile-input" type="text" placeholder="আপনার নাম">
-<button id="saveNameBtn" class="small-btn">নাম Save করুন</button>
+
+<button id="saveNameBtn" class="small-btn">
+নাম Save করুন
+</button>
+
 </div>
 
 <div class="profile-section">
+
 <div class="profile-section-title">মাসিক Budget</div>
+
 <div class="budget-row">
+
 <input id="budgetMonth" type="month">
+
 <input id="budgetAmount" type="number" inputmode="decimal" placeholder="Budget">
+
 </div>
-<button id="saveBudgetBtn" class="small-btn">Budget Save করুন</button>
+
+<button id="saveBudgetBtn" class="small-btn">
+Budget Save করুন
+</button>
+
 </div>
 
 <div class="profile-section">
+
 <div class="profile-section-title">হিসাবের Profile</div>
+
 <div class="currency-row">
-<button id="bdBtn" class="currency-btn">🇧🇩 Bangladesh</button>
-<button id="kwBtn" class="currency-btn">🇰🇼 Kuwait</button>
-</div>
+
+<button id="bdBtn" class="currency-btn">
+🇧🇩 Bangladesh
+</button>
+
+<button id="kwBtn" class="currency-btn">
+🇰🇼 Kuwait
+</button>
+
 </div>
 
-<button id="logoutBtn" class="logout-btn">Logout</button>
 </div>
+
+<button id="logoutBtn" class="logout-btn">
+Logout
+</button>
+
+</div>
+
 </main>
 
 <nav class="bottom-nav">
+
 <div class="nav-inner">
+
 <button class="nav-btn active" data-page="homePage">
 <div class="nav-icon">🏠</div>
 <div class="nav-label">Home</div>
 </button>
+
 <button class="nav-btn" data-page="historyPage">
 <div class="nav-icon">📊</div>
 <div class="nav-label">হিসাব</div>
 </button>
+
 <button class="nav-btn" data-page="profilePage">
 <div class="nav-icon">👤</div>
 <div class="nav-label">Profile</div>
 </button>
+
 </div>
+
 </nav>
+
 </div>
 
 <div id="popupOverlay" class="popup-overlay">
+
 <div class="popup">
+
 <div class="popup-head">
 <div class="popup-title">খরচ যোগ করুন</div>
 <button id="popupClose" class="popup-close">×</button>
 </div>
+
 <div class="selected-category">
-<div id="selectedCategoryIcon" class="selected-category-icon">🍚</div>
-<div id="selectedCategoryName" class="selected-category-name">খাবার</div>
+
+<div id="selectedCategoryIcon" class="selected-category-icon">
+🍚
 </div>
+
+<div id="selectedCategoryName" class="selected-category-name">
+খাবার
+</div>
+
+</div>
+
 <input id="amountInput" class="amount-input" type="number" inputmode="decimal" step="any" placeholder="0">
+
 <input type="text" id="noteInput" placeholder="নোট লিখুন" autocomplete="off">
-<button id="saveTransactionBtn" class="save-btn">হিসাব Save করুন</button>
+
+<button id="saveTransactionBtn" class="save-btn">
+হিসাব Save করুন
+</button>
+
 </div>
+
 </div>
 
 <div id="loading" class="loading">
@@ -318,6 +481,7 @@ button{border:0;cursor:pointer;}
 </div>
 
 <script>
+
 const API='https://script.google.com/macros/s/AKfycbweL16Uzpgp5ogrrJp5ZiSPRZf-FeyH0nkOLPvptgcI7Dhra8IoVOfIvyzMTuzWbrCQ/exec';
 
 const SESSION_KEY='amaya_expense_session';
@@ -350,9 +514,24 @@ const CATEGORIES=[
 {name:'অন্যান্য',icon:'📦'}
 ];
 
-const HISTORY_MONTHS=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const HISTORY_MONTHS=[
+'জানুয়ারি',
+'ফেব্রুয়ারি',
+'মার্চ',
+'এপ্রিল',
+'মে',
+'জুন',
+'জুলাই',
+'আগস্ট',
+'সেপ্টেম্বর',
+'অক্টোবর',
+'নভেম্বর',
+'ডিসেম্বর'
+];
 
-function pad(n){return String(n).padStart(2,'0');}
+function pad(n){
+return String(n).padStart(2,'0');
+}
 
 function normalizeProfile(value){
 const v=String(value||'').trim().toUpperCase();
@@ -381,150 +560,431 @@ return SERVER_VERSION_KEY+'_'+normalizeProfile(profile);
 
 function loadServerVersions(profile=currency){
 try{
-const raw=localStorage.getItem(serverVersionStorageKey(profile));
+
+const raw=
+localStorage.getItem(
+serverVersionStorageKey(profile)
+);
+
 if(!raw)return {};
+
 const data=JSON.parse(raw);
-return data&&typeof data==='object'?data:{};
-}catch(e){return {};}
+
+return data&&typeof data==='object'
+?data
+:{};
+
+}catch(e){
+
+return {};
+
+}
 }
 
 function saveServerVersions(data,profile=currency){
-const old=loadServerVersions(profile);
+
+const old=
+loadServerVersions(profile);
+
 const next={
 txVersion:data?.txVersion??old.txVersion??'0',
 budgetVersion:data?.budgetVersion??old.budgetVersion??'0',
 accountVersion:data?.accountVersion??old.accountVersion??'0'
 };
-localStorage.setItem(serverVersionStorageKey(profile),JSON.stringify(next));
+
+localStorage.setItem(
+serverVersionStorageKey(profile),
+JSON.stringify(next)
+);
+
 return next;
 }
 
 function getCurrentMonth(){
+
 const d=new Date();
-return d.getFullYear()+'-'+pad(d.getMonth()+1);
+
+return d.getFullYear()+
+'-'+
+pad(d.getMonth()+1);
+
 }
 
 function getToday(){
+
 const d=new Date();
-return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+
+return d.getFullYear()+
+'-'+
+pad(d.getMonth()+1)+
+'-'+
+pad(d.getDate());
+
 }
 
 function money(value){
+
 let n=Number(value);
+
 if(!Number.isFinite(n))n=0;
+
 return currency==='KW'
-?n.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3})+' KD'
-:'৳'+n.toLocaleString('en-IN',{maximumFractionDigits:2});
+?n.toLocaleString(
+'en-US',
+{
+minimumFractionDigits:3,
+maximumFractionDigits:3
+}
+)+' KD'
+:'৳'+
+n.toLocaleString(
+'en-IN',
+{
+maximumFractionDigits:2
+}
+);
+
 }
 
 function parseAmount(value){
-if(value===undefined||value===null||value==='')return null;
-if(typeof value==='number')return Number.isFinite(value)?value:null;
+
+if(
+value===undefined||
+value===null||
+value===''
+)return null;
+
+if(typeof value==='number')
+return Number.isFinite(value)
+?value
+:null;
+
 let s=String(value).trim();
+
 if(!s)return null;
-s=s.replace(/,/g,'').replace(/৳/g,'').replace(/TK/gi,'').replace(/BDT/gi,'').replace(/KD/gi,'').replace(/\s+/g,'');
+
+s=s
+.replace(/,/g,'')
+.replace(/৳/g,'')
+.replace(/TK/gi,'')
+.replace(/BDT/gi,'')
+.replace(/KD/gi,'')
+.replace(/\s+/g,'');
+
 const n=Number(s);
-return Number.isFinite(n)?n:null;
+
+return Number.isFinite(n)
+?n
+:null;
+
 }
 
 async function apiGet(params){
-const query=new URLSearchParams({...params,_ts:Date.now()});
-const response=await fetch(API+'?'+query.toString(),{method:'GET',cache:'no-store'});
-if(!response.ok)throw new Error('Network error');
+
+const query=
+new URLSearchParams(
+{
+...params,
+_ts:Date.now()
+}
+);
+
+const response=
+await fetch(
+API+'?'+query.toString(),
+{
+method:'GET',
+cache:'no-store'
+}
+);
+
+if(!response.ok)
+throw new Error('Network error');
+
 return response.json();
+
 }
 
 async function apiPost(action,data){
-const response=await fetch(API,{
+
+const response=
+await fetch(
+API,
+{
 method:'POST',
-headers:{'Content-Type':'text/plain;charset=utf-8'},
-body:JSON.stringify({action,data})
-});
-if(!response.ok)throw new Error('Network error');
+headers:{
+'Content-Type':
+'text/plain;charset=utf-8'
+},
+body:JSON.stringify({
+action,
+data
+})
+}
+);
+
+if(!response.ok)
+throw new Error('Network error');
+
 return response.json();
+
 }
 
 function updateSyncStatus(text){
-const el=document.getElementById('syncStatus');
-if(el)el.textContent=text;
+
+const el=
+document.getElementById(
+'syncStatus'
+);
+
+if(el)
+el.textContent=text;
+
 }
 
 function saveSession(){
-localStorage.setItem(SESSION_KEY,JSON.stringify(currentUser));
+
+localStorage.setItem(
+SESSION_KEY,
+JSON.stringify(currentUser)
+);
+
 }
 
 function loadSession(){
+
 try{
-const raw=localStorage.getItem(SESSION_KEY);
-return raw?JSON.parse(raw):null;
-}catch(e){return null;}
+
+const raw=
+localStorage.getItem(
+SESSION_KEY
+);
+
+return raw
+?JSON.parse(raw)
+:null;
+
+}catch(e){
+
+return null;
+
+}
+
+}
+
+function loadLocalData(){
+
+loadLocalTransactions();
+
+loadPendingTransactions();
+
+loadHomeBudgetLocal();
+
 }
 
 function loadLocalTransactions(){
+
 try{
-const raw=localStorage.getItem(transactionStorageKey());
-transactions=raw?JSON.parse(raw):[];
-if(!Array.isArray(transactions))transactions=[];
-}catch(e){transactions=[];}
+
+const raw=
+localStorage.getItem(
+transactionStorageKey()
+);
+
+transactions=
+raw
+?JSON.parse(raw)
+:[];
+
+if(!Array.isArray(transactions))
+transactions=[];
+
+}catch(e){
+
+transactions=[];
+
+}
+
 }
 
 function saveLocalTransactions(){
-localStorage.setItem(transactionStorageKey(),JSON.stringify(transactions));
+
+localStorage.setItem(
+transactionStorageKey(),
+JSON.stringify(transactions)
+);
+
 }
 
 function loadPendingTransactions(){
+
 try{
-const raw=localStorage.getItem(pendingStorageKey());
-pendingTransactions=raw?JSON.parse(raw):[];
-if(!Array.isArray(pendingTransactions))pendingTransactions=[];
-}catch(e){pendingTransactions=[];}
+
+const raw=
+localStorage.getItem(
+pendingStorageKey()
+);
+
+pendingTransactions=
+raw
+?JSON.parse(raw)
+:[];
+
+if(!Array.isArray(pendingTransactions))
+pendingTransactions=[];
+
+}catch(e){
+
+pendingTransactions=[];
+
+}
+
 }
 
 function savePendingTransactions(){
-localStorage.setItem(pendingStorageKey(),JSON.stringify(pendingTransactions));
+
+localStorage.setItem(
+pendingStorageKey(),
+JSON.stringify(pendingTransactions)
+);
+
 }
 
 function transactionId(t){
+
 if(!t)return '';
-const objectId=t.id??t.ID??t.transactionId??t.TransactionID;
-if(objectId!==undefined&&objectId!==null&&String(objectId).trim())return String(objectId).trim();
-if(Array.isArray(t))return String(t[0]??'').trim();
+
+const objectId=
+t.id??
+t.ID??
+t.transactionId??
+t.TransactionID;
+
+if(
+objectId!==undefined&&
+objectId!==null&&
+String(objectId).trim()
+){
+
+return String(objectId).trim();
+
+}
+
+if(Array.isArray(t)){
+
+return String(
+t[0]??''
+).trim();
+
+}
+
 return '';
+
 }
 
 function getTransactionAmount(t){
+
 if(!t)return null;
+
 if(Array.isArray(t)){
-const parsed=parseAmount(t[3]);
-if(parsed!==null)return parsed;
+
+const parsed=
+parseAmount(t[3]);
+
+if(parsed!==null)
+return parsed;
+
 }
+
 const fields=[
-t.amount,t.Amount,t.bdAmount,t.BDAmount,t.kdAmount,t.KDAmount,
-t.value,t.Value,t.total,t.Total,t.expense,t.Expense,t.amountValue,t.AmountValue
+t.amount,
+t.Amount,
+t.bdAmount,
+t.BDAmount,
+t.kdAmount,
+t.KDAmount,
+t.value,
+t.Value,
+t.total,
+t.Total,
+t.expense,
+t.Expense,
+t.amountValue,
+t.AmountValue
 ];
+
 for(const value of fields){
-const parsed=parseAmount(value);
-if(parsed!==null)return parsed;
+
+const parsed=
+parseAmount(value);
+
+if(parsed!==null)
+return parsed;
+
 }
+
 return null;
+
 }
 
 function normalizeTransaction(t){
+
 if(!t)return null;
-const id=transactionId(t);
+
+const id=
+transactionId(t);
+
 if(!id)return null;
 
-let date='',category='',note='',timestamp='';
+let date='';
+let category='';
+let note='';
+let timestamp='';
+
 if(Array.isArray(t)){
-date=String(t[1]??'').slice(0,10);
-category=String(t[2]??'');
-note=String(t[4]??'');
-timestamp=t[5]??'';
+
+date=
+String(t[1]??'')
+.slice(0,10);
+
+category=
+String(t[2]??'');
+
+note=
+String(t[4]??'');
+
+timestamp=
+t[5]??'';
+
 }else{
-date=String(t.date??t.Date??'').slice(0,10);
-category=String(t.category??t.Category??'');
-note=String(t.note??t.Note??'');
-timestamp=t.timestamp??t.Timestamp??'';
+
+date=
+String(
+t.date??
+t.Date??
+''
+)
+.slice(0,10);
+
+category=
+String(
+t.category??
+t.Category??
+''
+);
+
+note=
+String(
+t.note??
+t.Note??
+''
+);
+
+timestamp=
+t.timestamp??
+t.Timestamp??
+'';
+
 }
 
 return{
@@ -535,862 +995,2359 @@ amount:getTransactionAmount(t),
 note,
 timestamp
 };
+
+}
+
+function uniqueTransactions(list){
+
+const map=new Map();
+
+list.forEach(t=>{
+
+const id=
+transactionId(t);
+
+if(!id)return;
+
+const old=
+map.get(id);
+
+if(old){
+
+const oldAmount=
+parseAmount(old.amount);
+
+const newAmount=
+parseAmount(t.amount);
+
+if(
+oldAmount!==null&&
+oldAmount!==0&&
+(
+newAmount===null||
+newAmount===0
+)
+){
+
+t.amount=oldAmount;
+
+}
+
+}
+
+map.set(id,t);
+
+});
+
+return Array.from(map.values());
+
 }
 
 function mergeServerTransactions(serverList){
+
 const localMap=new Map();
 
 transactions.forEach(t=>{
-const id=transactionId(t);
-if(id)localMap.set(id,t);
+
+const id=
+transactionId(t);
+
+if(id)
+localMap.set(id,t);
+
 });
 
 const result=[];
 
 serverList.forEach(raw=>{
-const server=normalizeTransaction(raw);
+
+const server=
+normalizeTransaction(raw);
+
 if(!server)return;
 
-const local=localMap.get(server.id);
-let amount=server.amount;
+const local=
+localMap.get(server.id);
 
-if(amount!==null&&Number.isFinite(Number(amount))){
+let amount=
+server.amount;
+
+if(
+amount!==null&&
+Number.isFinite(Number(amount))
+){
+
 amount=Number(amount);
+
 }else{
-const localAmount=local?parseAmount(local.amount):null;
-amount=localAmount!==null?localAmount:0;
+
+const localAmount=
+local
+?parseAmount(local.amount)
+:null;
+
+amount=
+localAmount!==null
+?localAmount
+:0;
+
 }
 
 result.push({
+
 id:server.id,
-date:server.date||local?.date||'',
-category:server.category||local?.category||'',
+
+date:
+server.date||
+local?.date||
+'',
+
+category:
+server.category||
+local?.category||
+'',
+
 amount,
-note:server.note||local?.note||'',
-timestamp:server.timestamp||local?.timestamp||''
-});
+
+note:
+server.note||
+local?.note||
+'',
+
+timestamp:
+server.timestamp||
+local?.timestamp||
+''
+
 });
 
-const serverIds=new Set(result.map(t=>t.id));
+});
+
+const serverIds=
+new Set(
+result.map(t=>t.id)
+);
 
 pendingTransactions.forEach(t=>{
-const id=transactionId(t);
-if(id&&!serverIds.has(id)){
-const amount=parseAmount(t.amount);
+
+const id=
+transactionId(t);
+
+if(
+id&&
+!serverIds.has(id)
+){
+
+const amount=
+parseAmount(t.amount);
+
 result.push({
+
 id,
-date:String(t.date||'').slice(0,10),
-category:String(t.category||''),
-amount:amount===null?0:amount,
-note:String(t.note||''),
-timestamp:t.timestamp||''
+
+date:
+String(t.date||'')
+.slice(0,10),
+
+category:
+String(t.category||''),
+
+amount:
+amount===null
+?0
+:amount,
+
+note:
+String(t.note||''),
+
+timestamp:
+t.timestamp||''
+
 });
+
 }
+
 });
 
 return uniqueTransactions(result);
-}
 
-function uniqueTransactions(list){
-const map=new Map();
-
-list.forEach(t=>{
-const id=transactionId(t);
-if(!id)return;
-
-const old=map.get(id);
-if(old){
-const oldAmount=parseAmount(old.amount);
-const newAmount=parseAmount(t.amount);
-if(oldAmount!==null&&oldAmount!==0&&(newAmount===null||newAmount===0))t.amount=oldAmount;
-}
-map.set(id,t);
-});
-
-return Array.from(map.values());
 }
 
 function transactionTime(t){
+
 if(t?.timestamp){
-const n=new Date(t.timestamp).getTime();
-if(!isNaN(n))return n;
+
+const n=
+new Date(
+t.timestamp
+).getTime();
+
+if(!isNaN(n))
+return n;
+
 }
-const n=new Date(String(t?.date||'')+'T00:00:00').getTime();
-return isNaN(n)?0:n;
+
+const n=
+new Date(
+String(t?.date||'')+
+'T00:00:00'
+).getTime();
+
+return isNaN(n)
+?0
+:n;
+
 }
 
 function compareTransactionDate(a,b){
-return transactionTime(b)-transactionTime(a);
+
+return transactionTime(b)-
+transactionTime(a);
+
 }
 
 function setupHistoryFilters(){
-const year=document.getElementById('historyYear');
-const month=document.getElementById('historyMonthSelect');
+
+const year=
+document.getElementById(
+'historyYear'
+);
+
+const month=
+document.getElementById(
+'historyMonthSelect'
+);
+
 if(!year||!month)return;
 
-const currentYear=new Date().getFullYear();
+const currentYear=
+new Date().getFullYear();
+
 year.innerHTML='';
-for(let y=currentYear-5;y<=currentYear+1;y++){
-const o=document.createElement('option');
+
+for(
+let y=currentYear-5;
+y<=currentYear+1;
+y++
+){
+
+const o=
+document.createElement(
+'option'
+);
+
 o.value=y;
 o.textContent=y;
+
 year.appendChild(o);
+
 }
 
 month.innerHTML='';
-HISTORY_MONTHS.forEach((name,i)=>{
-const o=document.createElement('option');
+
+HISTORY_MONTHS.forEach(
+(name,i)=>{
+
+const o=
+document.createElement(
+'option'
+);
+
 o.value=pad(i+1);
 o.textContent=name;
+
 month.appendChild(o);
-});
+
+}
+);
 
 year.value=currentYear;
-month.value=pad(new Date().getMonth()+1);
+
+month.value=
+pad(
+new Date().getMonth()+1
+);
+
 }
 
 function renderCategories(){
-const grid=document.getElementById('categoryGrid');
+
+const grid=
+document.getElementById(
+'categoryGrid'
+);
+
 if(!grid)return;
+
 grid.innerHTML='';
 
 CATEGORIES.forEach(cat=>{
-const btn=document.createElement('button');
-btn.className='category-btn';
-btn.innerHTML='<div class="category-icon">'+cat.icon+'</div><div class="category-name">'+cat.name+'</div>';
-btn.addEventListener('click',()=>openPopup(cat));
+
+const btn=
+document.createElement(
+'button'
+);
+
+btn.className=
+'category-btn';
+
+btn.innerHTML=
+'<div class="category-icon">'+
+cat.icon+
+'</div><div class="category-name">'+
+cat.name+
+'</div>';
+
+btn.addEventListener(
+'click',
+()=>openPopup(cat)
+);
+
 grid.appendChild(btn);
+
 });
+
 }
 
 function renderCategoryFilter(){
-const select=document.getElementById('historyCategory');
+
+const select=
+document.getElementById(
+'historyCategory'
+);
+
 if(!select)return;
 
-select.innerHTML='<option value="">সব Category</option>';
+select.innerHTML=
+'<option value="">সব Category</option>';
 
 CATEGORIES.forEach(cat=>{
-const option=document.createElement('option');
+
+const option=
+document.createElement(
+'option'
+);
+
 option.value=cat.name;
-option.textContent=cat.icon+' '+cat.name;
+
+option.textContent=
+cat.icon+' '+cat.name;
+
 select.appendChild(option);
+
 });
+
 }
 
 function savePopupDraft(){
-const amount=document.getElementById('amountInput');
-const note=document.getElementById('noteInput');
 
-if(amount)draftAmount=amount.value;
-if(note)draftNote=note.value;
-if(selectedCategory)draftCategory=selectedCategory;
+const amount=
+document.getElementById(
+'amountInput'
+);
+
+const note=
+document.getElementById(
+'noteInput'
+);
+
+if(amount)
+draftAmount=amount.value;
+
+if(note)
+draftNote=note.value;
+
+if(selectedCategory)
+draftCategory=selectedCategory;
+
 }
 
 function restorePopupDraft(){
-const amount=document.getElementById('amountInput');
-const note=document.getElementById('noteInput');
 
-if(amount&&draftCategory)amount.value=draftAmount||'';
-if(note)note.value=draftNote||'';
+const amount=
+document.getElementById(
+'amountInput'
+);
+
+const note=
+document.getElementById(
+'noteInput'
+);
+
+if(amount&&draftCategory){
+
+amount.value=
+draftAmount||'';
+
+}
+
+if(note){
+
+note.value=
+draftNote||'';
+
+}
+
 }
 
 function openPopup(category){
+
 selectedCategory=category;
+
 draftCategory=category;
+
 draftAmount='';
 draftNote='';
 
-document.getElementById('selectedCategoryIcon').textContent=category.icon;
-document.getElementById('selectedCategoryName').textContent=category.name;
-document.getElementById('amountInput').value='';
-document.getElementById('noteInput').value='';
-document.getElementById('popupOverlay').classList.add('show');
+document.getElementById(
+'selectedCategoryIcon'
+).textContent=
+category.icon;
 
-setTimeout(()=>document.getElementById('amountInput').focus(),120);
+document.getElementById(
+'selectedCategoryName'
+).textContent=
+category.name;
+
+document.getElementById(
+'amountInput'
+).value='';
+
+document.getElementById(
+'noteInput'
+).value='';
+
+document.getElementById(
+'popupOverlay'
+).classList.add(
+'show'
+);
+
+setTimeout(()=>{
+
+document.getElementById(
+'amountInput'
+).focus();
+
+},120);
+
 }
 
 function closePopup(clearDraft=true){
-document.getElementById('popupOverlay').classList.remove('show');
+
+document.getElementById(
+'popupOverlay'
+).classList.remove(
+'show'
+);
+
 selectedCategory=null;
 
 if(clearDraft){
+
 draftAmount='';
 draftNote='';
 draftCategory=null;
-}
+
 }
 
-function createTransaction(category,amount,note){
-return{
-id:'TXN'+Date.now()+Math.random().toString(36).slice(2,7),
-date:getToday(),
+}
+
+function createTransaction(
 category,
+amount,
+note
+){
+
+return{
+
+id:
+'TXN'+
+Date.now()+
+Math.random()
+.toString(36)
+.slice(2,7),
+
+date:getToday(),
+
+category,
+
 amount:Number(amount),
+
 note:note||'',
-timestamp:new Date().toISOString()
+
+timestamp:
+new Date().toISOString()
+
 };
+
+}
+
+function addLocalTransaction(tx){
+
+transactions.unshift(tx);
+
+transactions=
+uniqueTransactions(
+transactions
+);
+
+transactions.sort(
+compareTransactionDate
+);
+
+saveLocalTransactions();
+
+}
+
+function addPending(tx){
+
+pendingTransactions.push(tx);
+
+savePendingTransactions();
+
 }
 
 async function saveTransaction(){
+
 if(!selectedCategory)return;
 
-const amountInput=document.getElementById('amountInput');
-const amount=parseAmount(amountInput.value);
-
-if(amount===null||amount<=0){
-amountInput.focus();
-return;
-}
-
-const txn=createTransaction(
-selectedCategory.name,
-amount,
-document.getElementById('noteInput').value
+const amountInput=
+document.getElementById(
+'amountInput'
 );
 
-transactions.unshift(txn);
-transactions=uniqueTransactions(transactions);
-transactions.sort(compareTransactionDate);
-saveLocalTransactions();
+const amount=
+parseAmount(
+amountInput.value
+);
 
-pendingTransactions.push(txn);
-savePendingTransactions();
+if(
+amount===null||
+amount<=0
+){
+
+amountInput.focus();
+
+return;
+
+}
+
+const txn=
+createTransaction(
+selectedCategory.name,
+amount,
+document.getElementById(
+'noteInput'
+).value
+);
+
+addLocalTransaction(txn);
+
+addPending(txn);
 
 draftAmount='';
 draftNote='';
 draftCategory=null;
+
 closePopup(true);
+
 renderAll();
-updateSyncStatus('Saving...');
+
+updateSyncStatus(
+'Saving...'
+);
+
 syncPendingTransactions();
+
 }
 
 async function syncPendingTransactions(){
-if(syncing||!navigator.onLine||!pendingTransactions.length){
-if(!navigator.onLine&&currentUser)updateSyncStatus('Offline');
-else if(!pendingTransactions.length&&currentUser)updateSyncStatus('Synced');
+
+if(syncing)return;
+
+if(!navigator.onLine){
+
+if(currentUser){
+updateSyncStatus(
+'Offline'
+);
+}
+
 return;
+
+}
+
+if(!pendingTransactions.length){
+
+if(currentUser){
+updateSyncStatus(
+'Synced'
+);
+}
+
+return;
+
 }
 
 syncing=true;
 
 try{
-while(pendingTransactions.length){
-const txn=pendingTransactions[0];
 
-const result=await apiPost('addTransaction',{
+while(
+pendingTransactions.length
+){
+
+const txn=
+pendingTransactions[0];
+
+const result=
+await apiPost(
+'addTransaction',
+{
 currency,
 profile:currency,
 transaction:txn,
 ...txn
-});
+}
+);
 
-if(!result||(result.ok!==true&&result.success!==true))throw new Error('Save failed');
+if(
+!result||
+(
+result.ok!==true&&
+result.success!==true
+)
+){
+
+throw new Error(
+'Save failed'
+);
+
+}
 
 pendingTransactions.shift();
+
 savePendingTransactions();
 
-const v=result.txVersion??result.transactionVersion??result.version;
-if(v!==undefined)saveServerVersions({txVersion:v});
+const v=
+result.txVersion??
+result.transactionVersion??
+result.version;
+
+if(v!==undefined){
+
+saveServerVersions({
+txVersion:v
+});
+
 }
 
-updateSyncStatus('Synced');
+}
+
+updateSyncStatus(
+'Synced'
+);
+
 }catch(e){
-updateSyncStatus('Pending');
+
+updateSyncStatus(
+'Pending'
+);
+
 }finally{
+
 syncing=false;
-}
+
 }
 
-async function loadServerTransactionsOnly(){
-if(!currentUser)return null;
+}
+
+async function loadTransactions(){
+
+if(!currentUser)
+return null;
+
+if(!navigator.onLine){
+
+updateSyncStatus(
+'Offline'
+);
+
+return null;
+
+}
 
 savePopupDraft();
+
 loadPendingTransactions();
 
 try{
-updateSyncStatus('Syncing...');
 
-const result=await apiGet({
+updateSyncStatus(
+'Syncing...'
+);
+
+const result=
+await apiGet({
+
 action:'getData',
-currency:normalizeProfile(currency),
-profile:normalizeProfile(currency),
-userId:currentUser.id||currentUser.ID||''
+
+currency:
+normalizeProfile(currency),
+
+profile:
+normalizeProfile(currency),
+
+userId:
+currentUser.id||
+currentUser.ID||
+''
+
 });
 
-if(!result||(result.ok!==true&&result.success!==true))throw new Error('Server data error');
+if(
+!result||
+(
+result.ok!==true&&
+result.success!==true
+)
+){
 
-const serverList=Array.isArray(result.transactions)?result.transactions:[];
+throw new Error(
+'Server data error'
+);
 
-transactions=mergeServerTransactions(serverList);
-transactions.sort(compareTransactionDate);
+}
+
+const serverList=
+Array.isArray(
+result.transactions
+)
+?result.transactions
+:[];
+
+transactions=
+mergeServerTransactions(
+serverList
+);
+
+transactions.sort(
+compareTransactionDate
+);
+
 saveLocalTransactions();
 
+if(
+result.version!==undefined
+){
+
+saveServerVersions({
+txVersion:
+result.version
+});
+
+}
+
 renderAll();
+
 restorePopupDraft();
 
-updateSyncStatus(pendingTransactions.length?'Pending':'Synced');
+updateSyncStatus(
+pendingTransactions.length
+?'Pending'
+:'Synced'
+);
+
 return result;
+
 }catch(e){
+
 renderAll();
+
 restorePopupDraft();
-updateSyncStatus(navigator.onLine?'Pending':'Offline');
-throw e;
-}
+
+updateSyncStatus(
+navigator.onLine
+?'Pending'
+:'Offline'
+);
+
+return null;
+
 }
 
-async function loadServerData(profile=currency){
-if(!currentUser)return null;
+}
 
-const result=await loadServerTransactionsOnly();
-await loadBudgetFromServer(getCurrentMonth());
+async function loadServerTransactionsOnly(){
+
+return loadTransactions();
+
+}
+
+async function loadServerData(){
+
+if(!currentUser)
+return null;
+
+const result=
+await loadTransactions();
+
+await loadBudgetFromServer(
+getCurrentMonth()
+);
+
 return result;
+
 }
 
 async function loadProfileFromServer(){
+
 if(!currentUser)return;
 
-const result=await apiGet({
+try{
+
+const result=
+await apiGet({
+
 action:'getProfile',
-userId:currentUser.id||currentUser.ID||''
+
+userId:
+currentUser.id||
+currentUser.ID||
+''
+
 });
 
-if(result&&(result.ok||result.success)&&result.user){
-currentUser={...currentUser,...result.user};
+if(
+result&&
+(result.ok||result.success)&&
+result.user
+){
+
+currentUser={
+...currentUser,
+...result.user
+};
+
 saveSession();
+
 renderAll();
+
 }
+
+}catch(e){}
+
 }
 
 function getBudgetMonth(){
-return localStorage.getItem(BUDGET_MONTH_KEY)||getCurrentMonth();
+
+return localStorage.getItem(
+BUDGET_MONTH_KEY
+)||
+getCurrentMonth();
+
 }
 
 function loadHomeBudgetLocal(){
-const raw=localStorage.getItem(budgetStorageKey(currency,getCurrentMonth()));
+
+const raw=
+localStorage.getItem(
+budgetStorageKey(
+currency,
+getCurrentMonth()
+)
+);
+
 if(raw===null)return;
 
-const value=parseAmount(raw);
-if(value!==null)homeBudget=value;
+const value=
+parseAmount(raw);
+
+if(value!==null){
+
+homeBudget=value;
+
 }
 
-function saveLocalBudget(month,amount){
-localStorage.setItem(budgetStorageKey(currency,month),String(amount));
 }
 
-async function loadBudgetFromServer(month){
-const localKey=budgetStorageKey(currency,month);
-const local=localStorage.getItem(localKey);
+function saveLocalBudget(
+month,
+amount
+){
+
+localStorage.setItem(
+budgetStorageKey(
+currency,
+month
+),
+String(amount)
+);
+
+}
+
+async function loadBudgetFromServer(
+month
+){
+
+const localKey=
+budgetStorageKey(
+currency,
+month
+);
+
+const local=
+localStorage.getItem(
+localKey
+);
 
 if(local!==null){
-const localAmount=parseAmount(local);
+
+const localAmount=
+parseAmount(local);
+
 if(localAmount!==null){
-if(month===getCurrentMonth())homeBudget=localAmount;
-renderAll();
+
+if(
+month===
+getCurrentMonth()
+){
+
+homeBudget=
+localAmount;
+
 }
+
+renderAll();
+
+}
+
+}
+
+if(!navigator.onLine){
+
+return;
+
 }
 
 try{
-const result=await apiGet({
+
+const result=
+await apiGet({
+
 action:'getBudget',
+
 currency,
+
 profile:currency,
+
 month,
-userId:currentUser?.id||currentUser?.ID||''
+
+userId:
+currentUser?.id||
+currentUser?.ID||
+''
+
 });
 
-if(!result||(result.ok!==true&&result.success!==true))throw new Error('Budget load failed');
+if(
+!result||
+(
+result.ok!==true&&
+result.success!==true
+)
+){
+
+throw new Error(
+'Budget load failed'
+);
+
+}
 
 if(result.found===true){
-const amount=parseAmount(result.budget??result.amount);
+
+const amount=
+parseAmount(
+result.budget??
+result.amount
+);
+
 if(amount!==null){
-saveLocalBudget(month,amount);
-if(month===getCurrentMonth())homeBudget=amount;
-renderAll();
-}
-return;
+
+saveLocalBudget(
+month,
+amount
+);
+
+if(
+month===
+getCurrentMonth()
+){
+
+homeBudget=
+amount;
+
 }
 
-if(local===null&&month===getCurrentMonth()){
+renderAll();
+
+}
+
+return;
+
+}
+
+if(
+local===null&&
+month===
+getCurrentMonth()
+){
+
 homeBudget=0;
+
 renderAll();
+
 }
+
 }catch(e){
+
 loadHomeBudgetLocal();
+
 renderAll();
-throw e;
+
 }
+
 }
 
 async function saveBudget(){
-const month=document.getElementById('budgetMonth').value||getCurrentMonth();
-const amount=parseAmount(document.getElementById('budgetAmount').value)??0;
 
-saveLocalBudget(month,amount);
+const month=
+document.getElementById(
+'budgetMonth'
+).value||
+getCurrentMonth();
 
-if(month===getCurrentMonth())homeBudget=amount;
+const amount=
+parseAmount(
+document.getElementById(
+'budgetAmount'
+).value
+)??0;
+
+saveLocalBudget(
+month,
+amount
+);
+
+if(
+month===
+getCurrentMonth()
+){
+
+homeBudget=amount;
+
+}
 
 renderAll();
 
 try{
-updateSyncStatus('Saving...');
 
-const result=await apiPost('saveBudget',{
+updateSyncStatus(
+'Saving...'
+);
+
+const result=
+await apiPost(
+'saveBudget',
+{
 currency,
 profile:currency,
 month,
 budget:amount,
 amount,
-userId:currentUser?.id||currentUser?.ID||''
+userId:
+currentUser?.id||
+currentUser?.ID||
+''
+}
+);
+
+if(
+result&&
+(
+result.ok||
+result.success
+)
+){
+
+const v=
+result.budgetVersion??
+result.version;
+
+if(v!==undefined){
+
+saveServerVersions({
+budgetVersion:v
 });
 
-if(result&&(result.ok||result.success)){
-const v=result.budgetVersion??result.version;
-if(v!==undefined)saveServerVersions({budgetVersion:v});
-updateSyncStatus('Synced');
+}
+
+updateSyncStatus(
+'Synced'
+);
+
 }else{
-updateSyncStatus('Pending');
+
+updateSyncStatus(
+'Pending'
+);
+
 }
+
 }catch(e){
-updateSyncStatus('Pending');
+
+updateSyncStatus(
+'Pending'
+);
+
 }
+
 }
 
 function updateCard(){
+
 if(!currentUser)return;
 
-const cardBudget=document.getElementById('cardBudget');
-const cardRemaining=document.getElementById('cardRemaining');
-const cardMonth=document.getElementById('cardMonth');
-const progress=document.getElementById('cardProgressBar');
-const percent=document.getElementById('cardExpensePercent');
+const cardBudget=
+document.getElementById(
+'cardBudget'
+);
+
+const cardRemaining=
+document.getElementById(
+'cardRemaining'
+);
+
+const cardMonth=
+document.getElementById(
+'cardMonth'
+);
+
+const progress=
+document.getElementById(
+'cardProgressBar'
+);
+
+const percent=
+document.getElementById(
+'cardExpensePercent'
+);
 
 if(cardMonth){
-cardMonth.textContent=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}).format(new Date());
+
+cardMonth.textContent=
+new Intl.DateTimeFormat(
+'en-US',
+{
+month:'long',
+year:'numeric'
+}
+).format(
+new Date()
+);
+
 }
 
-loadHomeBudgetLocal();
+const currentMonth=
+getCurrentMonth();
 
-const currentMonth=getCurrentMonth();
+/* Days Left */
 
-const totalExpense=transactions.filter(t=>String(t?.date||'').startsWith(currentMonth)).reduce((sum,t)=>{
-let amount=parseAmount(t?.amount);
-if(amount===null)amount=getTransactionAmount(t);
-return sum+(amount===null?0:Number(amount));
-},0);
+const now=new Date();
 
-const budget=parseAmount(homeBudget)??0;
-const remaining=Math.max(0,budget-totalExpense);
+const lastDay=
+new Date(
+now.getFullYear(),
+now.getMonth()+1,
+0
+);
 
-let expensePercent=budget>0?(totalExpense/budget)*100:0;
-expensePercent=Math.min(100,Math.max(0,expensePercent));
+const daysLeft=
+lastDay.getDate()-
+now.getDate();
 
-if(cardBudget)cardBudget.textContent=money(budget);
-if(cardRemaining)cardRemaining.textContent=money(remaining);
-if(progress)progress.style.width=expensePercent.toFixed(1)+'%';
-if(percent)percent.textContent=expensePercent.toFixed(1)+'%';
+const daysLeftEl=
+document.getElementById(
+'daysLeft'
+);
+
+if(daysLeftEl){
+
+daysLeftEl.textContent=
+daysLeft+
+' Days Left';
+
+}
+
+/* Total Expense */
+
+const totalExpense=
+transactions
+.filter(t=>
+String(
+t?.date||''
+)
+.startsWith(
+currentMonth
+)
+)
+.reduce(
+(sum,t)=>{
+
+let amount=
+parseAmount(
+t?.amount
+);
+
+if(amount===null){
+
+amount=
+getTransactionAmount(t);
+
+}
+
+return sum+
+(
+amount===null
+?0
+:Number(amount)
+);
+
+},
+0
+);
+
+const budget=
+parseAmount(homeBudget)??0;
+
+const remaining=
+budget-
+totalExpense;
+
+let expensePercent=
+budget>0
+?(totalExpense/budget)*100
+:0;
+
+expensePercent=
+Math.min(
+100,
+Math.max(
+0,
+expensePercent
+)
+);
+
+if(cardBudget){
+
+cardBudget.textContent=
+money(budget);
+
+}
+
+if(cardRemaining){
+
+cardRemaining.textContent=
+money(remaining);
+
+cardRemaining.style.color=
+remaining<0
+?'#ff3b30'
+:'';
+
+}
+
+if(progress){
+
+progress.style.width=
+expensePercent.toFixed(1)+
+'%';
+
+}
+
+if(percent){
+
+percent.textContent=
+expensePercent.toFixed(1)+
+'%';
+
+}
+
 }
 
 function escapeHTML(value){
-return String(value??'')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
+
+return String(
+value??''
+)
+.replace(
+/&/g,
+'&amp;'
+)
+.replace(
+/</g,
+'&lt;'
+)
+.replace(
+/>/g,
+'&gt;'
+)
+.replace(
+/"/g,
+'&quot;'
+)
+.replace(
+/'/g,
+'&#039;'
+);
+
 }
 
 function transactionHTML(t){
-const cat=CATEGORIES.find(c=>c.name===t.category);
-const icon=cat?cat.icon:'📦';
 
-let amount=parseAmount(t.amount);
-if(amount===null)amount=getTransactionAmount(t);
-if(amount===null)amount=0;
+const cat=
+CATEGORIES.find(
+c=>c.name===t.category
+);
+
+const icon=
+cat?cat.icon:'📦';
+
+let amount=
+parseAmount(t.amount);
+
+if(amount===null){
+amount=getTransactionAmount(t);
+}
+
+if(amount===null){
+amount=0;
+}
 
 return`
 <div class="transaction-card">
+
 <div class="txn-row">
+
 <div class="txn-left">
-<div class="txn-category">${icon} ${escapeHTML(t.category)}</div>
-${t.note?`<div class="txn-note">${escapeHTML(t.note)}</div>`:''}
-<div class="txn-date">${escapeHTML(t.date||'')}</div>
+
+<div class="txn-amount">
+${money(amount)}
 </div>
-<div class="txn-amount">${money(amount)}</div>
+
+<div class="txn-date">
+${escapeHTML(t.date||'')}
 </div>
+
+</div>
+
+<div class="txn-right">
+
+<div class="txn-category">
+${icon} ${escapeHTML(t.category)}
+</div>
+
+${t.note
+?`<div class="txn-note">
+${escapeHTML(t.note)}
+</div>`
+:''}
+
+</div>
+
+</div>
+
 </div>`;
 }
 
 function renderHome(){
+
 updateCard();
 
-const list=document.getElementById('recentTransactions');
-const count=document.getElementById('recentCount');
+const list=
+document.getElementById(
+'recentTransactions'
+);
 
-if(count)count.textContent=String(transactions.length);
+const count=
+document.getElementById(
+'recentCount'
+);
+
+if(count){
+
+count.textContent=
+String(
+transactions.length
+);
+
+}
+
 if(!list)return;
 
-const recent=transactions.slice(0,8);
+const recent=
+transactions.slice(
+0,
+8
+);
 
-list.innerHTML=recent.length
-?recent.map(transactionHTML).join('')
+list.innerHTML=
+recent.length
+?recent
+.map(transactionHTML)
+.join('')
 :'<div class="empty">এখনও কোনো হিসাব নেই</div>';
+
 }
 
 function renderHistory(){
-const yearSelect=document.getElementById('historyYear');
-const monthSelect=document.getElementById('historyMonthSelect');
-const categorySelect=document.getElementById('historyCategory');
 
-if(!yearSelect||!monthSelect||!categorySelect)return;
+const yearSelect=
+document.getElementById(
+'historyYear'
+);
+
+const monthSelect=
+document.getElementById(
+'historyMonthSelect'
+);
+
+const categorySelect=
+document.getElementById(
+'historyCategory'
+);
+
+if(
+!yearSelect||
+!monthSelect||
+!categorySelect
+)
+return;
 
 const now=new Date();
-const currentYear=String(now.getFullYear());
-const currentMonth=pad(now.getMonth()+1);
-const selectedYear=yearSelect.value||currentYear;
-const selectedMonth=monthSelect.value||currentMonth;
-const category=categorySelect.value;
-const ym=selectedYear+'-'+selectedMonth;
 
-let list=transactions.filter(t=>String(t.date||'').startsWith(ym));
+const currentYear=
+String(
+now.getFullYear()
+);
 
-if(category)list=list.filter(t=>t.category===category);
+const currentMonth=
+pad(
+now.getMonth()+1
+);
 
-const total=list.reduce((sum,t)=>{
-let amount=parseAmount(t.amount);
-if(amount===null)amount=getTransactionAmount(t);
-return sum+(amount===null?0:amount);
-},0);
+const selectedYear=
+yearSelect.value||
+currentYear;
 
-document.getElementById('historyTotal').textContent=money(total);
-document.getElementById('historyProfile').textContent=profileName();
+const selectedMonth=
+monthSelect.value||
+currentMonth;
 
-const historyMonthEl=document.getElementById('historyMonth');
-if(historyMonthEl){
-historyMonthEl.textContent=(HISTORY_MONTHS[Number(selectedMonth)-1]||'')+' '+selectedYear;
+const category=
+categorySelect.value;
+
+const ym=
+selectedYear+
+'-'+
+selectedMonth;
+
+let list=
+transactions.filter(t=>
+String(
+t.date||''
+)
+.startsWith(ym)
+);
+
+if(category){
+
+list=
+list.filter(
+t=>
+t.category===
+category
+);
+
 }
 
-const container=document.getElementById('historyTransactions');
+const total=
+list.reduce(
+(sum,t)=>{
+
+let amount=
+parseAmount(
+t.amount
+);
+
+if(amount===null){
+
+amount=
+getTransactionAmount(t);
+
+}
+
+return sum+
+(
+amount===null
+?0
+:amount
+);
+
+},
+0
+);
+
+document.getElementById(
+'historyTotal'
+).textContent=
+money(total);
+
+document.getElementById(
+'historyProfile'
+).textContent=
+profileName();
+
+const historyMonthEl=
+document.getElementById(
+'historyMonth'
+);
+
+if(historyMonthEl){
+
+historyMonthEl.textContent=
+(
+HISTORY_MONTHS[
+Number(selectedMonth)-1
+]||''
+)+
+' '+
+selectedYear;
+
+}
+
+const container=
+document.getElementById(
+'historyTransactions'
+);
 
 if(!list.length){
-container.innerHTML='<div class="empty">কোনো হিসাব পাওয়া যায়নি</div>';
+
+container.innerHTML=
+'<div class="empty">কোনো হিসাব পাওয়া যায়নি</div>';
+
 return;
+
 }
 
-container.innerHTML=list.map(transactionHTML).join('');
+container.innerHTML=
+list
+.map(transactionHTML)
+.join('');
+
 }
 
 function renderProfile(){
+
 if(!currentUser)return;
 
-const name=currentUser.name||currentUser.Name||'Sajib Hossain';
-const id=currentUser.id||currentUser.ID||'';
+const name=
+currentUser.name||
+currentUser.Name||
+'Sajib Hossain';
 
-document.getElementById('profileName').textContent=name;
-document.getElementById('profileId').textContent=id;
-document.getElementById('nameInput').value=name;
-document.getElementById('profileAvatar').textContent=name.trim().charAt(0).toUpperCase()||'S';
-document.getElementById('homeProfile').textContent=profileName();
-document.getElementById('historyProfile').textContent=profileName();
+const id=
+currentUser.id||
+currentUser.ID||
+'';
 
-document.getElementById('bdBtn').classList.toggle('active',currency==='BD');
-document.getElementById('kwBtn').classList.toggle('active',currency==='KW');
+document.getElementById(
+'profileName'
+).textContent=
+name;
 
-document.getElementById('budgetMonth').value=getBudgetMonth();
+document.getElementById(
+'profileId'
+).textContent=
+id;
+
+document.getElementById(
+'nameInput'
+).value=
+name;
+
+document.getElementById(
+'profileAvatar'
+).textContent=
+name.trim()
+.charAt(0)
+.toUpperCase()||
+'S';
+
+document.getElementById(
+'homeProfile'
+).textContent=
+profileName();
+
+document.getElementById(
+'historyProfile'
+).textContent=
+profileName();
+
+document.getElementById(
+'bdBtn'
+).classList.toggle(
+'active',
+currency==='BD'
+);
+
+document.getElementById(
+'kwBtn'
+).classList.toggle(
+'active',
+currency==='KW'
+);
+
+document.getElementById(
+'budgetMonth'
+).value=
+getBudgetMonth();
+
 loadBudgetInput();
+
 }
 
 function loadBudgetInput(){
-const month=document.getElementById('budgetMonth').value||getCurrentMonth();
-const raw=localStorage.getItem(budgetStorageKey(currency,month));
-document.getElementById('budgetAmount').value=raw===null?'':raw;
+
+const month=
+document.getElementById(
+'budgetMonth'
+).value||
+getCurrentMonth();
+
+const raw=
+localStorage.getItem(
+budgetStorageKey(
+currency,
+month
+)
+);
+
+document.getElementById(
+'budgetAmount'
+).value=
+raw===null
+?''
+:raw;
+
 }
 
 function renderAll(){
+
 renderHome();
+
 renderHistory();
+
 renderProfile();
+
 }
 
 function openPage(pageId){
-document.querySelectorAll('.page').forEach(page=>{
-page.classList.toggle('active',page.id===pageId);
+
+document.querySelectorAll(
+'.page'
+)
+.forEach(page=>{
+
+page.classList.toggle(
+'active',
+page.id===pageId
+);
+
 });
 
-document.querySelectorAll('.nav-btn').forEach(btn=>{
-btn.classList.toggle('active',btn.dataset.page===pageId);
+document.querySelectorAll(
+'.nav-btn'
+)
+.forEach(btn=>{
+
+btn.classList.toggle(
+'active',
+btn.dataset.page===pageId
+);
+
 });
 
-if(pageId==='historyPage')renderHistory();
+if(
+pageId===
+'historyPage'
+){
+
+renderHistory();
+
+}
+
 }
 
 async function updateName(){
-const name=document.getElementById('nameInput').value.trim();
+
+const name=
+document.getElementById(
+'nameInput'
+).value.trim();
+
 if(!name)return;
 
 currentUser.name=name;
+
 saveSession();
+
 renderProfile();
 
 try{
-updateSyncStatus('Saving...');
 
-const result=await apiPost('updateName',{
-userId:currentUser.id||currentUser.ID||'',
+updateSyncStatus(
+'Saving...'
+);
+
+const result=
+await apiPost(
+'updateName',
+{
+userId:
+currentUser.id||
+currentUser.ID||
+'',
 name
+}
+);
+
+if(
+result&&
+(
+result.ok||
+result.success
+)
+){
+
+const v=
+result.accountVersion||
+result.version;
+
+if(v!==undefined){
+
+saveServerVersions({
+accountVersion:v
 });
 
-if(result&&(result.ok||result.success)){
-const v=result.accountVersion??result.version;
-if(v!==undefined)saveServerVersions({accountVersion:v});
-updateSyncStatus('Synced');
+}
+
+updateSyncStatus(
+'Synced'
+);
+
 }else{
-updateSyncStatus('Pending');
+
+updateSyncStatus(
+'Pending'
+);
+
 }
+
 }catch(e){
-updateSyncStatus('Pending');
+
+updateSyncStatus(
+'Pending'
+);
+
 }
+
 }
 
 async function switchProfile(profile){
-profile=normalizeProfile(profile);
-if(currency===profile)return;
+
+profile=
+normalizeProfile(profile);
+
+if(
+currency===
+profile
+)
+return;
 
 draftAmount='';
 draftNote='';
 draftCategory=null;
+
 currency=profile;
-localStorage.setItem(PROFILE_KEY,currency);
+
+localStorage.setItem(
+PROFILE_KEY,
+currency
+);
 
 transactions=[];
 pendingTransactions=[];
 homeBudget=0;
 
-loadLocalTransactions();
-loadPendingTransactions();
-loadHomeBudgetLocal();
-renderAll();
-updateSyncStatus('Syncing...');
+loadLocalData();
 
-await syncProfile();
+renderAll();
+
+updateSyncStatus(
+'Syncing...'
+);
+
+await initializeApp();
+
 }
 
 async function login(){
-const id=document.getElementById('loginId').value.trim();
-const password=document.getElementById('loginPassword').value;
-const error=document.getElementById('loginError');
+
+const id=
+document.getElementById(
+'loginId'
+).value.trim();
+
+const password=
+document.getElementById(
+'loginPassword'
+).value;
+
+const error=
+document.getElementById(
+'loginError'
+);
 
 if(!id||!password){
-error.textContent='ID এবং Password দিন';
+
+error.textContent=
+'ID এবং Password দিন';
+
 return;
+
 }
 
 error.textContent='';
 
-const btn=document.getElementById('loginBtn');
+const btn=
+document.getElementById(
+'loginBtn'
+);
+
 btn.disabled=true;
-btn.textContent='Login হচ্ছে...';
+
+btn.textContent=
+'Login হচ্ছে...';
 
 try{
-const result=await apiGet({
+
+const result=
+await apiGet({
+
 action:'login',
+
 id,
+
 userId:id,
+
 password
+
 });
 
-if(!result||(result.ok!==true&&result.success!==true))throw new Error('Login failed');
+if(
+!result||
+(
+result.ok!==true&&
+result.success!==true
+)
+){
 
-currentUser=result.user||result.account||{id,name:'Sajib Hossain'};
-saveSession();
-await showApp();
-}catch(e){
-error.textContent='ID অথবা Password সঠিক নয়';
-}finally{
-btn.disabled=false;
-btn.textContent='Login';
+throw new Error(
+'Login failed'
+);
+
 }
+
+currentUser=
+result.user||
+result.account||
+{
+id,
+name:'Sajib Hossain'
+};
+
+saveSession();
+
+await showApp();
+
+}catch(e){
+
+error.textContent=
+'ID অথবা Password সঠিক নয়';
+
+}finally{
+
+btn.disabled=false;
+
+btn.textContent=
+'Login';
+
+}
+
+}
+
+async function initializeApp(){
+
+loadLocalData();
+
+renderCategories();
+
+renderCategoryFilter();
+
+renderAll();
+
+updateSyncStatus(
+navigator.onLine
+?'Syncing...'
+:'Offline'
+);
+
+if(navigator.onLine){
+
+await loadTransactions();
+
+await syncPendingTransactions();
+
+await loadBudgetFromServer(
+getCurrentMonth()
+);
+
+if(
+pendingTransactions.length===
+0
+){
+
+updateSyncStatus(
+'Synced'
+);
+
+}else{
+
+updateSyncStatus(
+'Pending'
+);
+
+}
+
+}
+
 }
 
 async function showApp(){
-document.getElementById('loginPage').classList.add('hidden');
-document.getElementById('app').classList.remove('hidden');
 
-loadLocalTransactions();
-loadPendingTransactions();
-loadHomeBudgetLocal();
+document.getElementById(
+'loginPage'
+).classList.add(
+'hidden'
+);
+
+document.getElementById(
+'app'
+).classList.remove(
+'hidden'
+);
+
+loadLocalData();
 
 renderCategories();
+
 renderCategoryFilter();
+
 renderAll();
 
-updateSyncStatus(navigator.onLine?'Syncing...':'Offline');
-await syncProfile();
+updateSyncStatus(
+navigator.onLine
+?'Syncing...'
+:'Offline'
+);
+
+await initializeApp();
+
 startAutoSync();
+
 }
 
 function logout(){
-stopAutoSync();
-currentUser=null;
-localStorage.removeItem(SESSION_KEY);
 
-document.getElementById('app').classList.add('hidden');
-document.getElementById('loginPage').classList.remove('hidden');
-document.getElementById('loginPassword').value='';
+stopAutoSync();
+
+currentUser=null;
+
+localStorage.removeItem(
+SESSION_KEY
+);
+
+document.getElementById(
+'app'
+).classList.add(
+'hidden'
+);
+
+document.getElementById(
+'loginPage'
+).classList.remove(
+'hidden'
+);
+
+document.getElementById(
+'loginPassword'
+).value='';
+
 }
 
 function stopAutoSync(){
+
 if(syncTimer){
-clearInterval(syncTimer);
+
+clearInterval(
+syncTimer
+);
+
 syncTimer=null;
+
 }
+
 }
 
 function startAutoSync(){
+
 stopAutoSync();
-syncTimer=setInterval(()=>{
-if(currentUser)syncProfile();
-},5000);
+
+syncTimer=
+setInterval(
+async()=>{
+
+if(!currentUser)return;
+
+await syncPendingTransactions();
+
+if(!syncing){
+
+await loadTransactions();
+
+await loadBudgetFromServer(
+getCurrentMonth()
+);
+
+}
+
+},
+5000
+);
+
 }
 
 async function syncProfile(){
-if(!currentUser||!navigator.onLine){
-if(currentUser&&!navigator.onLine)updateSyncStatus('Offline');
-return;
-}
 
-if(pendingTransactions.length)await syncPendingTransactions();
-if(syncing)return;
+if(!currentUser)return;
 
-syncing=true;
+if(!navigator.onLine){
 
-try{
-const result=await apiGet({
-action:'syncStatus',
-currency:normalizeProfile(currency),
-profile:normalizeProfile(currency),
-userId:currentUser.id||currentUser.ID||''
-});
-
-if(!result||(result.ok!==true&&result.success!==true))throw new Error('Sync status failed');
-
-const old=loadServerVersions(currency);
-
-const serverTxVersion=String(
-result.txVersion??result.transactionVersion??result.version??'0'
+updateSyncStatus(
+'Offline'
 );
 
-const hasTxVersion=old.txVersion!==undefined&&old.txVersion!==null&&String(old.txVersion).trim()!=='';
+return;
 
-const txChanged=
-!hasTxVersion||
-transactions.length===0||
-serverTxVersion!==String(old.txVersion??'');
-
-const budgetChanged=String(result.budgetVersion??'0')!==String(old.budgetVersion??'0');
-const accountChanged=String(result.accountVersion??'0')!==String(old.accountVersion??'0');
-
-if(txChanged){
-const txResult=await loadServerTransactionsOnly();
-const v=txResult?.version??txResult?.txVersion??result.txVersion??result.version;
-if(v!==undefined)saveServerVersions({txVersion:v});
 }
 
-if(budgetChanged){
-await loadBudgetFromServer(getCurrentMonth());
-if(result.budgetVersion!==undefined)saveServerVersions({budgetVersion:result.budgetVersion});
+await syncPendingTransactions();
+
+if(!syncing){
+
+await loadTransactions();
+
 }
 
-if(accountChanged){
-await loadProfileFromServer();
-if(result.accountVersion!==undefined)saveServerVersions({accountVersion:result.accountVersion});
 }
 
-updateSyncStatus(pendingTransactions.length?'Pending':'Synced');
-}catch(e){
-updateSyncStatus(navigator.onLine?'Pending':'Offline');
-}finally{
-syncing=false;
+document.getElementById(
+'loginBtn'
+).addEventListener(
+'click',
+login
+);
+
+document.getElementById(
+'loginPassword'
+).addEventListener(
+'keydown',
+e=>{
+
+if(e.key==='Enter')
+login();
+
 }
-}
+);
 
-document.getElementById('loginBtn').addEventListener('click',login);
+document.getElementById(
+'popupClose'
+).addEventListener(
+'click',
+()=>{
 
-document.getElementById('loginPassword').addEventListener('keydown',e=>{
-if(e.key==='Enter')login();
-});
-
-document.getElementById('popupClose').addEventListener('click',()=>{
 savePopupDraft();
-closePopup(false);
-});
 
-document.getElementById('popupOverlay').addEventListener('click',function(e){
+closePopup(false);
+
+}
+);
+
+document.getElementById(
+'popupOverlay'
+).addEventListener(
+'click',
+function(e){
+
 if(e.target===this){
+
 savePopupDraft();
+
 closePopup(false);
+
 }
-});
 
-document.getElementById('amountInput').addEventListener('input',function(){
-draftAmount=this.value;
-});
+}
+);
 
-document.getElementById('noteInput').addEventListener('input',function(){
-draftNote=this.value;
-});
+document.getElementById(
+'amountInput'
+).addEventListener(
+'input',
+function(){
 
-document.getElementById('saveTransactionBtn').addEventListener('click',saveTransaction);
+draftAmount=
+this.value;
 
-document.getElementById('historyYear').addEventListener('change',renderHistory);
-document.getElementById('historyMonthSelect').addEventListener('change',renderHistory);
-document.getElementById('historyCategory').addEventListener('change',renderHistory);
+}
+);
 
-document.getElementById('budgetMonth').addEventListener('change',function(){
-const month=this.value||getCurrentMonth();
-localStorage.setItem(BUDGET_MONTH_KEY,month);
+document.getElementById(
+'noteInput'
+).addEventListener(
+'input',
+function(){
+
+draftNote=
+this.value;
+
+}
+);
+
+document.getElementById(
+'saveTransactionBtn'
+).addEventListener(
+'click',
+saveTransaction
+);
+
+document.getElementById(
+'historyYear'
+).addEventListener(
+'change',
+renderHistory
+);
+
+document.getElementById(
+'historyMonthSelect'
+).addEventListener(
+'change',
+renderHistory
+);
+
+document.getElementById(
+'historyCategory'
+).addEventListener(
+'change',
+renderHistory
+);
+
+document.getElementById(
+'budgetMonth'
+).addEventListener(
+'change',
+function(){
+
+const month=
+this.value||
+getCurrentMonth();
+
+localStorage.setItem(
+BUDGET_MONTH_KEY,
+month
+);
+
 loadBudgetInput();
+
+}
+);
+
+document.getElementById(
+'saveBudgetBtn'
+).addEventListener(
+'click',
+saveBudget
+);
+
+document.getElementById(
+'saveNameBtn'
+).addEventListener(
+'click',
+updateName
+);
+
+document.getElementById(
+'bdBtn'
+).addEventListener(
+'click',
+()=>switchProfile('BD')
+);
+
+document.getElementById(
+'kwBtn'
+).addEventListener(
+'click',
+()=>switchProfile('KW')
+);
+
+document.getElementById(
+'logoutBtn'
+).addEventListener(
+'click',
+logout
+);
+
+document.querySelectorAll(
+'.nav-btn'
+)
+.forEach(btn=>{
+
+btn.addEventListener(
+'click',
+()=>openPage(
+btn.dataset.page
+)
+);
+
 });
 
-document.getElementById('saveBudgetBtn').addEventListener('click',saveBudget);
-document.getElementById('saveNameBtn').addEventListener('click',updateName);
+window.addEventListener(
+'online',
+async()=>{
 
-document.getElementById('bdBtn').addEventListener('click',()=>switchProfile('BD'));
-document.getElementById('kwBtn').addEventListener('click',()=>switchProfile('KW'));
-document.getElementById('logoutBtn').addEventListener('click',logout);
-
-document.querySelectorAll('.nav-btn').forEach(btn=>{
-btn.addEventListener('click',()=>openPage(btn.dataset.page));
-});
-
-window.addEventListener('online',()=>{
 if(!currentUser)return;
-updateSyncStatus('Syncing...');
-syncProfile();
-});
 
-window.addEventListener('offline',()=>{
-if(currentUser)updateSyncStatus('Offline');
-});
+updateSyncStatus(
+'Syncing...'
+);
 
-document.addEventListener('visibilitychange',()=>{
-if(document.visibilityState==='visible'&&currentUser)syncProfile();
-});
+await syncPendingTransactions();
+
+await loadTransactions();
+
+}
+);
+
+window.addEventListener(
+'offline',
+()=>{
+
+if(currentUser){
+
+updateSyncStatus(
+'Offline'
+);
+
+}
+
+}
+);
+
+document.addEventListener(
+'visibilitychange',
+async()=>{
+
+if(
+document.visibilityState===
+'visible'&&
+currentUser
+){
+
+updateSyncStatus(
+'Syncing...'
+);
+
+await syncPendingTransactions();
+
+await loadTransactions();
+
+}
+
+}
+);
 
 (function init(){
-currency=normalizeProfile(localStorage.getItem(PROFILE_KEY)||'BD');
+
+currency=
+normalizeProfile(
+localStorage.getItem(
+PROFILE_KEY
+)||
+'BD'
+);
+
 setupHistoryFilters();
 
-const session=loadSession();
+const session=
+loadSession();
 
 if(session){
+
 currentUser=session;
+
 showApp();
+
 }else{
-document.getElementById('loginPage').classList.remove('hidden');
-document.getElementById('app').classList.add('hidden');
+
+document.getElementById(
+'loginPage'
+).classList.remove(
+'hidden'
+);
+
+document.getElementById(
+'app'
+).classList.add(
+'hidden'
+);
+
 }
+
 })();
+
 </script>
+
 </body>
 </html>
