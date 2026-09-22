@@ -9,8 +9,17 @@
 
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f7f6;color:#17221f;}
-body{overflow-x:hidden;}
+html,body{
+margin:0;
+padding:0;
+width:100%;
+height:100%;
+font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#f4f7f6;
+color:#17221f;
+overflow:hidden;
+overscroll-behavior:none;
+}
 button,input,select{font:inherit;}
 button{border:0;cursor:pointer;}
 .hidden{display:none!important;}
@@ -28,9 +37,39 @@ button{border:0;cursor:pointer;}
 .login-btn:active{transform:scale(.98);}
 .login-error{min-height:20px;margin-top:12px;text-align:center;color:#c62828;font-size:12px;font-weight:700;}
 
-#app{min-height:100vh;padding-bottom:78px;}
-.page{display:none;padding:15px;max-width:520px;margin:auto;}
-.page.active{display:block;}
+#app
+height:100dvh;
+min-height:0;
+padding-bottom:67px;
+overflow:hidden;
+}
+
+.page{
+display:none;
+padding:15px;
+max-width:520px;
+margin:auto;
+}
+
+.page.active{
+display:block;
+}
+
+#homePage.active,
+#profilePage.active{
+height:100%;
+overflow-y:auto;
+overflow-x:hidden;
+overscroll-behavior:contain;
+}
+
+#historyPage.active{
+display:flex;
+flex-direction:column;
+height:100%;
+min-height:0;
+overflow:hidden;
+}
 
 .atm-card{position:relative;overflow:hidden;width:100%;min-height:205px;padding:20px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#071d17 0%,#0b4c3a 48%,#082b22 100%);box-shadow:0 15px 35px rgba(0,50,35,.25);margin-bottom:18px;}
 .atm-card:before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-110px;border-radius:50%;border:1px solid rgba(255,255,255,.08);}
@@ -210,16 +249,23 @@ color:#9ba39f;
 margin-top:4px;
 }
 
-#recentTransactions,#historyTransactions{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px 3px 2px 0;}
-#recentTransactions{max-height:260px;}
+#recentTransactions,
 #historyTransactions{
-height:calc(100vh - 310px);
-max-height:none;
 overflow-y:auto;
 overflow-x:hidden;
 -webkit-overflow-scrolling:touch;
 overscroll-behavior:contain;
 padding:2px 3px 2px 0;
+}
+
+#recentTransactions{
+max-height:260px;
+}
+
+#historyTransactions{
+flex:1;
+min-height:0;
+max-height:none;
 }
 #recentTransactions::-webkit-scrollbar,#historyTransactions::-webkit-scrollbar{width:4px;}
 #recentTransactions::-webkit-scrollbar-thumb,#historyTransactions::-webkit-scrollbar-thumb{background:rgba(11,107,79,.35);border-radius:10px;}
@@ -2424,7 +2470,25 @@ value??''
 );
 
 }
+function formatTransactionDate(date){
 
+  if(!date) return '';
+
+  const d = new Date(date);
+
+  if(isNaN(d.getTime())) return date;
+
+  const months = [
+    'Jan','Feb','Mar','Apr','May','Jun',
+    'Jul','Aug','Sep','Oct','Nov','Dec'
+  ];
+
+  const day = String(d.getDate()).padStart(2,'0');
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+
+  return `${day}-${month}-${year}`;
+}
 function transactionHTML(t){
 
 const cat=
@@ -2456,10 +2520,7 @@ return`
 <div class="txn-amount">
 ${money(amount)}
 </div>
-
-<div class="txn-date">
-${escapeHTML(t.date||'')}
-</div>
+<div class="txn-date">${escapeHTML(formatTransactionDate(t.date))}</div>
 
 </div>
 
