@@ -36,17 +36,41 @@ button{border:0;cursor:pointer;}
 .atm-card:before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-110px;border-radius:50%;border:1px solid rgba(255,255,255,.08);}
 .atm-card:after{content:"";position:absolute;width:280px;height:280px;left:-190px;bottom:-210px;border-radius:50%;border:1px solid rgba(255,255,255,.06);}
 .card-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;}
-.card-brand{font-size:17px;font-weight:900;letter-spacing:.2px;}
-.card-type{font-size:10px;font-weight:800;opacity:.65;letter-spacing:1px;}
+.card-brand{
+font-size:17px;
+font-weight:900;
+letter-spacing:.3px;
+color:#F1F0E8;
+
+text-shadow:
+0 1px 0 rgba(255,255,255,.4),
+0 2px 0 rgba(120,125,120,.45),
+0 3px 5px rgba(0,0,0,.7),
+0 0 7px rgba(241,240,232,.25);
+}
+.card-type{
+font-size:9px;
+font-weight:900;
+letter-spacing:1px;
+opacity:1;
+color:#E7ECE9;
+
+text-shadow:
+0 1px 0 rgba(255,255,255,.35),
+0 2px 0 rgba(100,110,105,.45),
+0 3px 4px rgba(0,0,0,.65),
+0 0 6px rgba(231,236,233,.25);
+}
 
 #daysLeft{
-font-size:9px;
-font-weight:700;
-color:#ff5a50;
+font-size:10px;
+font-weight:900;
+color:#ffb3aa;
 opacity:1;
-margin-top:4px;
-letter-spacing:.5px;
-text-shadow:0 0 5px rgba(255,120,110,.3);
+letter-spacing:.6px;
+text-shadow:
+0 1px 2px rgba(0,0,0,.7),
+0 0 5px rgba(255,179,170,.45);
 }
 
 /* Sync Signal */
@@ -64,7 +88,7 @@ margin-top:4px;
 display:block;
 width:4px;
 border-radius:4px;
-background:#ff5a50;
+background:#FF7170;
 opacity:1;
 }
 
