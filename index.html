@@ -1,239 +1,201 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#0B6B4F">
-<title>আমার খরচ</title>
-<link rel="manifest" href="manifest.json">
-
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{
-margin:0;
-padding:0;
-width:100%;
-height:100%;
-font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-background:#f4f7f6;
-color:#17221f;
-}
-button,input,select{font:inherit;}
-button{border:0;cursor:pointer;}
-.hidden{display:none!important;}
-
-#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(145deg,#064c39,#0b6b4f 55%,#083f31);}
-.login-box{width:100%;max-width:400px;background:#fff;border-radius:26px;padding:30px 24px;box-shadow:0 20px 60px rgba(0,0,0,.20);}
-.login-logo{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;background:#0b6b4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;}
-.login-title{text-align:center;font-size:26px;font-weight:900;color:#0b6b4f;}
-.login-subtitle{text-align:center;color:#78817e;font-size:13px;margin-top:4px;margin-bottom:24px;}
-.input-group{margin-bottom:14px;}
-.input-label{display:block;font-size:12px;font-weight:800;margin-bottom:7px;color:#46524e;}
-.input-box{width:100%;height:50px;border:1px solid #dfe6e3;border-radius:14px;padding:0 15px;outline:none;background:#f8faf9;}
-.input-box:focus{border-color:#0b6b4f;box-shadow:0 0 0 3px rgba(11,107,79,.08);}
-.login-btn{width:100%;height:52px;margin-top:7px;border-radius:15px;background:#0b6b4f;color:#fff;font-weight:900;font-size:15px;}
-.login-btn:active{transform:scale(.98);}
-.login-error{min-height:20px;margin-top:12px;text-align:center;color:#c62828;font-size:12px;font-weight:700;}
-
-#app
-height:100dvh;
-min-height:0;
-padding-bottom:67px;
-}
-
-.page{
-display:none;
-padding:15px;
-max-width:520px;
-margin:auto;
-}
-
-.page.active{
-display:block;
-}
-
-#homePage.active,
-#profilePage.active{
-height:100%;
-overflow-y:auto;
-overflow-x:hidden;
-overscroll-behavior:contain;
-}
-
-#historyPage.active{
-display:flex;
-flex-direction:column;
-height:100%;
-min-height:0;
-overflow:hidden;
-}
-
-.atm-card{position:relative;overflow:hidden;width:100%;min-height:205px;padding:20px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#071d17 0%,#0b4c3a 48%,#082b22 100%);box-shadow:0 15px 35px rgba(0,50,35,.25);margin-bottom:18px;}
-.atm-card:before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-110px;border-radius:50%;border:1px solid rgba(255,255,255,.08);}
-.atm-card:after{content:"";position:absolute;width:280px;height:280px;left:-190px;bottom:-210px;border-radius:50%;border:1px solid rgba(255,255,255,.06);}
-.card-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;}
-.card-brand{
-font-size:18px;
-font-weight:1000;
-letter-spacing:.3px;
-color:#F1F0E8;
-
-text-shadow:
-0 1px 0 rgba(255,255,255,.4),
-0 2px 0 rgba(120,125,120,.45),
-0 3px 5px rgba(0,0,0,.7),
-0 0 7px rgba(241,240,232,.25);
-}
-.card-type{
-font-size:11px;
-font-weight:900;
-letter-spacing:1px;
-opacity:1;
-color:#E7ECE9;
-
-text-shadow:
-0 1px 0 rgba(255,255,255,.35),
-0 2px 0 rgba(100,110,105,.45),
-0 3px 4px rgba(0,0,0,.65),
-0 0 6px rgba(231,236,233,.25);
-}
-
-#daysLeft{
-font-size:10px;
-font-weight:900;
-color:#ffb3aa;
-opacity:1;
-letter-spacing:.6px;
-text-shadow:
-0 1px 2px rgba(0,0,0,.7),
-0 0 5px rgba(255,179,170,.45);
-}
-
-/* Sync Signal */
-
-.sync-signal{
-display:flex;
-align-items:flex-end;
-justify-content:flex-end;
-gap:3px;
-height:12px;
-margin-top:4px;
-}
-
-.sync-signal span{
-display:block;
-width:4px;
-border-radius:4px;
-background:#FF7170;
-opacity:1;
-}
-
-.sync-signal span:nth-child(1){
-height:4px;
-}
-
-.sync-signal span:nth-child(2){
-height:6px;
-}
-
-.sync-signal span:nth-child(3){
-height:9px;
-}
-
-.sync-signal span:nth-child(4){
-height:12px;
-}
-
-.sync-signal.syncing span{
-animation:signalPulse .9s ease-in-out infinite;
-}
-
-.sync-signal.syncing span:nth-child(1){
-animation-delay:0s;
-}
-
-.sync-signal.syncing span:nth-child(2){
-animation-delay:.15s;
-}
-
-.sync-signal.syncing span:nth-child(3){
-animation-delay:.30s;
-}
-
-.sync-signal.syncing span:nth-child(4){
-animation-delay:.45s;
-}
-
-@keyframes signalPulse{
-0%,100%{
-transform:scaleY(.35);
-opacity:.35;
-}
-
-50%{
-transform:scaleY(1);
-opacity:1;
-}
-}
-
-.card-chip{position:relative;z-index:2;width:43px;height:31px;margin-top:22px;border-radius:7px;background:linear-gradient(135deg,#d7d1a7,#f1eac6,#a9a47e);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);}
-.card-chip:after{content:"";position:absolute;left:50%;top:0;width:1px;height:100%;background:rgba(80,70,30,.35);}
-.card-number{position:relative;z-index:2;margin-top:17px;font-size:16px;font-weight:700;letter-spacing:1px;white-space:nowrap;}
-.card-bottom{position:relative;z-index:2;margin-top:18px;display:flex;justify-content:space-between;align-items:flex-start;}
-.card-total-label,.card-budget{font-size:9px;font-weight:800;letter-spacing:1px;opacity:.58;}
-.card-total{font-size:18px;font-weight:900;margin-top:3px;}
-.card-budget-value{font-size:15px;font-weight:900;margin-top:5px;text-align:right;}
-.card-progress{width:150px;height:4px;margin-top:7px;border-radius:10px;background:rgba(255,255,255,.18);overflow:hidden;}
-.card-progress-fill{width:0%;height:100%;border-radius:10px;background:rgba(255,255,255,.94);transition:width .65s ease;}
-.card-expense-percent{width:150px;margin-top:3px;font-size:8px;line-height:1;font-weight:800;text-align:center;opacity:.72;}
-
-.section-title{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 11px;}
-.section-title h3{margin:0;font-size:15px;font-weight:900;}
-.section-title span{color:#87918d;font-size:10px;}
-.category-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;}
-.category-btn{min-height:75px;background:#fff;border-radius:17px;box-shadow:0 3px 12px rgba(0,0,0,.055);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
-.category-btn:active{transform:scale(.96);}
-.category-icon{font-size:25px;}
-.category-name{font-size:10px;font-weight:800;color:#4d5754;}
-
-.transaction-card{background:#fff;border-radius:15px;padding:11px 12px;margin-bottom:8px;box-shadow:0 2px 9px rgba(0,0,0,.045);border-left:4px solid #0b6b4f;}
-.txn-row{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
-}
-
-.txn-left{
-min-width:0;
-flex:1;
-}
-
-.txn-right{
-min-width:0;
-flex:1;
-text-align:right;
-display:flex;
-flex-direction:column;
-align-items:flex-end;
-}
-
-.txn-amount{
-font-size:15px;
-font-weight:900;
-white-space:nowrap;
-color:#0b6b4f;
-}
-
-.txn-category{
-font-size:13px;
-font-weight:900;
-}
-
+<!DOCTYPE html>  <html lang="bn">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">  
+<meta name="theme-color" content="#0B6B4F">  
+<title>আমার খরচ</title>  
+<link rel="manifest" href="manifest.json">  <style>  
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}  
+html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f7f6;color:#17221f;}  
+body{overflow-x:hidden;}  
+button,input,select{font:inherit;}  
+button{border:0;cursor:pointer;}  
+.hidden{display:none!important;}  
+  
+#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(145deg,#064c39,#0b6b4f 55%,#083f31);}  
+.login-box{width:100%;max-width:400px;background:#fff;border-radius:26px;padding:30px 24px;box-shadow:0 20px 60px rgba(0,0,0,.20);}  
+.login-logo{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;background:#0b6b4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;}  
+.login-title{text-align:center;font-size:26px;font-weight:900;color:#0b6b4f;}  
+.login-subtitle{text-align:center;color:#78817e;font-size:13px;margin-top:4px;margin-bottom:24px;}  
+.input-group{margin-bottom:14px;}  
+.input-label{display:block;font-size:12px;font-weight:800;margin-bottom:7px;color:#46524e;}  
+.input-box{width:100%;height:50px;border:1px solid #dfe6e3;border-radius:14px;padding:0 15px;outline:none;background:#f8faf9;}  
+.input-box:focus{border-color:#0b6b4f;box-shadow:0 0 0 3px rgba(11,107,79,.08);}  
+.login-btn{width:100%;height:52px;margin-top:7px;border-radius:15px;background:#0b6b4f;color:#fff;font-weight:900;font-size:15px;}  
+.login-btn:active{transform:scale(.98);}  
+.login-error{min-height:20px;margin-top:12px;text-align:center;color:#c62828;font-size:12px;font-weight:700;}  
+  
+#app{min-height:100vh;padding-bottom:78px;}  
+.page{display:none;padding:15px;max-width:520px;margin:auto;}  
+.page.active{display:block;}  
+  
+.atm-card{position:relative;overflow:hidden;width:100%;min-height:205px;padding:20px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#071d17 0%,#0b4c3a 48%,#082b22 100%);box-shadow:0 15px 35px rgba(0,50,35,.25);margin-bottom:18px;}  
+.atm-card:before{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-110px;border-radius:50%;border:1px solid rgba(255,255,255,.08);}  
+.atm-card:after{content:"";position:absolute;width:280px;height:280px;left:-190px;bottom:-210px;border-radius:50%;border:1px solid rgba(255,255,255,.06);}  
+.card-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;}  
+.card-brand{  
+font-size:18px;  
+font-weight:1000;  
+letter-spacing:.3px;  
+color:#F1F0E8;  
+  
+text-shadow:  
+0 1px 0 rgba(255,255,255,.4),  
+0 2px 0 rgba(120,125,120,.45),  
+0 3px 5px rgba(0,0,0,.7),  
+0 0 7px rgba(241,240,232,.25);  
+}  
+.card-type{  
+font-size:11px;  
+font-weight:900;  
+letter-spacing:1px;  
+opacity:1;  
+color:#E7ECE9;  
+  
+text-shadow:  
+0 1px 0 rgba(255,255,255,.35),  
+0 2px 0 rgba(100,110,105,.45),  
+0 3px 4px rgba(0,0,0,.65),  
+0 0 6px rgba(231,236,233,.25);  
+}  
+  
+#daysLeft{  
+font-size:10px;  
+font-weight:900;  
+color:#ffb3aa;  
+opacity:1;  
+letter-spacing:.6px;  
+text-shadow:  
+0 1px 2px rgba(0,0,0,.7),  
+0 0 5px rgba(255,179,170,.45);  
+}  
+  
+/* Sync Signal */  
+  
+.sync-signal{  
+display:flex;  
+align-items:flex-end;  
+justify-content:flex-end;  
+gap:3px;  
+height:12px;  
+margin-top:4px;  
+}  
+  
+.sync-signal span{  
+display:block;  
+width:4px;  
+border-radius:4px;  
+background:#FF7170;  
+opacity:1;  
+}  
+  
+.sync-signal span:nth-child(1){  
+height:4px;  
+}  
+  
+.sync-signal span:nth-child(2){  
+height:6px;  
+}  
+  
+.sync-signal span:nth-child(3){  
+height:9px;  
+}  
+  
+.sync-signal span:nth-child(4){  
+height:12px;  
+}  
+  
+.sync-signal.syncing span{  
+animation:signalPulse .9s ease-in-out infinite;  
+}  
+  
+.sync-signal.syncing span:nth-child(1){  
+animation-delay:0s;  
+}  
+  
+.sync-signal.syncing span:nth-child(2){  
+animation-delay:.15s;  
+}  
+  
+.sync-signal.syncing span:nth-child(3){  
+animation-delay:.30s;  
+}  
+  
+.sync-signal.syncing span:nth-child(4){  
+animation-delay:.45s;  
+}  
+  
+@keyframes signalPulse{  
+0%,100%{  
+transform:scaleY(.35);  
+opacity:.35;  
+}  
+  
+50%{  
+transform:scaleY(1);  
+opacity:1;  
+}  
+}  
+  
+.card-chip{position:relative;z-index:2;width:43px;height:31px;margin-top:22px;border-radius:7px;background:linear-gradient(135deg,#d7d1a7,#f1eac6,#a9a47e);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);}  
+.card-chip:after{content:"";position:absolute;left:50%;top:0;width:1px;height:100%;background:rgba(80,70,30,.35);}  
+.card-number{position:relative;z-index:2;margin-top:17px;font-size:16px;font-weight:700;letter-spacing:1px;white-space:nowrap;}  
+.card-bottom{position:relative;z-index:2;margin-top:18px;display:flex;justify-content:space-between;align-items:flex-start;}  
+.card-total-label,.card-budget{font-size:9px;font-weight:800;letter-spacing:1px;opacity:.58;}  
+.card-total{font-size:18px;font-weight:900;margin-top:3px;}  
+.card-budget-value{font-size:15px;font-weight:900;margin-top:5px;text-align:right;}  
+.card-progress{width:150px;height:4px;margin-top:7px;border-radius:10px;background:rgba(255,255,255,.18);overflow:hidden;}  
+.card-progress-fill{width:0%;height:100%;border-radius:10px;background:rgba(255,255,255,.94);transition:width .65s ease;}  
+.card-expense-percent{width:150px;margin-top:3px;font-size:8px;line-height:1;font-weight:800;text-align:center;opacity:.72;}  
+  
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 11px;}  
+.section-title h3{margin:0;font-size:15px;font-weight:900;}  
+.section-title span{color:#87918d;font-size:10px;}  
+.category-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;}  
+.category-btn{min-height:75px;background:#fff;border-radius:17px;box-shadow:0 3px 12px rgba(0,0,0,.055);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}  
+.category-btn:active{transform:scale(.96);}  
+.category-icon{font-size:25px;}  
+.category-name{font-size:10px;font-weight:800;color:#4d5754;}  
+  
+.transaction-card{background:#fff;border-radius:15px;padding:13px 12px;margin-bottom:8px;box-shadow:0 2px 9px rgba(0,0,0,.045);border-left:4px solid #0b6b4f;}  
+.txn-row{  
+display:flex;  
+justify-content:space-between;  
+align-items:flex-start;  
+gap:10px;  
+}  
+  
+.txn-left{  
+min-width:0;  
+flex:1;  
+}  
+  
+.txn-right{  
+min-width:0;  
+flex:1;  
+text-align:right;  
+display:flex;  
+flex-direction:column;  
+align-items:flex-end;  
+}  
+  
+.txn-amount{  
+font-size:15px;  
+font-weight:900;  
+white-space:nowrap;  
+color:#0b6b4f;  
+}  
+  
+.txn-category{  
+font-size:13px;  
+font-weight:900;  
+}  
+  
 .txn-note{
 font-size:10px;
-color:#8a9490;
-margin-top:3px;
+font-weight:600;
+color:#6f7975;
+margin-top:7px;
 max-width:180px;
 white-space:nowrap;
 overflow:hidden;
@@ -241,2232 +203,2028 @@ text-overflow:ellipsis;
 }
 
 .txn-date{
-font-size:9px;
-color:#9ba39f;
-margin-top:4px;
-}
-
-#recentTransactions,
-#historyTransactions{
-overflow-y:auto;
-overflow-x:hidden;
--webkit-overflow-scrolling:touch;
-overscroll-behavior:contain;
-padding:2px 3px 2px 0;
-}
-
-#recentTransactions{
-max-height:260px;
-}
-
-#historyTransactions{
-flex:1;
-min-height:0;
-max-height:none;
-}
-#recentTransactions::-webkit-scrollbar,#historyTransactions::-webkit-scrollbar{width:4px;}
-#recentTransactions::-webkit-scrollbar-thumb,#historyTransactions::-webkit-scrollbar-thumb{background:rgba(11,107,79,.35);border-radius:10px;}
-#recentTransactions::-webkit-scrollbar-track,#historyTransactions::-webkit-scrollbar-track{background:transparent;}
-
-.filter-box{background:#fff;border-radius:17px;padding:12px;margin-bottom:13px;box-shadow:0 3px 12px rgba(0,0,0,.05);}
-.history-filter-grid{display:grid;grid-template-columns:.85fr .95fr 1.3fr;gap:7px;}
-.history-filter-item label{display:block;font-size:8px;font-weight:800;color:#69736f;margin-bottom:4px;}
-.history-filter-item select{width:100%;height:37px;border:1px solid #e0e6e3;border-radius:10px;padding:0 7px;outline:none;background:#f8faf9;font-size:11px;color:#27322f;min-width:0;}
-.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.filter-item label{display:block;font-size:9px;font-weight:800;color:#69736f;margin-bottom:5px;}
-.filter-item input,.filter-item select{width:100%;height:42px;border:1px solid #e0e6e3;border-radius:11px;padding:0 10px;outline:none;background:#f8faf9;font-size:12px;}
-
-.total-card{background:#0b6b4f;color:#fff;border-radius:18px;padding:15px;margin-bottom:13px;display:flex;align-items:center;justify-content:space-between;}
-.total-label{font-size:10px;opacity:.68;font-weight:800;}
-.total-value{font-size:24px;font-weight:900;margin-top:2px;}
-.total-month{font-size:9px;opacity:.62;}
-
-.profile-card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.06);}
-.profile-head{display:flex;align-items:center;gap:13px;padding-bottom:17px;border-bottom:1px solid #edf0ef;}
-.avatar{width:58px;height:58px;border-radius:18px;background:#0b6b4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;}
-.profile-name{font-size:17px;font-weight:900;}
-.profile-id{font-size:10px;color:#89928f;margin-top:3px;}
-.profile-section{padding-top:18px;}
-.profile-section-title{font-size:12px;font-weight:900;margin-bottom:9px;}
-.profile-input{width:100%;height:44px;border:1px solid #e0e6e3;border-radius:12px;padding:0 12px;background:#f8faf9;outline:none;}
-.small-btn{height:40px;padding:0 14px;border-radius:11px;background:#0b6b4f;color:#fff;font-size:11px;font-weight:900;margin-top:8px;}
-.budget-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.budget-row input{width:100%;height:44px;border:1px solid #e0e6e3;border-radius:12px;padding:0 10px;outline:none;background:#f8faf9;}
-.currency-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.currency-btn{height:45px;border-radius:12px;background:#f0f3f2;color:#5b6662;font-size:12px;font-weight:900;}
-.currency-btn.active{background:#0b6b4f;color:#fff;}
-.logout-btn{width:100%;height:45px;margin-top:20px;border-radius:12px;background:#b3261e;color:#fff;font-size:12px;font-weight:900;}
-
-.bottom-nav{position:fixed;z-index:30;left:0;right:0;bottom:0;height:67px;background:#fff;border-top:1px solid #e8edeb;display:flex;justify-content:center;box-shadow:0 -4px 18px rgba(0,0,0,.06);}
-.nav-inner{width:100%;max-width:520px;display:grid;grid-template-columns:repeat(3,1fr);}
-.nav-btn{background:#fff;color:#909a96;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
-.nav-icon{font-size:19px;line-height:1;}
-.nav-label{font-size:9px;font-weight:800;}
-.nav-btn.active{color:#0b6b4f;}
-
-.popup-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.42);display:none;align-items:flex-end;justify-content:center;}
-.popup-overlay.show{display:flex;}
-.popup{width:100%;max-width:520px;background:#fff;border-radius:24px 24px 0 0;padding:20px 17px 25px;margin-bottom:env(keyboard-inset-height,0px);}
-.popup-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;}
-.popup-title{font-size:17px;font-weight:900;}
-.popup-close{width:32px;height:32px;border-radius:50%;background:#f0f3f2;color:#66716d;font-size:18px;}
-.selected-category{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:12px;background:#f2f7f5;margin-bottom:12px;}
-.selected-category-icon{font-size:22px;}
-.selected-category-name{font-size:13px;font-weight:900;}
-.amount-input{width:100%;height:58px;border:2px solid #dce5e1;border-radius:15px;outline:none;padding:0 15px;font-size:25px;font-weight:900;text-align:left;background:#fafcfb;}
-.popup-note{width:100%;height:46px;margin-top:10px;border:1px solid #dce5e1;border-radius:13px;padding:0 12px;outline:none;background:#fafcfb;}
-.save-btn{width:100%;height:51px;margin-top:12px;border-radius:14px;background:#0b6b4f;color:#fff;font-size:14px;font-weight:900;}
-
-.empty{padding:35px 15px;text-align:center;color:#929b98;font-size:12px;}
-.loading{position:fixed;inset:0;z-index:200;background:rgba(255,255,255,.8);display:none;align-items:center;justify-content:center;}
-.loading.show{display:flex;}
-.loading-box{background:#fff;border-radius:16px;padding:18px 25px;box-shadow:0 8px 30px rgba(0,0,0,.12);font-size:12px;font-weight:800;color:#0b6b4f;}
-#noteInput{width:100%;min-height:50px;height:50px;padding:0 14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;color:#111827;font-size:14px;outline:none;box-sizing:border-box;}
-#noteInput:focus{border-color:#0B6B4F;}
-
-@media(max-width:370px){
-.category-grid{gap:7px;}
-.category-btn{min-height:70px;}
-.category-icon{font-size:22px;}
-.atm-card{min-height:198px;}
-.card-number{font-size:14px;}
-.history-filter-grid{gap:5px;}
-.history-filter-item select{font-size:10px;padding:0 5px;}
-}
-</style>
-</head>
-
-<body>
-
-<div id="loginPage">
-<div class="login-box">
-<div class="login-logo">খ</div>
-<div class="login-title">আমার খরচ</div>
-<div class="login-subtitle">দৈনিক খরচের হিসাব</div>
-
-<div class="input-group">
-<label class="input-label">ID</label>
-<input id="loginId" class="input-box" type="text" autocomplete="username" placeholder="আপনার ID লিখুন">
-</div>
-
-<div class="input-group">
-<label class="input-label">Password</label>
-<input id="loginPassword" class="input-box" type="password" autocomplete="current-password" placeholder="Password লিখুন">
-</div>
-
-<button id="loginBtn" class="login-btn">Login</button>
-<div id="loginError" class="login-error"></div>
-</div>
-</div>
-
-<div id="app" class="hidden">
-
-<main id="homePage" class="page active">
-
-<div class="atm-card">
-
-<div class="card-top">
-
-<div class="card-brand">SAJIB HOSSAIN</div>
-
-<div class="card-type">
-EXPENSE CARD
-<div id="daysLeft"></div>
-
-<div id="syncSignal" class="sync-signal">
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-</div>
-
-</div>
-
-</div>
-
-<div class="card-chip"></div>
-
-<div class="card-number">
-•••• &nbsp; •••• &nbsp; <span id="cardMonth"></span>
-</div>
-
-<div class="card-bottom">
-
-<div>
-
-<div class="card-total-label">BUDGET LEFT</div>
-
-<div id="cardRemaining" class="card-total">
-৳0
-</div>
-
-<div class="card-progress">
-<div id="cardProgressBar" class="card-progress-fill"></div>
-</div>
-
-<div id="cardExpensePercent" class="card-expense-percent">
-0.0%
-</div>
-
-</div>
-
-<div>
-
-<div class="card-budget">BUDGET</div>
-
-<div id="cardBudget" class="card-budget-value">
-৳0
-</div>
-
-</div>
-
-</div>
-</div>
-
-<div class="section-title">
-<h3>খরচ যোগ করুন</h3>
-<span id="homeProfile">Bangladesh</span>
-</div>
-
-<div id="categoryGrid" class="category-grid"></div>
-
-<div class="section-title">
-<h3>সাম্প্রতিক হিসাব</h3>
-<span id="recentCount">0</span>
-</div>
-
-<div id="recentTransactions"></div>
-
-</main>
-
-<main id="historyPage" class="page">
-
-<div class="total-card">
-
-<div>
-<div class="total-label">মোট খরচ</div>
-<div id="historyTotal" class="total-value">৳0</div>
-</div>
-
-<div id="historyMonth" class="total-month">
-সেপ্টেম্বর 2026
-</div>
-
-</div>
-
-<div class="filter-box">
-
-<div class="history-filter-grid">
-
-<div class="history-filter-item">
-<label>সাল</label>
-<select id="historyYear"></select>
-</div>
-
-<div class="history-filter-item">
-<label>মাস</label>
-<select id="historyMonthSelect"></select>
-</div>
-
-<div class="history-filter-item">
-<label>Category</label>
-<select id="historyCategory">
-<option value="">সব Category</option>
-</select>
-</div>
-
-</div>
-
-</div>
-
-<div class="section-title">
-<h3>হিসাব</h3>
-<span id="historyProfile">Bangladesh</span>
-</div>
-
-<div id="historyTransactions"></div>
-
-</main>
-
-<main id="profilePage" class="page">
-
-<div class="profile-card">
-
-<div class="profile-head">
-
-<div id="profileAvatar" class="avatar">S</div>
-
-<div>
-<div id="profileName" class="profile-name">Sajib Hossain</div>
-<div id="profileId" class="profile-id">ID</div>
-</div>
-
-</div>
-
-<div class="profile-section">
-
-<div class="profile-section-title">নাম</div>
-
-<input id="nameInput" class="profile-input" type="text" placeholder="আপনার নাম">
-
-<button id="saveNameBtn" class="small-btn">
-নাম Save করুন
-</button>
-
-</div>
-
-<div class="profile-section">
-
-<div class="profile-section-title">মাসিক Budget</div>
-
-<div class="budget-row">
-
-<input id="budgetMonth" type="month">
-
-<input id="budgetAmount" type="number" inputmode="decimal" placeholder="Budget">
-
-</div>
-
-<button id="saveBudgetBtn" class="small-btn">
-Budget Save করুন
-</button>
-
-</div>
-
-<div class="profile-section">
-
-<div class="profile-section-title">হিসাবের Profile</div>
-
-<div class="currency-row">
-
-<button id="bdBtn" class="currency-btn">
-🇧🇩 Bangladesh
-</button>
-
-<button id="kwBtn" class="currency-btn">
-🇰🇼 Kuwait
-</button>
-
-</div>
-
-</div>
-
-<button id="logoutBtn" class="logout-btn">
-Logout
-</button>
-
-</div>
-
-</main>
-
-<nav class="bottom-nav">
-
-<div class="nav-inner">
-
-<button class="nav-btn active" data-page="homePage">
-<div class="nav-icon">🏠</div>
-<div class="nav-label">Home</div>
-</button>
-
-<button class="nav-btn" data-page="historyPage">
-<div class="nav-icon">📊</div>
-<div class="nav-label">হিসাব</div>
-</button>
-
-<button class="nav-btn" data-page="profilePage">
-<div class="nav-icon">👤</div>
-<div class="nav-label">Profile</div>
-</button>
-
-</div>
-
-</nav>
-
-</div>
-
-<div id="popupOverlay" class="popup-overlay">
-
-<div class="popup">
-
-<div class="popup-head">
-<div class="popup-title">খরচ যোগ করুন</div>
-<button id="popupClose" class="popup-close">×</button>
-</div>
-
-<div class="selected-category">
-
-<div id="selectedCategoryIcon" class="selected-category-icon">
-🍚
-</div>
-
-<div id="selectedCategoryName" class="selected-category-name">
-খাবার
-</div>
-
-</div>
-
-<input id="amountInput" class="amount-input" type="number" inputmode="decimal" step="any" placeholder="0">
-
-<input type="text" id="noteInput" placeholder="নোট লিখুন" autocomplete="off">
-
-<button id="saveTransactionBtn" class="save-btn">
-হিসাব Save করুন
-</button>
-
-</div>
-
-</div>
-
-<div id="loading" class="loading">
-<div class="loading-box">Loading...</div>
-</div>
-
-<script>
-
-const API='https://script.google.com/macros/s/AKfycbweL16Uzpgp5ogrrJp5ZiSPRZf-FeyH0nkOLPvptgcI7Dhra8IoVOfIvyzMTuzWbrCQ/exec';
-
-const SESSION_KEY='amaya_expense_session';
-const PROFILE_KEY='amaya_expense_currency';
-const BUDGET_MONTH_KEY='amaya_expense_budget_month';
-const SERVER_VERSION_KEY='amaya_expense_server_versions';
-
-let currentUser=null;
-let currency=localStorage.getItem(PROFILE_KEY)||'BD';
-let transactions=[];
-let pendingTransactions=[];
-let homeBudget=0;
-let selectedCategory=null;
-let syncTimer=null;
-let syncing=false;
-let draftAmount='';
-let draftNote='';
-let draftCategory=null;
-
-const CATEGORIES=[
-{name:'খাবার',icon:'🍔'},
-{name:'বাজার',icon:'🛒'},
-{name:'যাতায়াত',icon:'🚗'},
-{name:'মোবাইল/ইন্টারনেট',icon:'📱'},
-{name:'বিদ্যুৎ',icon:'💡'},
-{name:'কেনাকাটা',icon:'🛍️'},
-{name:'চিকিৎসা',icon:'💊'},
-{name:'উপহার',icon:'🎁'},
-{name:'শিক্ষা',icon:'🎓'},
-{name:'অন্যান্য',icon:'📦'}
-];
-
-const HISTORY_MONTHS=[
-'জানুয়ারি',
-'ফেব্রুয়ারি',
-'মার্চ',
-'এপ্রিল',
-'মে',
-'জুন',
-'জুলাই',
-'আগস্ট',
-'সেপ্টেম্বর',
-'অক্টোবর',
-'নভেম্বর',
-'ডিসেম্বর'
-];
-
-function pad(n){
-return String(n).padStart(2,'0');
-}
-
-function normalizeProfile(value){
-const v=String(value||'').trim().toUpperCase();
-return v==='KW'||v==='KUWAIT'?'KW':'BD';
-}
-
-function profileName(){
-return currency==='KW'?'Kuwait':'Bangladesh';
-}
-
-function transactionStorageKey(profile=currency){
-return 'amaya_expense_transactions_'+normalizeProfile(profile);
-}
-
-function pendingStorageKey(profile=currency){
-return 'amaya_expense_pending_'+normalizeProfile(profile);
-}
-
-function budgetStorageKey(profile=currency,month=getCurrentMonth()){
-return 'amaya_expense_budget_'+normalizeProfile(profile)+'_'+month;
-}
-
-function serverVersionStorageKey(profile=currency){
-return SERVER_VERSION_KEY+'_'+normalizeProfile(profile);
-}
-
-function loadServerVersions(profile=currency){
-try{
-
-const raw=
-localStorage.getItem(
-serverVersionStorageKey(profile)
-);
-
-if(!raw)return {};
-
-const data=JSON.parse(raw);
-
-return data&&typeof data==='object'
-?data
-:{};
-
-}catch(e){
-
-return {};
-
-}
-}
-
-function saveServerVersions(data,profile=currency){
-
-const old=
-loadServerVersions(profile);
-
-const next={
-txVersion:data?.txVersion??old.txVersion??'0',
-budgetVersion:data?.budgetVersion??old.budgetVersion??'0',
-accountVersion:data?.accountVersion??old.accountVersion??'0'
-};
-
-localStorage.setItem(
-serverVersionStorageKey(profile),
-JSON.stringify(next)
-);
-
-return next;
-}
-
-function getCurrentMonth(){
-
-const d=new Date();
-
-return d.getFullYear()+
-'-'+
-pad(d.getMonth()+1);
-
-}
-
-function getToday(){
-
-const d=new Date();
-
-return d.getFullYear()+
-'-'+
-pad(d.getMonth()+1)+
-'-'+
-pad(d.getDate());
-
-}
-
-function money(value){
-
-let n=Number(value);
-
-if(!Number.isFinite(n))n=0;
-
-return currency==='KW'
-?n.toLocaleString(
-'en-US',
-{
-minimumFractionDigits:3,
-maximumFractionDigits:3
-}
-)+' KD'
-:n.toLocaleString(
-'en-IN',
-{
-minimumFractionDigits:0,
-maximumFractionDigits:2
-}
-)+' TK';
-
-}
-
-function parseAmount(value){
-
-if(
-value===undefined||
-value===null||
-value==='')return null;
-
-if(typeof value==='number')
-return Number.isFinite(value)
-?value
-:null;
-
-let s=String(value).trim();
-
-if(!s)return null;
-
-s=s
-.replace(/,/g,'')
-.replace(/৳/g,'')
-.replace(/TK/gi,'')
-.replace(/BDT/gi,'')
-.replace(/KD/gi,'')
-.replace(/\s+/g,'');
-
-const n=Number(s);
-
-return Number.isFinite(n)
-?n
-:null;
-
-}
-
-async function apiGet(params){
-
-const query=
-new URLSearchParams(
-{
-...params,
-_ts:Date.now()
-}
-);
-
-const response=
-await fetch(
-API+'?'+query.toString(),
-{
-method:'GET',
-cache:'no-store'
-}
-);
-
-if(!response.ok)
-throw new Error('Network error');
-
-return response.json();
-
-}
-
-async function apiPost(action,data){
-
-const response=
-await fetch(
-API,
-{
-method:'POST',
-headers:{
-'Content-Type':
-'text/plain;charset=utf-8'
-},
-body:JSON.stringify({
-action,
-data
-})
-}
-);
-
-if(!response.ok)
-throw new Error('Network error');
-
-return response.json();
-
-}
-
-function updateSyncStatus(text){
-
-const el=
-document.getElementById(
-'syncStatus'
-);
-
-if(el)
-el.textContent=text;
-
-const signal=
-document.getElementById(
-'syncSignal'
-);
-
-if(signal){
-
-signal.classList.toggle(
-'syncing',
-String(text).toLowerCase().includes('syncing')
-);
-
-}
-
-}
-
-function saveSession(){
-
-localStorage.setItem(
-SESSION_KEY,
-JSON.stringify(currentUser)
-);
-
-}
-
-function loadSession(){
-
-try{
-
-const raw=
-localStorage.getItem(
-SESSION_KEY
-);
-
-return raw
-?JSON.parse(raw)
-:null;
-
-}catch(e){
-
-return null;
-
-}
-
-}
-
-function loadLocalData(){
-
-loadLocalTransactions();
-
-loadPendingTransactions();
-
-loadHomeBudgetLocal();
-
-}
-
-function loadLocalTransactions(){
-
-try{
-
-const raw=
-localStorage.getItem(
-transactionStorageKey()
-);
-
-transactions=
-raw
-?JSON.parse(raw)
-:[];
-
-if(!Array.isArray(transactions))
-transactions=[];
-
-}catch(e){
-
-transactions=[];
-
-}
-
-}
-
-function saveLocalTransactions(){
-
-localStorage.setItem(
-transactionStorageKey(),
-JSON.stringify(transactions)
-);
-
-}
-
-function loadPendingTransactions(){
-
-try{
-
-const raw=
-localStorage.getItem(
-pendingStorageKey()
-);
-
-pendingTransactions=
-raw
-?JSON.parse(raw)
-:[];
-
-if(!Array.isArray(pendingTransactions))
-pendingTransactions=[];
-
-}catch(e){
-
-pendingTransactions=[];
-
-}
-
-}
-
-function savePendingTransactions(){
-
-localStorage.setItem(
-pendingStorageKey(),
-JSON.stringify(pendingTransactions)
-);
-
-}
-
-function transactionId(t){
-
-if(!t)return '';
-
-const objectId=
-t.id??
-t.ID??
-t.transactionId??
-t.TransactionID;
-
-if(
-objectId!==undefined&&
-objectId!==null&&
-String(objectId).trim()
-){
-
-return String(objectId).trim();
-
-}
-
-if(Array.isArray(t)){
-
-return String(
-t[0]??''
-).trim();
-
-}
-
-return '';
-
-}
-
-function getTransactionAmount(t){
-
-if(!t)return null;
-
-if(Array.isArray(t)){
-
-const parsed=
-parseAmount(t[3]);
-
-if(parsed!==null)
-return parsed;
-
-}
-
-const fields=[
-t.amount,
-t.Amount,
-t.bdAmount,
-t.BDAmount,
-t.kdAmount,
-t.KDAmount,
-t.value,
-t.Value,
-t.total,
-t.Total,
-t.expense,
-t.Expense,
-t.amountValue,
-t.AmountValue
-];
-
-for(const value of fields){
-
-const parsed=
-parseAmount(value);
-
-if(parsed!==null)
-return parsed;
-
-}
-
-return null;
-
-}
-
-function normalizeTransaction(t){
-
-if(!t)return null;
-
-const id=
-transactionId(t);
-
-if(!id)return null;
-
-let date='';
-let category='';
-let note='';
-let timestamp='';
-
-if(Array.isArray(t)){
-
-date=
-String(t[1]??'')
-.slice(0,10);
-
-category=
-String(t[2]??'');
-
-note=
-String(t[4]??'');
-
-timestamp=
-t[5]??'';
-
-}else{
-
-date=
-String(
-t.date??
-t.Date??
-''
-)
-.slice(0,10);
-
-category=
-String(
-t.category??
-t.Category??
-''
-);
-
-note=
-String(
-t.note??
-t.Note??
-''
-);
-
-timestamp=
-t.timestamp??
-t.Timestamp??
-'';
-
-}
-
-return{
-id,
-date,
-category,
-amount:getTransactionAmount(t),
-note,
-timestamp
-};
-
-}
-
-function uniqueTransactions(list){
-
-const map=new Map();
-
-list.forEach(t=>{
-
-const id=
-transactionId(t);
-
-if(!id)return;
-
-const old=
-map.get(id);
-
-if(old){
-
-const oldAmount=
-parseAmount(old.amount);
-
-const newAmount=
-parseAmount(t.amount);
-
-if(
-oldAmount!==null&&
-oldAmount!==0&&
-(
-newAmount===null||
-newAmount===0
-)
-){
-
-t.amount=oldAmount;
-
-}
-
-}
-
-map.set(id,t);
-
-});
-
-return Array.from(map.values());
-
-}
-
-function mergeServerTransactions(serverList){
-
-const localMap=new Map();
-
-transactions.forEach(t=>{
-
-const id=
-transactionId(t);
-
-if(id)
-localMap.set(id,t);
-
-});
-
-const result=[];
-
-serverList.forEach(raw=>{
-
-const server=
-normalizeTransaction(raw);
-
-if(!server)return;
-
-const local=
-localMap.get(server.id);
-
-let amount=
-server.amount;
-
-if(
-amount!==null&&
-Number.isFinite(Number(amount))
-){
-
-amount=Number(amount);
-
-}else{
-
-const localAmount=
-local
-?parseAmount(local.amount)
-:null;
-
-amount=
-localAmount!==null
-?localAmount
-:0;
-
-}
-
-result.push({
-
-id:server.id,
-
-date:
-server.date||
-local?.date||
-'',
-
-category:
-server.category||
-local?.category||
-'',
-
-amount,
-
-note:
-server.note||
-local?.note||
-'',
-
-timestamp:
-server.timestamp||
-local?.timestamp||
-''
-
-});
-
-});
-
-const serverIds=
-new Set(
-result.map(t=>t.id)
-);
-
-pendingTransactions.forEach(t=>{
-
-const id=
-transactionId(t);
-
-if(
-id&&
-!serverIds.has(id)
-){
-
-const amount=
-parseAmount(t.amount);
-
-result.push({
-
-id,
-
-date:
-String(t.date||'')
-.slice(0,10),
-
-category:
-String(t.category||''),
-
-amount:
-amount===null
-?0
-:amount,
-
-note:
-String(t.note||''),
-
-timestamp:
-t.timestamp||''
-
-});
-
-}
-
-});
-
-return uniqueTransactions(result);
-
-}
-
-function transactionTime(t){
-
-if(t?.timestamp){
-
-const n=
-new Date(
-t.timestamp
-).getTime();
-
-if(!isNaN(n))
-return n;
-
-}
-
-const n=
-new Date(
-String(t?.date||'')+
-'T00:00:00'
-).getTime();
-
-return isNaN(n)
-?0
-:n;
-
-}
-
-function compareTransactionDate(a,b){
-
-return transactionTime(b)-
-transactionTime(a);
-
-}
-
-function setupHistoryFilters(){
-
-const year=
-document.getElementById(
-'historyYear'
-);
-
-const month=
-document.getElementById(
-'historyMonthSelect'
-);
-
-if(!year||!month)return;
-
-const currentYear=
-new Date().getFullYear();
-
-year.innerHTML='';
-
-for(
-let y=currentYear-5;
-y<=currentYear+1;
-y++
-){
-
-const o=
-document.createElement(
-'option'
-);
-
-o.value=y;
-o.textContent=y;
-
-year.appendChild(o);
-
-}
-
-month.innerHTML='';
-
-HISTORY_MONTHS.forEach(
-(name,i)=>{
-
-const o=
-document.createElement(
-'option'
-);
-
-o.value=pad(i+1);
-o.textContent=name;
-
-month.appendChild(o);
-
-}
-);
-
-year.value=currentYear;
-
-month.value=
-pad(
-new Date().getMonth()+1
-);
-
-}
-
-function renderCategories(){
-
-const grid=
-document.getElementById(
-'categoryGrid'
-);
-
-if(!grid)return;
-
-grid.innerHTML='';
-
-CATEGORIES.forEach(cat=>{
-
-const btn=
-document.createElement(
-'button'
-);
-
-btn.className=
-'category-btn';
-
-btn.innerHTML=
-'<div class="category-icon">'+
-cat.icon+
-'</div><div class="category-name">'+
-cat.name+
-'</div>';
-
-btn.addEventListener(
-'click',
-()=>openPopup(cat)
-);
-
-grid.appendChild(btn);
-
-});
-
-}
-
-function renderCategoryFilter(){
-
-const select=
-document.getElementById(
-'historyCategory'
-);
-
-if(!select)return;
-
-select.innerHTML=
-'<option value="">সব Category</option>';
-
-CATEGORIES.forEach(cat=>{
-
-const option=
-document.createElement(
-'option'
-);
-
-option.value=cat.name;
-
-option.textContent=
-cat.icon+' '+cat.name;
-
-select.appendChild(option);
-
-});
-
-}
-
-function savePopupDraft(){
-
-const amount=
-document.getElementById(
-'amountInput'
-);
-
-const note=
-document.getElementById(
-'noteInput'
-);
-
-if(amount)
-draftAmount=amount.value;
-
-if(note)
-draftNote=note.value;
-
-if(selectedCategory)
-draftCategory=selectedCategory;
-
-}
-
-function restorePopupDraft(){
-
-const amount=
-document.getElementById(
-'amountInput'
-);
-
-const note=
-document.getElementById(
-'noteInput'
-);
-
-if(amount&&draftCategory){
-
-amount.value=
-draftAmount||'';
-
-}
-
-if(note){
-
-note.value=
-draftNote||'';
-
-}
-
-}
-
-function openPopup(category){
-
-selectedCategory=category;
-
-draftCategory=category;
-
-draftAmount='';
-draftNote='';
-
-document.getElementById(
-'selectedCategoryIcon'
-).textContent=
-category.icon;
-
-document.getElementById(
-'selectedCategoryName'
-).textContent=
-category.name;
-
-document.getElementById(
-'amountInput'
-).value='';
-
-document.getElementById(
-'noteInput'
-).value='';
-
-document.getElementById(
-'popupOverlay'
-).classList.add(
-'show'
-);
-
-setTimeout(()=>{
-
-document.getElementById(
-'amountInput'
-).focus();
-
-},120);
-
-}
-
-function closePopup(clearDraft=true){
-
-document.getElementById(
-'popupOverlay'
-).classList.remove(
-'show'
-);
-
-selectedCategory=null;
-
-if(clearDraft){
-
-draftAmount='';
-draftNote='';
-draftCategory=null;
-
-}
-
-}
-
-function createTransaction(
-category,
-amount,
-note
-){
-
-return{
-
-id:
-'TXN'+
-Date.now()+
-Math.random()
-.toString(36)
-.slice(2,7),
-
-date:getToday(),
-
-category,
-
-amount:Number(amount),
-
-note:note||'',
-
-timestamp:
-new Date().toISOString()
-
-};
-
-}
-
-function addLocalTransaction(tx){
-
-transactions.unshift(tx);
-
-transactions=
-uniqueTransactions(
-transactions
-);
-
-transactions.sort(
-compareTransactionDate
-);
-
-saveLocalTransactions();
-
-}
-
-function addPending(tx){
-
-pendingTransactions.push(tx);
-
-savePendingTransactions();
-
-}
-
-async function saveTransaction(){
-
-if(!selectedCategory)return;
-
-const amountInput=
-document.getElementById(
-'amountInput'
-);
-
-const amount=
-parseAmount(
-amountInput.value
-);
-
-if(
-amount===null||
-amount<=0
-){
-
-amountInput.focus();
-
-return;
-
-}
-
-const txn=
-createTransaction(
-selectedCategory.name,
-amount,
-document.getElementById(
-'noteInput'
-).value
-);
-
-addLocalTransaction(txn);
-
-addPending(txn);
-
-draftAmount='';
-draftNote='';
-draftCategory=null;
-
-closePopup(true);
-
-renderAll();
-
-updateSyncStatus(
-'Saving...'
-);
-
-syncPendingTransactions();
-
-}
-
-async function syncPendingTransactions(){
-
-if(syncing)return;
-
-if(!navigator.onLine){
-
-if(currentUser){
-updateSyncStatus(
-'Offline'
-);
-}
-
-return;
-
-}
-
-if(!pendingTransactions.length){
-
-if(currentUser){
-updateSyncStatus(
-'Synced'
-);
-}
-
-return;
-
-}
-
-syncing=true;
-
-try{
-
-while(
-pendingTransactions.length
-){
-
-const txn=
-pendingTransactions[0];
-
-const result=
-await apiPost(
-'addTransaction',
-{
-currency,
-profile:currency,
-transaction:txn,
-...txn
-}
-);
-
-if(
-!result||
-(
-result.ok!==true&&
-result.success!==true
-)
-){
-
-throw new Error(
-'Save failed'
-);
-
-}
-
-pendingTransactions.shift();
-
-savePendingTransactions();
-
-const v=
-result.txVersion??
-result.transactionVersion??
-result.version;
-
-if(v!==undefined){
-
-saveServerVersions({
-txVersion:v
-});
-
-}
-
-}
-
-updateSyncStatus(
-'Synced'
-);
-
-}catch(e){
-
-updateSyncStatus(
-'Pending'
-);
-
-}finally{
-
-syncing=false;
-
-}
-
-}
-
-async function loadTransactions(){
-
-if(!currentUser)
-return null;
-
-if(!navigator.onLine){
-
-updateSyncStatus(
-'Offline'
-);
-
-return null;
-
-}
-
-savePopupDraft();
-
-loadPendingTransactions();
-
-try{
-
-updateSyncStatus(
-'Syncing...'
-);
-
-const result=
-await apiGet({
-
-action:'getData',
-
-currency:
-normalizeProfile(currency),
-
-profile:
-normalizeProfile(currency),
-
-userId:
-currentUser.id||
-currentUser.ID||
-''
-
-});
-
-if(
-!result||
-(
-result.ok!==true&&
-result.success!==true
-)
-){
-
-throw new Error(
-'Server data error'
-);
-
-}
-
-const serverList=
-Array.isArray(
-result.transactions
-)
-?result.transactions
-:[];
-
-transactions=
-mergeServerTransactions(
-serverList
-);
-
-transactions.sort(
-compareTransactionDate
-);
-
-saveLocalTransactions();
-
-if(
-result.version!==undefined
-){
-
-saveServerVersions({
-txVersion:
-result.version
-});
-
-}
-
-renderAll();
-
-restorePopupDraft();
-
-updateSyncStatus(
-pendingTransactions.length
-?'Pending'
-:'Synced'
-);
-
-return result;
-
-}catch(e){
-
-renderAll();
-
-restorePopupDraft();
-
-updateSyncStatus(
-navigator.onLine
-?'Pending'
-:'Offline'
-);
-
-return null;
-
-}
-
-}
-
-async function loadServerTransactionsOnly(){
-
-return loadTransactions();
-
-}
-
-async function loadServerData(){
-
-if(!currentUser)
-return null;
-
-const result=
-await loadTransactions();
-
-await loadBudgetFromServer(
-getCurrentMonth()
-);
-
-return result;
-
-}
-
-async function loadProfileFromServer(){
-
-if(!currentUser)return;
-
-try{
-
-const result=
-await apiGet({
-
-action:'getProfile',
-
-userId:
-currentUser.id||
-currentUser.ID||
-''
-
-});
-
-if(
-result&&
-(result.ok||result.success)&&
-result.user
-){
-
-currentUser={
-...currentUser,
-...result.user
-};
-
-saveSession();
-
-renderAll();
-
-}
-
-}catch(e){}
-
-}
-
-function getBudgetMonth(){
-
-return localStorage.getItem(
-BUDGET_MONTH_KEY
-)||
-getCurrentMonth();
-
-}
-
-function loadHomeBudgetLocal(){
-
-const raw=
-localStorage.getItem(
-budgetStorageKey(
-currency,
-getCurrentMonth()
-)
-);
-
-if(raw===null)return;
-
-const value=
-parseAmount(raw);
-
-if(value!==null){
-
-homeBudget=value;
-
-}
-
-}
-
-function saveLocalBudget(
-month,
-amount
-){
-
-localStorage.setItem(
-budgetStorageKey(
-currency,
-month
-),
-String(amount)
-);
-
-}
-
-async function loadBudgetFromServer(
-month
-){
-
-const localKey=
-budgetStorageKey(
-currency,
-month
-);
-
-const local=
-localStorage.getItem(
-localKey
-);
-
-if(local!==null){
-
-const localAmount=
-parseAmount(local);
-
-if(localAmount!==null){
-
-if(
-month===
-getCurrentMonth()
-){
-
-homeBudget=
-localAmount;
-
-}
-
-renderAll();
-
-}
-
-}
-
-if(!navigator.onLine){
-
-return;
-
-}
-
-try{
-
-const result=
-await apiGet({
-
-action:'getBudget',
-
-currency,
-
-profile:currency,
-
-month,
-
-userId:
-currentUser?.id||
-currentUser?.ID||
-''
-
-});
-
-if(
-!result||
-(
-result.ok!==true&&
-result.success!==true
-)
-){
-
-throw new Error(
-'Budget load failed'
-);
-
-}
-
-if(result.found===true){
-
-const amount=
-parseAmount(
-result.budget??
-result.amount
-);
-
-if(amount!==null){
-
-saveLocalBudget(
-month,
-amount
-);
-
-if(
-month===
-getCurrentMonth()
-){
-
-homeBudget=
-amount;
-
-}
-
-renderAll();
-
-}
-
-return;
-
-}
-
-if(
-local===null&&
-month===
-getCurrentMonth()
-){
-
-homeBudget=0;
-
-renderAll();
-
-}
-
-}catch(e){
-
-loadHomeBudgetLocal();
-
-renderAll();
-
-}
-
-}
-
-async function saveBudget(){
-
-const month=
-document.getElementById(
-'budgetMonth'
-).value||
-getCurrentMonth();
-
-const amount=
-parseAmount(
-document.getElementById(
-'budgetAmount'
-).value
-)??0;
-
-saveLocalBudget(
-month,
-amount
-);
-
-if(
-month===
-getCurrentMonth()
-){
-
-homeBudget=amount;
-
-}
-
-renderAll();
-
-try{
-
-updateSyncStatus(
-'Saving...'
-);
-
-const result=
-await apiPost(
-'saveBudget',
-{
-currency,
-profile:currency,
-month,
-budget:amount,
-amount,
-userId:
-currentUser?.id||
-currentUser?.ID||
-''
-}
-);
-
-if(
-result&&
-(
-result.ok||
-result.success
-)
-){
-
-const v=
-result.budgetVersion??
-result.version;
-
-if(v!==undefined){
-
-saveServerVersions({
-budgetVersion:v
-});
-
-}
-
-updateSyncStatus(
-'Synced'
-);
-
-}else{
-
-updateSyncStatus(
-'Pending'
-);
-
-}
-
-}catch(e){
-
-updateSyncStatus(
-'Pending'
-);
-
-}
-
-}
-
-function updateCard(){
-
-if(!currentUser)return;
-
-const cardBudget=
-document.getElementById(
-'cardBudget'
-);
-
-const cardRemaining=
-document.getElementById(
-'cardRemaining'
-);
-
-const cardMonth=
-document.getElementById(
-'cardMonth'
-);
-
-const progress=
-document.getElementById(
-'cardProgressBar'
-);
-
-const percent=
-document.getElementById(
-'cardExpensePercent'
-);
-
-if(cardMonth){
-
-cardMonth.textContent=
-new Intl.DateTimeFormat(
-'en-US',
-{
-month:'long',
-year:'numeric'
-}
-).format(
-new Date()
-);
-
-}
-
-const currentMonth=
-getCurrentMonth();
-
-/* Days Left */
-
-const now=new Date();
-
-const lastDay=
-new Date(
-now.getFullYear(),
-now.getMonth()+1,
-0
-);
-
-const daysLeft=
-lastDay.getDate()-
-now.getDate();
-
-const daysLeftEl=
-document.getElementById(
-'daysLeft'
-);
-
-if(daysLeftEl){
-
-daysLeftEl.textContent=
-daysLeft+
-' Days Left';
-
-}
-
-/* Total Expense */
-
-const totalExpense=
-transactions
-.filter(t=>
-String(
-t?.date||''
-)
-.startsWith(
-currentMonth
-)
-)
-.reduce(
-(sum,t)=>{
-
-let amount=
-parseAmount(
-t?.amount
-);
-
-if(amount===null){
-
-amount=
-getTransactionAmount(t);
-
-}
-
-return sum+
-(
-amount===null
-?0
-:Number(amount)
-);
-
-},
-0
-);
-
-const budget=
-parseAmount(homeBudget)??0;
-
-const remaining=
-budget-
-totalExpense;
-
-let expensePercent=
-budget>0
-?(totalExpense/budget)*100
-:0;
-
-expensePercent=
-Math.min(
-100,
-Math.max(
-0,
-expensePercent
-)
-);
-
-if(cardBudget){
-
-cardBudget.textContent=
-money(budget);
-
-}
-
-if(cardRemaining){
-
-cardRemaining.textContent=
-money(remaining);
-
-cardRemaining.style.color=
-remaining<0
-?'#ff3b30'
-:'';
-
-}
-
-if(progress){
-
-progress.style.width=
-expensePercent.toFixed(1)+
-'%';
-
-}
-
-if(percent){
-
-percent.textContent=
-expensePercent.toFixed(1)+
-'%';
-
-}
-
-}
-
-function escapeHTML(value){
-
-return String(
-value??''
-)
-.replace(
-/&/g,
-'&amp;'
-)
-.replace(
-/</g,
-'&lt;'
-)
-.replace(
-/>/g,
-'&gt;'
-)
-.replace(
-/"/g,
-'&quot;'
-)
-.replace(
-/'/g,
-'&#039;'
-);
-
-}
+font-size:10px;
+font-weight:600;
+color:#6f7975;
+margin-top:8px;
+}  
+  
+#recentTransactions,#historyTransactions{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px 3px 2px 0;}  
+#recentTransactions{max-height:260px;}  
+#historyTransactions{  
+height:calc(100vh - 310px);  
+max-height:none;  
+overflow-y:auto;  
+overflow-x:hidden;  
+-webkit-overflow-scrolling:touch;  
+overscroll-behavior:contain;  
+padding:2px 3px 2px 0;  
+}  
+#recentTransactions::-webkit-scrollbar,#historyTransactions::-webkit-scrollbar{width:4px;}  
+#recentTransactions::-webkit-scrollbar-thumb,#historyTransactions::-webkit-scrollbar-thumb{background:rgba(11,107,79,.35);border-radius:10px;}  
+#recentTransactions::-webkit-scrollbar-track,#historyTransactions::-webkit-scrollbar-track{background:transparent;}  
+  
+.filter-box{background:#fff;border-radius:17px;padding:12px;margin-bottom:13px;box-shadow:0 3px 12px rgba(0,0,0,.05);}  
+.history-filter-grid{display:grid;grid-template-columns:.85fr .95fr 1.3fr;gap:7px;}  
+.history-filter-item label{display:block;font-size:8px;font-weight:800;color:#69736f;margin-bottom:4px;}  
+.history-filter-item select{width:100%;height:37px;border:1px solid #e0e6e3;border-radius:10px;padding:0 7px;outline:none;background:#f8faf9;font-size:11px;color:#27322f;min-width:0;}  
+.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}  
+.filter-item label{display:block;font-size:9px;font-weight:800;color:#69736f;margin-bottom:5px;}  
+.filter-item input,.filter-item select{width:100%;height:42px;border:1px solid #e0e6e3;border-radius:11px;padding:0 10px;outline:none;background:#f8faf9;font-size:12px;}  
+  
+.total-card{background:#0b6b4f;color:#fff;border-radius:18px;padding:15px;margin-bottom:13px;display:flex;align-items:center;justify-content:space-between;}  
+.total-label{font-size:10px;opacity:.68;font-weight:800;}  
+.total-value{font-size:24px;font-weight:900;margin-top:2px;}  
+.total-month{font-size:9px;opacity:.62;}  
+  
+.profile-card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.06);}  
+.profile-head{display:flex;align-items:center;gap:13px;padding-bottom:17px;border-bottom:1px solid #edf0ef;}  
+.avatar{width:58px;height:58px;border-radius:18px;background:#0b6b4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;}  
+.profile-name{font-size:17px;font-weight:900;}  
+.profile-id{font-size:10px;color:#89928f;margin-top:3px;}  
+.profile-section{padding-top:18px;}  
+.profile-section-title{font-size:12px;font-weight:900;margin-bottom:9px;}  
+.profile-input{width:100%;height:44px;border:1px solid #e0e6e3;border-radius:12px;padding:0 12px;background:#f8faf9;outline:none;}  
+.small-btn{height:40px;padding:0 14px;border-radius:11px;background:#0b6b4f;color:#fff;font-size:11px;font-weight:900;margin-top:8px;}  
+.budget-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;}  
+.budget-row input{width:100%;height:44px;border:1px solid #e0e6e3;border-radius:12px;padding:0 10px;outline:none;background:#f8faf9;}  
+.currency-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;}  
+.currency-btn{height:45px;border-radius:12px;background:#f0f3f2;color:#5b6662;font-size:12px;font-weight:900;}  
+.currency-btn.active{background:#0b6b4f;color:#fff;}  
+.logout-btn{width:100%;height:45px;margin-top:20px;border-radius:12px;background:#b3261e;color:#fff;font-size:12px;font-weight:900;}  
+  
+.bottom-nav{position:fixed;z-index:30;left:0;right:0;bottom:0;height:67px;background:#fff;border-top:1px solid #e8edeb;display:flex;justify-content:center;box-shadow:0 -4px 18px rgba(0,0,0,.06);}  
+.nav-inner{width:100%;max-width:520px;display:grid;grid-template-columns:repeat(3,1fr);}  
+.nav-btn{background:#fff;color:#909a96;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}  
+.nav-icon{font-size:19px;line-height:1;}  
+.nav-label{font-size:9px;font-weight:800;}  
+.nav-btn.active{color:#0b6b4f;}  
+  
+.popup-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.42);display:none;align-items:flex-end;justify-content:center;}  
+.popup-overlay.show{display:flex;}  
+.popup{width:100%;max-width:520px;background:#fff;border-radius:24px 24px 0 0;padding:20px 17px 25px;margin-bottom:env(keyboard-inset-height,0px);}  
+.popup-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;}  
+.popup-title{font-size:17px;font-weight:900;}  
+.popup-close{width:32px;height:32px;border-radius:50%;background:#f0f3f2;color:#66716d;font-size:18px;}  
+.selected-category{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:12px;background:#f2f7f5;margin-bottom:12px;}  
+.selected-category-icon{font-size:22px;}  
+.selected-category-name{font-size:13px;font-weight:900;}  
+.amount-input{width:100%;height:58px;border:2px solid #dce5e1;border-radius:15px;outline:none;padding:0 15px;font-size:25px;font-weight:900;text-align:left;background:#fafcfb;}  
+.popup-note{width:100%;height:46px;margin-top:10px;border:1px solid #dce5e1;border-radius:13px;padding:0 12px;outline:none;background:#fafcfb;}  
+.save-btn{width:100%;height:51px;margin-top:12px;border-radius:14px;background:#0b6b4f;color:#fff;font-size:14px;font-weight:900;}  
+  
+.empty{padding:35px 15px;text-align:center;color:#929b98;font-size:12px;}  
+.loading{position:fixed;inset:0;z-index:200;background:rgba(255,255,255,.8);display:none;align-items:center;justify-content:center;}  
+.loading.show{display:flex;}  
+.loading-box{background:#fff;border-radius:16px;padding:18px 25px;box-shadow:0 8px 30px rgba(0,0,0,.12);font-size:12px;font-weight:800;color:#0b6b4f;}  
+#noteInput{width:100%;min-height:50px;height:50px;padding:0 14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;color:#111827;font-size:14px;outline:none;box-sizing:border-box;}  
+#noteInput:focus{border-color:#0B6B4F;}  
+  
+@media(max-width:370px){  
+.category-grid{gap:7px;}  
+.category-btn{min-height:70px;}  
+.category-icon{font-size:22px;}  
+.atm-card{min-height:198px;}  
+.card-number{font-size:14px;}  
+.history-filter-grid{gap:5px;}  
+.history-filter-item select{font-size:10px;padding:0 5px;}  
+}  
+</style>  </head>  <body>  <div id="loginPage">  
+<div class="login-box">  
+<div class="login-logo">খ</div>  
+<div class="login-title">আমার খরচ</div>  
+<div class="login-subtitle">দৈনিক খরচের হিসাব</div>  <div class="input-group">  
+<label class="input-label">ID</label>  
+<input id="loginId" class="input-box" type="text" autocomplete="username" placeholder="আপনার ID লিখুন">  
+</div>  <div class="input-group">  
+<label class="input-label">Password</label>  
+<input id="loginPassword" class="input-box" type="password" autocomplete="current-password" placeholder="Password লিখুন">  
+</div>  <button id="loginBtn" class="login-btn">Login</button>
+
+<div id="loginError" class="login-error"></div>  
+</div>  
+</div>  <div id="app" class="hidden">  <main id="homePage" class="page active">  <div class="atm-card">  <div class="card-top">  <div class="card-brand">SAJIB HOSSAIN</div>  <div class="card-type">  
+EXPENSE CARD  
+<div id="daysLeft"></div>  <div id="syncSignal" class="sync-signal">  
+<span></span>  
+<span></span>  
+<span></span>  
+<span></span>  
+</div>  </div>  </div>  <div class="card-chip"></div>  <div class="card-number">  
+•••• &nbsp; •••• &nbsp; <span id="cardMonth"></span>  
+</div>  <div class="card-bottom">  <div>  <div class="card-total-label">BUDGET LEFT</div>  <div id="cardRemaining" class="card-total">  
+৳0  
+</div>  <div class="card-progress">  
+<div id="cardProgressBar" class="card-progress-fill"></div>  
+</div>  <div id="cardExpensePercent" class="card-expense-percent">  
+0.0%  
+</div>  </div>  <div>  <div class="card-budget">BUDGET</div>  <div id="cardBudget" class="card-budget-value">  
+৳0  
+</div>  </div>  </div>  
+</div>  <div class="section-title">  
+<h3>খরচ যোগ করুন</h3>  
+<span id="homeProfile">Bangladesh</span>  
+</div>  <div id="categoryGrid" class="category-grid"></div>  <div class="section-title">  
+<h3>সাম্প্রতিক হিসাব</h3>  
+<span id="recentCount">0</span>  
+</div>  <div id="recentTransactions"></div>  </main>  <main id="historyPage" class="page">  <div class="total-card">  <div>  
+<div class="total-label">মোট খরচ</div>  
+<div id="historyTotal" class="total-value">৳0</div>  
+</div>  <div id="historyMonth" class="total-month">  
+সেপ্টেম্বর 2026  
+</div>  </div>  <div class="filter-box">  <div class="history-filter-grid">  <div class="history-filter-item">  
+<label>সাল</label>  
+<select id="historyYear"></select>  
+</div>  <div class="history-filter-item">  
+<label>মাস</label>  
+<select id="historyMonthSelect"></select>  
+</div>  <div class="history-filter-item">  
+<label>Category</label>  
+<select id="historyCategory">  
+<option value="">সব Category</option>  
+</select>  
+</div>  </div>  </div>  <div class="section-title">  
+<h3>হিসাব</h3>  
+<span id="historyProfile">Bangladesh</span>  
+</div>  <div id="historyTransactions"></div>  </main>  <main id="profilePage" class="page">  <div class="profile-card">  <div class="profile-head">  <div id="profileAvatar" class="avatar">S</div>  <div>  
+<div id="profileName" class="profile-name">Sajib Hossain</div>  
+<div id="profileId" class="profile-id">ID</div>  
+</div>  </div>  <div class="profile-section">  <div class="profile-section-title">নাম</div>  <input id="nameInput" class="profile-input" type="text" placeholder="আপনার নাম">  <button id="saveNameBtn" class="small-btn">  
+নাম Save করুন  
+</button>  </div>  <div class="profile-section">  <div class="profile-section-title">মাসিক Budget</div>  <div class="budget-row">  <input id="budgetMonth" type="month">  <input id="budgetAmount" type="number" inputmode="decimal" placeholder="Budget">  </div>  <button id="saveBudgetBtn" class="small-btn">  
+Budget Save করুন  
+</button>  </div>  <div class="profile-section">  <div class="profile-section-title">হিসাবের Profile</div>  <div class="currency-row">  <button id="bdBtn" class="currency-btn">  
+🇧🇩 Bangladesh  
+</button>  <button id="kwBtn" class="currency-btn">  
+🇰🇼 Kuwait  
+</button>  </div>  </div>  <button id="logoutBtn" class="logout-btn">  
+Logout  
+</button>  </div>  </main>  <nav class="bottom-nav">  <div class="nav-inner">  <button class="nav-btn active" data-page="homePage">  
+<div class="nav-icon">🏠</div>  
+<div class="nav-label">Home</div>  
+</button>  <button class="nav-btn" data-page="historyPage">  
+<div class="nav-icon">📊</div>  
+<div class="nav-label">হিসাব</div>  
+</button>  <button class="nav-btn" data-page="profilePage">  
+<div class="nav-icon">👤</div>  
+<div class="nav-label">Profile</div>  
+</button>  </div>  </nav>  </div>  <div id="popupOverlay" class="popup-overlay">  <div class="popup">  <div class="popup-head">  
+<div class="popup-title">খরচ যোগ করুন</div>  
+<button id="popupClose" class="popup-close">×</button>  
+</div>  <div class="selected-category">  <div id="selectedCategoryIcon" class="selected-category-icon">  
+🍚  
+</div>  <div id="selectedCategoryName" class="selected-category-name">  
+খাবার  
+</div>  </div>  <input id="amountInput" class="amount-input" type="number" inputmode="decimal" step="any" placeholder="0">  <input type="text" id="noteInput" placeholder="নোট লিখুন" autocomplete="off">  <button id="saveTransactionBtn" class="save-btn">  
+হিসাব Save করুন  
+</button>  </div>  </div>  <div id="loading" class="loading">  
+<div class="loading-box">Loading...</div>  
+</div>  <script>  
+  
+const API='https://script.google.com/macros/s/AKfycbweL16Uzpgp5ogrrJp5ZiSPRZf-FeyH0nkOLPvptgcI7Dhra8IoVOfIvyzMTuzWbrCQ/exec';  
+  
+const SESSION_KEY='amaya_expense_session';  
+const PROFILE_KEY='amaya_expense_currency';  
+const BUDGET_MONTH_KEY='amaya_expense_budget_month';  
+const SERVER_VERSION_KEY='amaya_expense_server_versions';  
+  
+let currentUser=null;  
+let currency=localStorage.getItem(PROFILE_KEY)||'BD';  
+let transactions=[];  
+let pendingTransactions=[];  
+let homeBudget=0;  
+let selectedCategory=null;  
+let syncTimer=null;  
+let syncing=false;  
+let draftAmount='';  
+let draftNote='';  
+let draftCategory=null;  
+  
+const CATEGORIES=[  
+{name:'খাবার',icon:'🍔'},  
+{name:'বাজার',icon:'🛒'},  
+{name:'যাতায়াত',icon:'🚗'},  
+{name:'মোবাইল/ইন্টারনেট',icon:'📱'},  
+{name:'বিদ্যুৎ',icon:'💡'},  
+{name:'কেনাকাটা',icon:'🛍️'},  
+{name:'চিকিৎসা',icon:'💊'},  
+{name:'উপহার',icon:'🎁'},  
+{name:'শিক্ষা',icon:'🎓'},  
+{name:'অন্যান্য',icon:'📦'}  
+];  
+  
+const HISTORY_MONTHS=[  
+'জানুয়ারি',  
+'ফেব্রুয়ারি',  
+'মার্চ',  
+'এপ্রিল',  
+'মে',  
+'জুন',  
+'জুলাই',  
+'আগস্ট',  
+'সেপ্টেম্বর',  
+'অক্টোবর',  
+'নভেম্বর',  
+'ডিসেম্বর'  
+];  
+  
+function pad(n){  
+return String(n).padStart(2,'0');  
+}  
+  
+function normalizeProfile(value){  
+const v=String(value||'').trim().toUpperCase();  
+return v==='KW'||v==='KUWAIT'?'KW':'BD';  
+}  
+  
+function profileName(){  
+return currency==='KW'?'Kuwait':'Bangladesh';  
+}  
+  
+function transactionStorageKey(profile=currency){  
+return 'amaya_expense_transactions_'+normalizeProfile(profile);  
+}  
+  
+function pendingStorageKey(profile=currency){  
+return 'amaya_expense_pending_'+normalizeProfile(profile);  
+}  
+  
+function budgetStorageKey(profile=currency,month=getCurrentMonth()){  
+return 'amaya_expense_budget_'+normalizeProfile(profile)+'_'+month;  
+}  
+  
+function serverVersionStorageKey(profile=currency){  
+return SERVER_VERSION_KEY+'_'+normalizeProfile(profile);  
+}  
+  
+function loadServerVersions(profile=currency){  
+try{  
+  
+const raw=  
+localStorage.getItem(  
+serverVersionStorageKey(profile)  
+);  
+  
+if(!raw)return {};  
+  
+const data=JSON.parse(raw);  
+  
+return data&&typeof data==='object'  
+?data  
+:{};  
+  
+}catch(e){  
+  
+return {};  
+  
+}  
+}  
+  
+function saveServerVersions(data,profile=currency){  
+  
+const old=  
+loadServerVersions(profile);  
+  
+const next={  
+txVersion:data?.txVersion??old.txVersion??'0',  
+budgetVersion:data?.budgetVersion??old.budgetVersion??'0',  
+accountVersion:data?.accountVersion??old.accountVersion??'0'  
+};  
+  
+localStorage.setItem(  
+serverVersionStorageKey(profile),  
+JSON.stringify(next)  
+);  
+  
+return next;  
+}  
+  
+function getCurrentMonth(){  
+  
+const d=new Date();  
+  
+return d.getFullYear()+  
+'-'+  
+pad(d.getMonth()+1);  
+  
+}  
+  
+function getToday(){  
+  
+const d=new Date();  
+  
+return d.getFullYear()+  
+'-'+  
+pad(d.getMonth()+1)+  
+'-'+  
+pad(d.getDate());  
+  
+}  
+  
+function money(value){  
+  
+let n=Number(value);  
+  
+if(!Number.isFinite(n))n=0;  
+  
+return currency==='KW'  
+?n.toLocaleString(  
+'en-US',  
+{  
+minimumFractionDigits:3,  
+maximumFractionDigits:3  
+}  
+)+' KD'  
+:n.toLocaleString(  
+'en-IN',  
+{  
+minimumFractionDigits:0,  
+maximumFractionDigits:2  
+}  
+)+' TK';  
+  
+}  
+  
+function parseAmount(value){  
+  
+if(  
+value===undefined||  
+value===null||  
+value==='')return null;  
+  
+if(typeof value==='number')  
+return Number.isFinite(value)  
+?value  
+:null;  
+  
+let s=String(value).trim();  
+  
+if(!s)return null;  
+  
+s=s  
+.replace(/,/g,'')  
+.replace(/৳/g,'')  
+.replace(/TK/gi,'')  
+.replace(/BDT/gi,'')  
+.replace(/KD/gi,'')  
+.replace(/\s+/g,'');  
+  
+const n=Number(s);  
+  
+return Number.isFinite(n)  
+?n  
+:null;  
+  
+}  
+  
+async function apiGet(params){  
+  
+const query=  
+new URLSearchParams(  
+{  
+...params,  
+_ts:Date.now()  
+}  
+);  
+  
+const response=  
+await fetch(  
+API+'?'+query.toString(),  
+{  
+method:'GET',  
+cache:'no-store'  
+}  
+);  
+  
+if(!response.ok)  
+throw new Error('Network error');  
+  
+return response.json();  
+  
+}  
+  
+async function apiPost(action,data){  
+  
+const response=  
+await fetch(  
+API,  
+{  
+method:'POST',  
+headers:{  
+'Content-Type':  
+'text/plain;charset=utf-8'  
+},  
+body:JSON.stringify({  
+action,  
+data  
+})  
+}  
+);  
+  
+if(!response.ok)  
+throw new Error('Network error');  
+  
+return response.json();  
+  
+}  
+  
+function updateSyncStatus(text){  
+  
+const el=  
+document.getElementById(  
+'syncStatus'  
+);  
+  
+if(el)  
+el.textContent=text;  
+  
+const signal=  
+document.getElementById(  
+'syncSignal'  
+);  
+  
+if(signal){  
+  
+signal.classList.toggle(  
+'syncing',  
+String(text).toLowerCase().includes('syncing')  
+);  
+  
+}  
+  
+}  
+  
+function saveSession(){  
+  
+localStorage.setItem(  
+SESSION_KEY,  
+JSON.stringify(currentUser)  
+);  
+  
+}  
+  
+function loadSession(){  
+  
+try{  
+  
+const raw=  
+localStorage.getItem(  
+SESSION_KEY  
+);  
+  
+return raw  
+?JSON.parse(raw)  
+:null;  
+  
+}catch(e){  
+  
+return null;  
+  
+}  
+  
+}  
+  
+function loadLocalData(){  
+  
+loadLocalTransactions();  
+  
+loadPendingTransactions();  
+  
+loadHomeBudgetLocal();  
+  
+}  
+  
+function loadLocalTransactions(){  
+  
+try{  
+  
+const raw=  
+localStorage.getItem(  
+transactionStorageKey()  
+);  
+  
+transactions=  
+raw  
+?JSON.parse(raw)  
+:[];  
+  
+if(!Array.isArray(transactions))  
+transactions=[];  
+  
+}catch(e){  
+  
+transactions=[];  
+  
+}  
+  
+}  
+  
+function saveLocalTransactions(){  
+  
+localStorage.setItem(  
+transactionStorageKey(),  
+JSON.stringify(transactions)  
+);  
+  
+}  
+  
+function loadPendingTransactions(){  
+  
+try{  
+  
+const raw=  
+localStorage.getItem(  
+pendingStorageKey()  
+);  
+  
+pendingTransactions=  
+raw  
+?JSON.parse(raw)  
+:[];  
+  
+if(!Array.isArray(pendingTransactions))  
+pendingTransactions=[];  
+  
+}catch(e){  
+  
+pendingTransactions=[];  
+  
+}  
+  
+}  
+  
+function savePendingTransactions(){  
+  
+localStorage.setItem(  
+pendingStorageKey(),  
+JSON.stringify(pendingTransactions)  
+);  
+  
+}  
+  
+function transactionId(t){  
+  
+if(!t)return '';  
+  
+const objectId=  
+t.id??  
+t.ID??  
+t.transactionId??  
+t.TransactionID;  
+  
+if(  
+objectId!==undefined&&  
+objectId!==null&&  
+String(objectId).trim()  
+){  
+  
+return String(objectId).trim();  
+  
+}  
+  
+if(Array.isArray(t)){  
+  
+return String(  
+t[0]??''  
+).trim();  
+  
+}  
+  
+return '';  
+  
+}  
+  
+function getTransactionAmount(t){  
+  
+if(!t)return null;  
+  
+if(Array.isArray(t)){  
+  
+const parsed=  
+parseAmount(t[3]);  
+  
+if(parsed!==null)  
+return parsed;  
+  
+}  
+  
+const fields=[  
+t.amount,  
+t.Amount,  
+t.bdAmount,  
+t.BDAmount,  
+t.kdAmount,  
+t.KDAmount,  
+t.value,  
+t.Value,  
+t.total,  
+t.Total,  
+t.expense,  
+t.Expense,  
+t.amountValue,  
+t.AmountValue  
+];  
+  
+for(const value of fields){  
+  
+const parsed=  
+parseAmount(value);  
+  
+if(parsed!==null)  
+return parsed;  
+  
+}  
+  
+return null;  
+  
+}  
+  
+function normalizeTransaction(t){  
+  
+if(!t)return null;  
+  
+const id=  
+transactionId(t);  
+  
+if(!id)return null;  
+  
+let date='';  
+let category='';  
+let note='';  
+let timestamp='';  
+  
+if(Array.isArray(t)){  
+  
+date=  
+String(t[1]??'')  
+.slice(0,10);  
+  
+category=  
+String(t[2]??'');  
+  
+note=  
+String(t[4]??'');  
+  
+timestamp=  
+t[5]??'';  
+  
+}else{  
+  
+date=  
+String(  
+t.date??  
+t.Date??  
+''  
+)  
+.slice(0,10);  
+  
+category=  
+String(  
+t.category??  
+t.Category??  
+''  
+);  
+  
+note=  
+String(  
+t.note??  
+t.Note??  
+''  
+);  
+  
+timestamp=  
+t.timestamp??  
+t.Timestamp??  
+'';  
+  
+}  
+  
+return{  
+id,  
+date,  
+category,  
+amount:getTransactionAmount(t),  
+note,  
+timestamp  
+};  
+  
+}  
+  
+function uniqueTransactions(list){  
+  
+const map=new Map();  
+  
+list.forEach(t=>{  
+  
+const id=  
+transactionId(t);  
+  
+if(!id)return;  
+  
+const old=  
+map.get(id);  
+  
+if(old){  
+  
+const oldAmount=  
+parseAmount(old.amount);  
+  
+const newAmount=  
+parseAmount(t.amount);  
+  
+if(  
+oldAmount!==null&&  
+oldAmount!==0&&  
+(  
+newAmount===null||  
+newAmount===0  
+)  
+){  
+  
+t.amount=oldAmount;  
+  
+}  
+  
+}  
+  
+map.set(id,t);  
+  
+});  
+  
+return Array.from(map.values());  
+  
+}  
+  
+function mergeServerTransactions(serverList){  
+  
+const localMap=new Map();  
+  
+transactions.forEach(t=>{  
+  
+const id=  
+transactionId(t);  
+  
+if(id)  
+localMap.set(id,t);  
+  
+});  
+  
+const result=[];  
+  
+serverList.forEach(raw=>{  
+  
+const server=  
+normalizeTransaction(raw);  
+  
+if(!server)return;  
+  
+const local=  
+localMap.get(server.id);  
+  
+let amount=  
+server.amount;  
+  
+if(  
+amount!==null&&  
+Number.isFinite(Number(amount))  
+){  
+  
+amount=Number(amount);  
+  
+}else{  
+  
+const localAmount=  
+local  
+?parseAmount(local.amount)  
+:null;  
+  
+amount=  
+localAmount!==null  
+?localAmount  
+:0;  
+  
+}  
+  
+result.push({  
+  
+id:server.id,  
+  
+date:  
+server.date||  
+local?.date||  
+'',  
+  
+category:  
+server.category||  
+local?.category||  
+'',  
+  
+amount,  
+  
+note:  
+server.note||  
+local?.note||  
+'',  
+  
+timestamp:  
+server.timestamp||  
+local?.timestamp||  
+''  
+  
+});  
+  
+});  
+  
+const serverIds=  
+new Set(  
+result.map(t=>t.id)  
+);  
+  
+pendingTransactions.forEach(t=>{  
+  
+const id=  
+transactionId(t);  
+  
+if(  
+id&&  
+!serverIds.has(id)  
+){  
+  
+const amount=  
+parseAmount(t.amount);  
+  
+result.push({  
+  
+id,  
+  
+date:  
+String(t.date||'')  
+.slice(0,10),  
+  
+category:  
+String(t.category||''),  
+  
+amount:  
+amount===null  
+?0  
+:amount,  
+  
+note:  
+String(t.note||''),  
+  
+timestamp:  
+t.timestamp||''  
+  
+});  
+  
+}  
+  
+});  
+  
+return uniqueTransactions(result);  
+  
+}  
+  
+function transactionTime(t){  
+  
+if(t?.timestamp){  
+  
+const n=  
+new Date(  
+t.timestamp  
+).getTime();  
+  
+if(!isNaN(n))  
+return n;  
+  
+}  
+  
+const n=  
+new Date(  
+String(t?.date||'')+  
+'T00:00:00'  
+).getTime();  
+  
+return isNaN(n)  
+?0  
+:n;  
+  
+}  
+  
+function compareTransactionDate(a,b){  
+  
+return transactionTime(b)-  
+transactionTime(a);  
+  
+}  
+  
+function setupHistoryFilters(){  
+  
+const year=  
+document.getElementById(  
+'historyYear'  
+);  
+  
+const month=  
+document.getElementById(  
+'historyMonthSelect'  
+);  
+  
+if(!year||!month)return;  
+  
+const currentYear=  
+new Date().getFullYear();  
+  
+year.innerHTML='';  
+  
+for(  
+let y=currentYear-5;  
+y<=currentYear+1;  
+y++  
+){  
+  
+const o=  
+document.createElement(  
+'option'  
+);  
+  
+o.value=y;  
+o.textContent=y;  
+  
+year.appendChild(o);  
+  
+}  
+  
+month.innerHTML='';  
+  
+HISTORY_MONTHS.forEach(  
+(name,i)=>{  
+  
+const o=  
+document.createElement(  
+'option'  
+);  
+  
+o.value=pad(i+1);  
+o.textContent=name;  
+  
+month.appendChild(o);  
+  
+}  
+);  
+  
+year.value=currentYear;  
+  
+month.value=  
+pad(  
+new Date().getMonth()+1  
+);  
+  
+}  
+  
+function renderCategories(){  
+  
+const grid=  
+document.getElementById(  
+'categoryGrid'  
+);  
+  
+if(!grid)return;  
+  
+grid.innerHTML='';  
+  
+CATEGORIES.forEach(cat=>{  
+  
+const btn=  
+document.createElement(  
+'button'  
+);  
+  
+btn.className=  
+'category-btn';  
+  
+btn.innerHTML=  
+'<div class="category-icon">'+  
+cat.icon+  
+'</div><div class="category-name">'+  
+cat.name+  
+'</div>';  
+  
+btn.addEventListener(  
+'click',  
+()=>openPopup(cat)  
+);  
+  
+grid.appendChild(btn);  
+  
+});  
+  
+}  
+  
+function renderCategoryFilter(){  
+  
+const select=  
+document.getElementById(  
+'historyCategory'  
+);  
+  
+if(!select)return;  
+  
+select.innerHTML=  
+'<option value="">সব Category</option>';  
+  
+CATEGORIES.forEach(cat=>{  
+  
+const option=  
+document.createElement(  
+'option'  
+);  
+  
+option.value=cat.name;  
+  
+option.textContent=  
+cat.icon+' '+cat.name;  
+  
+select.appendChild(option);  
+  
+});  
+  
+}  
+  
+function savePopupDraft(){  
+  
+const amount=  
+document.getElementById(  
+'amountInput'  
+);  
+  
+const note=  
+document.getElementById(  
+'noteInput'  
+);  
+  
+if(amount)  
+draftAmount=amount.value;  
+  
+if(note)  
+draftNote=note.value;  
+  
+if(selectedCategory)  
+draftCategory=selectedCategory;  
+  
+}  
+  
+function restorePopupDraft(){  
+  
+const amount=  
+document.getElementById(  
+'amountInput'  
+);  
+  
+const note=  
+document.getElementById(  
+'noteInput'  
+);  
+  
+if(amount&&draftCategory){  
+  
+amount.value=  
+draftAmount||'';  
+  
+}  
+  
+if(note){  
+  
+note.value=  
+draftNote||'';  
+  
+}  
+  
+}  
+  
+function openPopup(category){  
+  
+selectedCategory=category;  
+  
+draftCategory=category;  
+  
+draftAmount='';  
+draftNote='';  
+  
+document.getElementById(  
+'selectedCategoryIcon'  
+).textContent=  
+category.icon;  
+  
+document.getElementById(  
+'selectedCategoryName'  
+).textContent=  
+category.name;  
+  
+document.getElementById(  
+'amountInput'  
+).value='';  
+  
+document.getElementById(  
+'noteInput'  
+).value='';  
+  
+document.getElementById(  
+'popupOverlay'  
+).classList.add(  
+'show'  
+);  
+  
+setTimeout(()=>{  
+  
+document.getElementById(  
+'amountInput'  
+).focus();  
+  
+},120);  
+  
+}  
+  
+function closePopup(clearDraft=true){  
+  
+document.getElementById(  
+'popupOverlay'  
+).classList.remove(  
+'show'  
+);  
+  
+selectedCategory=null;  
+  
+if(clearDraft){  
+  
+draftAmount='';  
+draftNote='';  
+draftCategory=null;  
+  
+}  
+  
+}  
+  
+function createTransaction(  
+category,  
+amount,  
+note  
+){  
+  
+return{  
+  
+id:  
+'TXN'+  
+Date.now()+  
+Math.random()  
+.toString(36)  
+.slice(2,7),  
+  
+date:getToday(),  
+  
+category,  
+  
+amount:Number(amount),  
+  
+note:note||'',  
+  
+timestamp:  
+new Date().toISOString()  
+  
+};  
+  
+}  
+  
+function addLocalTransaction(tx){  
+  
+transactions.unshift(tx);  
+  
+transactions=  
+uniqueTransactions(  
+transactions  
+);  
+  
+transactions.sort(  
+compareTransactionDate  
+);  
+  
+saveLocalTransactions();  
+  
+}  
+  
+function addPending(tx){  
+  
+pendingTransactions.push(tx);  
+  
+savePendingTransactions();  
+  
+}  
+  
+async function saveTransaction(){  
+  
+if(!selectedCategory)return;  
+  
+const amountInput=  
+document.getElementById(  
+'amountInput'  
+);  
+  
+const amount=  
+parseAmount(  
+amountInput.value  
+);  
+  
+if(  
+amount===null||  
+amount<=0  
+){  
+  
+amountInput.focus();  
+  
+return;  
+  
+}  
+  
+const txn=  
+createTransaction(  
+selectedCategory.name,  
+amount,  
+document.getElementById(  
+'noteInput'  
+).value  
+);  
+  
+addLocalTransaction(txn);  
+  
+addPending(txn);  
+  
+draftAmount='';  
+draftNote='';  
+draftCategory=null;  
+  
+closePopup(true);  
+  
+renderAll();  
+  
+updateSyncStatus(  
+'Saving...'  
+);  
+  
+syncPendingTransactions();  
+  
+}  
+  
+async function syncPendingTransactions(){  
+  
+if(syncing)return;  
+  
+if(!navigator.onLine){  
+  
+if(currentUser){  
+updateSyncStatus(  
+'Offline'  
+);  
+}  
+  
+return;  
+  
+}  
+  
+if(!pendingTransactions.length){  
+  
+if(currentUser){  
+updateSyncStatus(  
+'Synced'  
+);  
+}  
+  
+return;  
+  
+}  
+  
+syncing=true;  
+  
+try{  
+  
+while(  
+pendingTransactions.length  
+){  
+  
+const txn=  
+pendingTransactions[0];  
+  
+const result=  
+await apiPost(  
+'addTransaction',  
+{  
+currency,  
+profile:currency,  
+transaction:txn,  
+...txn  
+}  
+);  
+  
+if(  
+!result||  
+(  
+result.ok!==true&&  
+result.success!==true  
+)  
+){  
+  
+throw new Error(  
+'Save failed'  
+);  
+  
+}  
+  
+pendingTransactions.shift();  
+  
+savePendingTransactions();  
+  
+const v=  
+result.txVersion??  
+result.transactionVersion??  
+result.version;  
+  
+if(v!==undefined){  
+  
+saveServerVersions({  
+txVersion:v  
+});  
+  
+}  
+  
+}  
+  
+updateSyncStatus(  
+'Synced'  
+);  
+  
+}catch(e){  
+  
+updateSyncStatus(  
+'Pending'  
+);  
+  
+}finally{  
+  
+syncing=false;  
+  
+}  
+  
+}  
+  
+async function loadTransactions(){  
+  
+if(!currentUser)  
+return null;  
+  
+if(!navigator.onLine){  
+  
+updateSyncStatus(  
+'Offline'  
+);  
+  
+return null;  
+  
+}  
+  
+savePopupDraft();  
+  
+loadPendingTransactions();  
+  
+try{  
+  
+updateSyncStatus(  
+'Syncing...'  
+);  
+  
+const result=  
+await apiGet({  
+  
+action:'getData',  
+  
+currency:  
+normalizeProfile(currency),  
+  
+profile:  
+normalizeProfile(currency),  
+  
+userId:  
+currentUser.id||  
+currentUser.ID||  
+''  
+  
+});  
+  
+if(  
+!result||  
+(  
+result.ok!==true&&  
+result.success!==true  
+)  
+){  
+  
+throw new Error(  
+'Server data error'  
+);  
+  
+}  
+  
+const serverList=  
+Array.isArray(  
+result.transactions  
+)  
+?result.transactions  
+:[];  
+  
+transactions=  
+mergeServerTransactions(  
+serverList  
+);  
+  
+transactions.sort(  
+compareTransactionDate  
+);  
+  
+saveLocalTransactions();  
+  
+if(  
+result.version!==undefined  
+){  
+  
+saveServerVersions({  
+txVersion:  
+result.version  
+});  
+  
+}  
+  
+renderAll();  
+  
+restorePopupDraft();  
+  
+updateSyncStatus(  
+pendingTransactions.length  
+?'Pending'  
+:'Synced'  
+);  
+  
+return result;  
+  
+}catch(e){  
+  
+renderAll();  
+  
+restorePopupDraft();  
+  
+updateSyncStatus(  
+navigator.onLine  
+?'Pending'  
+:'Offline'  
+);  
+  
+return null;  
+  
+}  
+  
+}  
+  
+async function loadServerTransactionsOnly(){  
+  
+return loadTransactions();  
+  
+}  
+  
+async function loadServerData(){  
+  
+if(!currentUser)  
+return null;  
+  
+const result=  
+await loadTransactions();  
+  
+await loadBudgetFromServer(  
+getCurrentMonth()  
+);  
+  
+return result;  
+  
+}  
+  
+async function loadProfileFromServer(){  
+  
+if(!currentUser)return;  
+  
+try{  
+  
+const result=  
+await apiGet({  
+  
+action:'getProfile',  
+  
+userId:  
+currentUser.id||  
+currentUser.ID||  
+''  
+  
+});  
+  
+if(  
+result&&  
+(result.ok||result.success)&&  
+result.user  
+){  
+  
+currentUser={  
+...currentUser,  
+...result.user  
+};  
+  
+saveSession();  
+  
+renderAll();  
+  
+}  
+  
+}catch(e){}  
+  
+}  
+  
+function getBudgetMonth(){  
+  
+return localStorage.getItem(  
+BUDGET_MONTH_KEY  
+)||  
+getCurrentMonth();  
+  
+}  
+  
+function loadHomeBudgetLocal(){  
+  
+const raw=  
+localStorage.getItem(  
+budgetStorageKey(  
+currency,  
+getCurrentMonth()  
+)  
+);  
+  
+if(raw===null)return;  
+  
+const value=  
+parseAmount(raw);  
+  
+if(value!==null){  
+  
+homeBudget=value;  
+  
+}  
+  
+}  
+  
+function saveLocalBudget(  
+month,  
+amount  
+){  
+  
+localStorage.setItem(  
+budgetStorageKey(  
+currency,  
+month  
+),  
+String(amount)  
+);  
+  
+}  
+  
+async function loadBudgetFromServer(  
+month  
+){  
+  
+const localKey=  
+budgetStorageKey(  
+currency,  
+month  
+);  
+  
+const local=  
+localStorage.getItem(  
+localKey  
+);  
+  
+if(local!==null){  
+  
+const localAmount=  
+parseAmount(local);  
+  
+if(localAmount!==null){  
+  
+if(  
+month===  
+getCurrentMonth()  
+){  
+  
+homeBudget=  
+localAmount;  
+  
+}  
+  
+renderAll();  
+  
+}  
+  
+}  
+  
+if(!navigator.onLine){  
+  
+return;  
+  
+}  
+  
+try{  
+  
+const result=  
+await apiGet({  
+  
+action:'getBudget',  
+  
+currency,  
+  
+profile:currency,  
+  
+month,  
+  
+userId:  
+currentUser?.id||  
+currentUser?.ID||  
+''  
+  
+});  
+  
+if(  
+!result||  
+(  
+result.ok!==true&&  
+result.success!==true  
+)  
+){  
+  
+throw new Error(  
+'Budget load failed'  
+);  
+  
+}  
+  
+if(result.found===true){  
+  
+const amount=  
+parseAmount(  
+result.budget??  
+result.amount  
+);  
+  
+if(amount!==null){  
+  
+saveLocalBudget(  
+month,  
+amount  
+);  
+  
+if(  
+month===  
+getCurrentMonth()  
+){  
+  
+homeBudget=  
+amount;  
+  
+}  
+  
+renderAll();  
+  
+}  
+  
+return;  
+  
+}  
+  
+if(  
+local===null&&  
+month===  
+getCurrentMonth()  
+){  
+  
+homeBudget=0;  
+  
+renderAll();  
+  
+}  
+  
+}catch(e){  
+  
+loadHomeBudgetLocal();  
+  
+renderAll();  
+  
+}  
+  
+}  
+  
+async function saveBudget(){  
+  
+const month=  
+document.getElementById(  
+'budgetMonth'  
+).value||  
+getCurrentMonth();  
+  
+const amount=  
+parseAmount(  
+document.getElementById(  
+'budgetAmount'  
+).value  
+)??0;  
+  
+saveLocalBudget(  
+month,  
+amount  
+);  
+  
+if(  
+month===  
+getCurrentMonth()  
+){  
+  
+homeBudget=amount;  
+  
+}  
+  
+renderAll();  
+  
+try{  
+  
+updateSyncStatus(  
+'Saving...'  
+);  
+  
+const result=  
+await apiPost(  
+'saveBudget',  
+{  
+currency,  
+profile:currency,  
+month,  
+budget:amount,  
+amount,  
+userId:  
+currentUser?.id||  
+currentUser?.ID||  
+''  
+}  
+);  
+  
+if(  
+result&&  
+(  
+result.ok||  
+result.success  
+)  
+){  
+  
+const v=  
+result.budgetVersion??  
+result.version;  
+  
+if(v!==undefined){  
+  
+saveServerVersions({  
+budgetVersion:v  
+});  
+  
+}  
+  
+updateSyncStatus(  
+'Synced'  
+);  
+  
+}else{  
+  
+updateSyncStatus(  
+'Pending'  
+);  
+  
+}  
+  
+}catch(e){  
+  
+updateSyncStatus(  
+'Pending'  
+);  
+  
+}  
+  
+}  
+  
+function updateCard(){  
+  
+if(!currentUser)return;  
+  
+const cardBudget=  
+document.getElementById(  
+'cardBudget'  
+);  
+  
+const cardRemaining=  
+document.getElementById(  
+'cardRemaining'  
+);  
+  
+const cardMonth=  
+document.getElementById(  
+'cardMonth'  
+);  
+  
+const progress=  
+document.getElementById(  
+'cardProgressBar'  
+);  
+  
+const percent=  
+document.getElementById(  
+'cardExpensePercent'  
+);  
+  
+if(cardMonth){  
+  
+cardMonth.textContent=  
+new Intl.DateTimeFormat(  
+'en-US',  
+{  
+month:'long',  
+year:'numeric'  
+}  
+).format(  
+new Date()  
+);  
+  
+}  
+  
+const currentMonth=  
+getCurrentMonth();  
+  
+/* Days Left */  
+  
+const now=new Date();  
+  
+const lastDay=  
+new Date(  
+now.getFullYear(),  
+now.getMonth()+1,  
+0  
+);  
+  
+const daysLeft=  
+lastDay.getDate()-  
+now.getDate();  
+  
+const daysLeftEl=  
+document.getElementById(  
+'daysLeft'  
+);  
+  
+if(daysLeftEl){  
+  
+daysLeftEl.textContent=  
+daysLeft+  
+' Days Left';  
+  
+}  
+  
+/* Total Expense */  
+  
+const totalExpense=  
+transactions  
+.filter(t=>  
+String(  
+t?.date||''  
+)  
+.startsWith(  
+currentMonth  
+)  
+)  
+.reduce(  
+(sum,t)=>{  
+  
+let amount=  
+parseAmount(  
+t?.amount  
+);  
+  
+if(amount===null){  
+  
+amount=  
+getTransactionAmount(t);  
+  
+}  
+  
+return sum+  
+(  
+amount===null  
+?0  
+:Number(amount)  
+);  
+  
+},  
+0  
+);  
+  
+const budget=  
+parseAmount(homeBudget)??0;  
+  
+const remaining=  
+budget-  
+totalExpense;  
+  
+let expensePercent=  
+budget>0  
+?(totalExpense/budget)*100  
+:0;  
+  
+expensePercent=  
+Math.min(  
+100,  
+Math.max(  
+0,  
+expensePercent  
+)  
+);  
+  
+if(cardBudget){  
+  
+cardBudget.textContent=  
+money(budget);  
+  
+}  
+  
+if(cardRemaining){  
+  
+cardRemaining.textContent=  
+money(remaining);  
+  
+cardRemaining.style.color=  
+remaining<0  
+?'#ff3b30'  
+:'';  
+  
+}  
+  
+if(progress){  
+  
+progress.style.width=  
+expensePercent.toFixed(1)+  
+'%';  
+  
+}  
+  
+if(percent){  
+  
+percent.textContent=  
+expensePercent.toFixed(1)+  
+'%';  
+  
+}  
+  
+}  
+  
+function escapeHTML(value){  
+  
+return String(  
+value??''  
+)  
+.replace(  
+/&/g,  
+'&amp;'  
+)  
+.replace(  
+/</g,  
+'&lt;'  
+)  
+.replace(  
+/>/g,  
+'&gt;'  
+)  
+.replace(  
+/"/g,  
+'&quot;'  
+)  
+.replace(  
+/'/g,  
+'&#039;'  
+);  
+  
+}  
 function formatTransactionDate(date){
 
   if(!date) return '';
@@ -2480,1049 +2238,1054 @@ function formatTransactionDate(date){
     'Jul','Aug','Sep','Oct','Nov','Dec'
   ];
 
-  const day = String(d.getDate()).padStart(2,'0');
-  const month = months[d.getMonth()];
-  const year = d.getFullYear();
+  const day =
+    String(d.getDate()).padStart(2,'0');
+
+  const month =
+    months[d.getMonth()];
+
+  const year =
+    d.getFullYear();
 
   return `${day}-${month}-${year}`;
-}
-function transactionHTML(t){
-
-const cat=
-CATEGORIES.find(
-c=>c.name===t.category
-);
-
-const icon=
-cat?cat.icon:'📦';
-
-let amount=
-parseAmount(t.amount);
-
-if(amount===null){
-amount=getTransactionAmount(t);
-}
-
-if(amount===null){
-amount=0;
-}
-
-return`
-<div class="transaction-card">
-
-<div class="txn-row">
-
-<div class="txn-left">
-
-<div class="txn-amount">
-${money(amount)}
-</div>
-<div class="txn-date">${escapeHTML(formatTransactionDate(t.date))}</div>
-
-</div>
-
-<div class="txn-right">
-
-<div class="txn-category">
-${icon} ${escapeHTML(t.category)}
-</div>
-
-${t.note
-?`<div class="txn-note">
-${escapeHTML(t.note)}
-</div>`
-:''}
-
-</div>
-
-</div>
-
-</div>`;
-}
-
-function renderHome(){
-
-updateCard();
-
-const list=
-document.getElementById(
-'recentTransactions'
-);
-
-const count=
-document.getElementById(
-'recentCount'
-);
-
-if(count){
-
-count.textContent=
-String(
-transactions.length
-);
-
-}
-
-if(!list)return;
-
-const recent=
-transactions.slice(
-0,
-8
-);
-
-list.innerHTML=
-recent.length
-?recent
-.map(transactionHTML)
-.join('')
-:'<div class="empty">এখনও কোনো হিসাব নেই</div>';
-
-}
-
-function renderHistory(){
-
-const yearSelect=
-document.getElementById(
-'historyYear'
-);
-
-const monthSelect=
-document.getElementById(
-'historyMonthSelect'
-);
-
-const categorySelect=
-document.getElementById(
-'historyCategory'
-);
-
-if(
-!yearSelect||
-!monthSelect||
-!categorySelect
-)
-return;
-
-const now=new Date();
-
-const currentYear=
-String(
-now.getFullYear()
-);
-
-const currentMonth=
-pad(
-now.getMonth()+1
-);
-
-const selectedYear=
-yearSelect.value||
-currentYear;
-
-const selectedMonth=
-monthSelect.value||
-currentMonth;
-
-const category=
-categorySelect.value;
-
-const ym=
-selectedYear+
-'-'+
-selectedMonth;
-
-let list=
-transactions.filter(t=>
-String(
-t.date||''
-)
-.startsWith(ym)
-);
-
-if(category){
-
-list=
-list.filter(
-t=>
-t.category===
-category
-);
-
-}
-
-const total=
-list.reduce(
-(sum,t)=>{
-
-let amount=
-parseAmount(
-t.amount
-);
-
-if(amount===null){
-
-amount=
-getTransactionAmount(t);
-
-}
-
-return sum+
-(
-amount===null
-?0
-:amount
-);
-
-},
-0
-);
-
-document.getElementById(
-'historyTotal'
-).textContent=
-money(total);
-
-document.getElementById(
-'historyProfile'
-).textContent=
-profileName();
-
-const historyMonthEl=
-document.getElementById(
-'historyMonth'
-);
-
-if(historyMonthEl){
-
-historyMonthEl.textContent=
-(
-HISTORY_MONTHS[
-Number(selectedMonth)-1
-]||''
-)+
-' '+
-selectedYear;
-
-}
-
-const container=
-document.getElementById(
-'historyTransactions'
-);
-
-if(!list.length){
-
-container.innerHTML=
-'<div class="empty">কোনো হিসাব পাওয়া যায়নি</div>';
-
-return;
-
-}
-
-container.innerHTML=
-list
-.map(transactionHTML)
-.join('');
-
-}
-
-function renderProfile(){
-
-if(!currentUser)return;
-
-const name=
-currentUser.name||
-currentUser.Name||
-'Sajib Hossain';
-
-const id=
-currentUser.id||
-currentUser.ID||
-'';
-
-document.getElementById(
-'profileName'
-).textContent=
-name;
-
-document.getElementById(
-'profileId'
-).textContent=
-id;
-
-document.getElementById(
-'nameInput'
-).value=
-name;
-
-document.getElementById(
-'profileAvatar'
-).textContent=
-name.trim()
-.charAt(0)
-.toUpperCase()||
-'S';
-
-document.getElementById(
-'homeProfile'
-).textContent=
-profileName();
-
-document.getElementById(
-'historyProfile'
-).textContent=
-profileName();
-
-document.getElementById(
-'bdBtn'
-).classList.toggle(
-'active',
-currency==='BD'
-);
-
-document.getElementById(
-'kwBtn'
-).classList.toggle(
-'active',
-currency==='KW'
-);
-
-document.getElementById(
-'budgetMonth'
-).value=
-getBudgetMonth();
-
-loadBudgetInput();
-
-}
-
-function loadBudgetInput(){
-
-const month=
-document.getElementById(
-'budgetMonth'
-).value||
-getCurrentMonth();
-
-const raw=
-localStorage.getItem(
-budgetStorageKey(
-currency,
-month
-)
-);
-
-document.getElementById(
-'budgetAmount'
-).value=
-raw===null
-?''
-:raw;
-
-}
-
-function renderAll(){
-
-renderHome();
-
-renderHistory();
-
-renderProfile();
-
-}
-
-function openPage(pageId){
-
-document.querySelectorAll(
-'.page'
-)
-.forEach(page=>{
-
-page.classList.toggle(
-'active',
-page.id===pageId
-);
-
-});
-
-document.querySelectorAll(
-'.nav-btn'
-)
-.forEach(btn=>{
-
-btn.classList.toggle(
-'active',
-btn.dataset.page===pageId
-);
-
-});
-
-if(
-pageId===
-'historyPage'
-){
-
-renderHistory();
-
-}
-
-}
-
-async function updateName(){
-
-const name=
-document.getElementById(
-'nameInput'
-).value.trim();
-
-if(!name)return;
-
-currentUser.name=name;
-
-saveSession();
-
-renderProfile();
-
-try{
-
-updateSyncStatus(
-'Saving...'
-);
-
-const result=
-await apiPost(
-'updateName',
-{
-userId:
-currentUser.id||
-currentUser.ID||
-'',
-name
-}
-);
-
-if(
-result&&
-(
-result.ok||
-result.success
-)
-){
-
-const v=
-result.accountVersion||
-result.version;
-
-if(v!==undefined){
-
-saveServerVersions({
-accountVersion:v
-});
-
-}
-
-updateSyncStatus(
-'Synced'
-);
-
-}else{
-
-updateSyncStatus(
-'Pending'
-);
-
-}
-
-}catch(e){
-
-updateSyncStatus(
-'Pending'
-);
-
-}
-
-}
-
-async function switchProfile(profile){
-
-profile=
-normalizeProfile(profile);
-
-if(
-currency===
-profile
-)
-return;
-
-draftAmount='';
-draftNote='';
-draftCategory=null;
-
-currency=profile;
-
-localStorage.setItem(
-PROFILE_KEY,
-currency
-);
-
-transactions=[];
-pendingTransactions=[];
-homeBudget=0;
-
-loadLocalData();
-
-renderAll();
-
-updateSyncStatus(
-'Syncing...'
-);
-
-await initializeApp();
-
-}
-
-async function login(){
-
-const id=
-document.getElementById(
-'loginId'
-).value.trim();
-
-const password=
-document.getElementById(
-'loginPassword'
-).value;
-
-const error=
-document.getElementById(
-'loginError'
-);
-
-if(!id||!password){
-
-error.textContent=
-'ID এবং Password দিন';
-
-return;
-
-}
-
-error.textContent='';
-
-const btn=
-document.getElementById(
-'loginBtn'
-);
-
-btn.disabled=true;
-
-btn.textContent=
-'Login হচ্ছে...';
-
-try{
-
-const result=
-await apiGet({
-
-action:'login',
-
-id,
-
-userId:id,
-
-password
-
-});
-
-if(
-!result||
-(
-result.ok!==true&&
-result.success!==true
-)
-){
-
-throw new Error(
-'Login failed'
-);
-
-}
-
-currentUser=
-result.user||
-result.account||
-{
-id,
-name:'Sajib Hossain'
-};
-
-saveSession();
-
-await showApp();
-
-}catch(e){
-
-error.textContent=
-'ID অথবা Password সঠিক নয়';
-
-}finally{
-
-btn.disabled=false;
-
-btn.textContent=
-'Login';
-
-}
-
-}
-
-async function initializeApp(){
-
-loadLocalData();
-
-renderCategories();
-
-renderCategoryFilter();
-
-renderAll();
-
-updateSyncStatus(
-navigator.onLine
-?'Syncing...'
-:'Offline'
-);
-
-if(navigator.onLine){
-
-await loadTransactions();
-
-await syncPendingTransactions();
-
-await loadBudgetFromServer(
-getCurrentMonth()
-);
-
-if(
-pendingTransactions.length===
-0
-){
-
-updateSyncStatus(
-'Synced'
-);
-
-}else{
-
-updateSyncStatus(
-'Pending'
-);
-
-}
-
-}
-
-}
-
-async function showApp(){
-
-document.getElementById(
-'loginPage'
-).classList.add(
-'hidden'
-);
-
-document.getElementById(
-'app'
-).classList.remove(
-'hidden'
-);
-
-loadLocalData();
-
-renderCategories();
-
-renderCategoryFilter();
-
-renderAll();
-
-updateSyncStatus(
-navigator.onLine
-?'Syncing...'
-:'Offline'
-);
-
-await initializeApp();
-
-startAutoSync();
-
-}
-
-function logout(){
-
-stopAutoSync();
-
-currentUser=null;
-
-localStorage.removeItem(
-SESSION_KEY
-);
-
-document.getElementById(
-'app'
-).classList.add(
-'hidden'
-);
-
-document.getElementById(
-'loginPage'
-).classList.remove(
-'hidden'
-);
-
-document.getElementById(
-'loginPassword'
-).value='';
-
-}
-
-function stopAutoSync(){
-
-if(syncTimer){
-
-clearInterval(
-syncTimer
-);
-
-syncTimer=null;
-
-}
-
-}
-
-function startAutoSync(){
-
-stopAutoSync();
-
-syncTimer=
-setInterval(
-async()=>{
-
-if(!currentUser)return;
-
-await syncPendingTransactions();
-
-if(!syncing){
-
-await loadTransactions();
-
-await loadBudgetFromServer(
-getCurrentMonth()
-);
-
-}
-
-},
-5000
-);
-
-}
-
-async function syncProfile(){
-
-if(!currentUser)return;
-
-if(!navigator.onLine){
-
-updateSyncStatus(
-'Offline'
-);
-
-return;
-
-}
-
-await syncPendingTransactions();
-
-if(!syncing){
-
-await loadTransactions();
-
-}
-
-}
-
-document.getElementById(
-'loginBtn'
-).addEventListener(
-'click',
-login
-);
-
-document.getElementById(
-'loginPassword'
-).addEventListener(
-'keydown',
-e=>{
-
-if(e.key==='Enter')
-login();
-
-}
-);
-
-document.getElementById(
-'popupClose'
-).addEventListener(
-'click',
-()=>{
-
-savePopupDraft();
-
-closePopup(false);
-
-}
-);
-
-document.getElementById(
-'popupOverlay'
-).addEventListener(
-'click',
-function(e){
-
-if(e.target===this){
-
-savePopupDraft();
-
-closePopup(false);
-
-}
-
-}
-);
-
-document.getElementById(
-'amountInput'
-).addEventListener(
-'input',
-function(){
-
-draftAmount=
-this.value;
-
-}
-);
-
-document.getElementById(
-'noteInput'
-).addEventListener(
-'input',
-function(){
-
-draftNote=
-this.value;
-
-}
-);
-
-document.getElementById(
-'saveTransactionBtn'
-).addEventListener(
-'click',
-saveTransaction
-);
-
-document.getElementById(
-'historyYear'
-).addEventListener(
-'change',
-renderHistory
-);
-
-document.getElementById(
-'historyMonthSelect'
-).addEventListener(
-'change',
-renderHistory
-);
-
-document.getElementById(
-'historyCategory'
-).addEventListener(
-'change',
-renderHistory
-);
-
-document.getElementById(
-'budgetMonth'
-).addEventListener(
-'change',
-function(){
-
-const month=
-this.value||
-getCurrentMonth();
-
-localStorage.setItem(
-BUDGET_MONTH_KEY,
-month
-);
-
-loadBudgetInput();
-
-}
-);
-
-document.getElementById(
-'saveBudgetBtn'
-).addEventListener(
-'click',
-saveBudget
-);
-
-document.getElementById(
-'saveNameBtn'
-).addEventListener(
-'click',
-updateName
-);
-
-document.getElementById(
-'bdBtn'
-).addEventListener(
-'click',
-()=>switchProfile('BD')
-);
-
-document.getElementById(
-'kwBtn'
-).addEventListener(
-'click',
-()=>switchProfile('KW')
-);
-
-document.getElementById(
-'logoutBtn'
-).addEventListener(
-'click',
-logout
-);
-
-document.querySelectorAll(
-'.nav-btn'
-)
-.forEach(btn=>{
-
-btn.addEventListener(
-'click',
-()=>openPage(
-btn.dataset.page
-)
-);
-
-});
-
-window.addEventListener(
-'online',
-async()=>{
-
-if(!currentUser)return;
-
-updateSyncStatus(
-'Syncing...'
-);
-
-await syncPendingTransactions();
-
-await loadTransactions();
-
-}
-);
-
-window.addEventListener(
-'offline',
-()=>{
-
-if(currentUser){
-
-updateSyncStatus(
-'Offline'
-);
-
-}
-
-}
-);
-
-document.addEventListener(
-'visibilitychange',
-async()=>{
-
-if(
-document.visibilityState===
-'visible'&&
-currentUser
-){
-
-updateSyncStatus(
-'Syncing...'
-);
-
-await syncPendingTransactions();
-
-await loadTransactions();
-
-}
-
-});
-
-(function init(){
-
-currency=
-normalizeProfile(
-localStorage.getItem(
-PROFILE_KEY
-)||
-'BD'
-);
-
-setupHistoryFilters();
-
-const session=
-loadSession();
-
-if(session){
-
-currentUser=session;
-
-showApp();
-
-}else{
-
-document.getElementById(
-'loginPage'
-).classList.remove(
-'hidden'
-);
-
-document.getElementById(
-'app'
-).classList.add(
-'hidden'
-);
-
-}
-
-})();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .catch(() => {});
-  });
-}
- 
-</script>
-
-</body>
+} 
+  
+function transactionHTML(t){  
+  
+const cat=  
+CATEGORIES.find(  
+c=>c.name===t.category  
+);  
+  
+const icon=  
+cat?cat.icon:'📦';  
+  
+let amount=  
+parseAmount(t.amount);  
+  
+if(amount===null){  
+amount=getTransactionAmount(t);  
+}  
+  
+if(amount===null){  
+amount=0;  
+}  
+  
+return`  
+<div class="transaction-card">  
+  
+<div class="txn-row">  
+  
+<div class="txn-left">  
+  
+<div class="txn-amount">  
+${money(amount)}  
+</div>  
+  
+<div class="txn-date">${escapeHTML(formatTransactionDate(t.date))}</div>  
+  
+</div>  
+  
+<div class="txn-right">  
+  
+<div class="txn-category">  
+${icon} ${escapeHTML(t.category)}  
+</div>  
+  
+${t.note  
+?`<div class="txn-note">  
+${escapeHTML(t.note)}  
+</div>`  
+:''}  
+  
+</div>  
+  
+</div>  
+  
+</div>`;  
+}  
+  
+function renderHome(){  
+  
+updateCard();  
+  
+const list=  
+document.getElementById(  
+'recentTransactions'  
+);  
+  
+const count=  
+document.getElementById(  
+'recentCount'  
+);  
+  
+if(count){  
+  
+count.textContent=  
+String(  
+transactions.length  
+);  
+  
+}  
+  
+if(!list)return;  
+  
+const recent=  
+transactions.slice(  
+0,  
+8  
+);  
+  
+list.innerHTML=  
+recent.length  
+?recent  
+.map(transactionHTML)  
+.join('')  
+:'<div class="empty">এখনও কোনো হিসাব নেই</div>';  
+  
+}  
+  
+function renderHistory(){  
+  
+const yearSelect=  
+document.getElementById(  
+'historyYear'  
+);  
+  
+const monthSelect=  
+document.getElementById(  
+'historyMonthSelect'  
+);  
+  
+const categorySelect=  
+document.getElementById(  
+'historyCategory'  
+);  
+  
+if(  
+!yearSelect||  
+!monthSelect||  
+!categorySelect  
+)  
+return;  
+  
+const now=new Date();  
+  
+const currentYear=  
+String(  
+now.getFullYear()  
+);  
+  
+const currentMonth=  
+pad(  
+now.getMonth()+1  
+);  
+  
+const selectedYear=  
+yearSelect.value||  
+currentYear;  
+  
+const selectedMonth=  
+monthSelect.value||  
+currentMonth;  
+  
+const category=  
+categorySelect.value;  
+  
+const ym=  
+selectedYear+  
+'-'+  
+selectedMonth;  
+  
+let list=  
+transactions.filter(t=>  
+String(  
+t.date||''  
+)  
+.startsWith(ym)  
+);  
+  
+if(category){  
+  
+list=  
+list.filter(  
+t=>  
+t.category===  
+category  
+);  
+  
+}  
+  
+const total=  
+list.reduce(  
+(sum,t)=>{  
+  
+let amount=  
+parseAmount(  
+t.amount  
+);  
+  
+if(amount===null){  
+  
+amount=  
+getTransactionAmount(t);  
+  
+}  
+  
+return sum+  
+(  
+amount===null  
+?0  
+:amount  
+);  
+  
+},  
+0  
+);  
+  
+document.getElementById(  
+'historyTotal'  
+).textContent=  
+money(total);  
+  
+document.getElementById(  
+'historyProfile'  
+).textContent=  
+profileName();  
+  
+const historyMonthEl=  
+document.getElementById(  
+'historyMonth'  
+);  
+  
+if(historyMonthEl){  
+  
+historyMonthEl.textContent=  
+(  
+HISTORY_MONTHS[  
+Number(selectedMonth)-1  
+]||''  
+)+  
+' '+  
+selectedYear;  
+  
+}  
+  
+const container=  
+document.getElementById(  
+'historyTransactions'  
+);  
+  
+if(!list.length){  
+  
+container.innerHTML=  
+'<div class="empty">কোনো হিসাব পাওয়া যায়নি</div>';  
+  
+return;  
+  
+}  
+  
+container.innerHTML=  
+list  
+.map(transactionHTML)  
+.join('');  
+  
+}  
+  
+function renderProfile(){  
+  
+if(!currentUser)return;  
+  
+const name=  
+currentUser.name||  
+currentUser.Name||  
+'Sajib Hossain';  
+  
+const id=  
+currentUser.id||  
+currentUser.ID||  
+'';  
+  
+document.getElementById(  
+'profileName'  
+).textContent=  
+name;  
+  
+document.getElementById(  
+'profileId'  
+).textContent=  
+id;  
+  
+document.getElementById(  
+'nameInput'  
+).value=  
+name;  
+  
+document.getElementById(  
+'profileAvatar'  
+).textContent=  
+name.trim()  
+.charAt(0)  
+.toUpperCase()||  
+'S';  
+  
+document.getElementById(  
+'homeProfile'  
+).textContent=  
+profileName();  
+  
+document.getElementById(  
+'historyProfile'  
+).textContent=  
+profileName();  
+  
+document.getElementById(  
+'bdBtn'  
+).classList.toggle(  
+'active',  
+currency==='BD'  
+);  
+  
+document.getElementById(  
+'kwBtn'  
+).classList.toggle(  
+'active',  
+currency==='KW'  
+);  
+  
+document.getElementById(  
+'budgetMonth'  
+).value=  
+getBudgetMonth();  
+  
+loadBudgetInput();  
+  
+}  
+  
+function loadBudgetInput(){  
+  
+const month=  
+document.getElementById(  
+'budgetMonth'  
+).value||  
+getCurrentMonth();  
+  
+const raw=  
+localStorage.getItem(  
+budgetStorageKey(  
+currency,  
+month  
+)  
+);  
+  
+document.getElementById(  
+'budgetAmount'  
+).value=  
+raw===null  
+?''  
+:raw;  
+  
+}  
+  
+function renderAll(){  
+  
+renderHome();  
+  
+renderHistory();  
+  
+renderProfile();  
+  
+}  
+  
+function openPage(pageId){  
+  
+document.querySelectorAll(  
+'.page'  
+)  
+.forEach(page=>{  
+  
+page.classList.toggle(  
+'active',  
+page.id===pageId  
+);  
+  
+});  
+  
+document.querySelectorAll(  
+'.nav-btn'  
+)  
+.forEach(btn=>{  
+  
+btn.classList.toggle(  
+'active',  
+btn.dataset.page===pageId  
+);  
+  
+});  
+  
+if(  
+pageId===  
+'historyPage'  
+){  
+  
+renderHistory();  
+  
+}  
+  
+}  
+  
+async function updateName(){  
+  
+const name=  
+document.getElementById(  
+'nameInput'  
+).value.trim();  
+  
+if(!name)return;  
+  
+currentUser.name=name;  
+  
+saveSession();  
+  
+renderProfile();  
+  
+try{  
+  
+updateSyncStatus(  
+'Saving...'  
+);  
+  
+const result=  
+await apiPost(  
+'updateName',  
+{  
+userId:  
+currentUser.id||  
+currentUser.ID||  
+'',  
+name  
+}  
+);  
+  
+if(  
+result&&  
+(  
+result.ok||  
+result.success  
+)  
+){  
+  
+const v=  
+result.accountVersion||  
+result.version;  
+  
+if(v!==undefined){  
+  
+saveServerVersions({  
+accountVersion:v  
+});  
+  
+}  
+  
+updateSyncStatus(  
+'Synced'  
+);  
+  
+}else{  
+  
+updateSyncStatus(  
+'Pending'  
+);  
+  
+}  
+  
+}catch(e){  
+  
+updateSyncStatus(  
+'Pending'  
+);  
+  
+}  
+  
+}  
+  
+async function switchProfile(profile){  
+  
+profile=  
+normalizeProfile(profile);  
+  
+if(  
+currency===  
+profile  
+)  
+return;  
+  
+draftAmount='';  
+draftNote='';  
+draftCategory=null;  
+  
+currency=profile;  
+  
+localStorage.setItem(  
+PROFILE_KEY,  
+currency  
+);  
+  
+transactions=[];  
+pendingTransactions=[];  
+homeBudget=0;  
+  
+loadLocalData();  
+  
+renderAll();  
+  
+updateSyncStatus(  
+'Syncing...'  
+);  
+  
+await initializeApp();  
+  
+}  
+  
+async function login(){  
+  
+const id=  
+document.getElementById(  
+'loginId'  
+).value.trim();  
+  
+const password=  
+document.getElementById(  
+'loginPassword'  
+).value;  
+  
+const error=  
+document.getElementById(  
+'loginError'  
+);  
+  
+if(!id||!password){  
+  
+error.textContent=  
+'ID এবং Password দিন';  
+  
+return;  
+  
+}  
+  
+error.textContent='';  
+  
+const btn=  
+document.getElementById(  
+'loginBtn'  
+);  
+  
+btn.disabled=true;  
+  
+btn.textContent=  
+'Login হচ্ছে...';  
+  
+try{  
+  
+const result=  
+await apiGet({  
+  
+action:'login',  
+  
+id,  
+  
+userId:id,  
+  
+password  
+  
+});  
+  
+if(  
+!result||  
+(  
+result.ok!==true&&  
+result.success!==true  
+)  
+){  
+  
+throw new Error(  
+'Login failed'  
+);  
+  
+}  
+  
+currentUser=  
+result.user||  
+result.account||  
+{  
+id,  
+name:'Sajib Hossain'  
+};  
+  
+saveSession();  
+  
+await showApp();  
+  
+}catch(e){  
+  
+error.textContent=  
+'ID অথবা Password সঠিক নয়';  
+  
+}finally{  
+  
+btn.disabled=false;  
+  
+btn.textContent=  
+'Login';  
+  
+}  
+  
+}  
+  
+async function initializeApp(){  
+  
+loadLocalData();  
+  
+renderCategories();  
+  
+renderCategoryFilter();  
+  
+renderAll();  
+  
+updateSyncStatus(  
+navigator.onLine  
+?'Syncing...'  
+:'Offline'  
+);  
+  
+if(navigator.onLine){  
+  
+await loadTransactions();  
+  
+await syncPendingTransactions();  
+  
+await loadBudgetFromServer(  
+getCurrentMonth()  
+);  
+  
+if(  
+pendingTransactions.length===  
+0  
+){  
+  
+updateSyncStatus(  
+'Synced'  
+);  
+  
+}else{  
+  
+updateSyncStatus(  
+'Pending'  
+);  
+  
+}  
+  
+}  
+  
+}  
+  
+async function showApp(){  
+  
+document.getElementById(  
+'loginPage'  
+).classList.add(  
+'hidden'  
+);  
+  
+document.getElementById(  
+'app'  
+).classList.remove(  
+'hidden'  
+);  
+  
+loadLocalData();  
+  
+renderCategories();  
+  
+renderCategoryFilter();  
+  
+renderAll();  
+  
+updateSyncStatus(  
+navigator.onLine  
+?'Syncing...'  
+:'Offline'  
+);  
+  
+await initializeApp();  
+  
+startAutoSync();  
+  
+}  
+  
+function logout(){  
+  
+stopAutoSync();  
+  
+currentUser=null;  
+  
+localStorage.removeItem(  
+SESSION_KEY  
+);  
+  
+document.getElementById(  
+'app'  
+).classList.add(  
+'hidden'  
+);  
+  
+document.getElementById(  
+'loginPage'  
+).classList.remove(  
+'hidden'  
+);  
+  
+document.getElementById(  
+'loginPassword'  
+).value='';  
+  
+}  
+  
+function stopAutoSync(){  
+  
+if(syncTimer){  
+  
+clearInterval(  
+syncTimer  
+);  
+  
+syncTimer=null;  
+  
+}  
+  
+}  
+  
+function startAutoSync(){  
+  
+stopAutoSync();  
+  
+syncTimer=  
+setInterval(  
+async()=>{  
+  
+if(!currentUser)return;  
+  
+await syncPendingTransactions();  
+  
+if(!syncing){  
+  
+await loadTransactions();  
+  
+await loadBudgetFromServer(  
+getCurrentMonth()  
+);  
+  
+}  
+  
+},  
+5000  
+);  
+  
+}  
+  
+async function syncProfile(){  
+  
+if(!currentUser)return;  
+  
+if(!navigator.onLine){  
+  
+updateSyncStatus(  
+'Offline'  
+);  
+  
+return;  
+  
+}  
+  
+await syncPendingTransactions();  
+  
+if(!syncing){  
+  
+await loadTransactions();  
+  
+}  
+  
+}  
+  
+document.getElementById(  
+'loginBtn'  
+).addEventListener(  
+'click',  
+login  
+);  
+  
+document.getElementById(  
+'loginPassword'  
+).addEventListener(  
+'keydown',  
+e=>{  
+  
+if(e.key==='Enter')  
+login();  
+  
+}  
+);  
+  
+document.getElementById(  
+'popupClose'  
+).addEventListener(  
+'click',  
+()=>{  
+  
+savePopupDraft();  
+  
+closePopup(false);  
+  
+}  
+);  
+  
+document.getElementById(  
+'popupOverlay'  
+).addEventListener(  
+'click',  
+function(e){  
+  
+if(e.target===this){  
+  
+savePopupDraft();  
+  
+closePopup(false);  
+  
+}  
+  
+}  
+);  
+  
+document.getElementById(  
+'amountInput'  
+).addEventListener(  
+'input',  
+function(){  
+  
+draftAmount=  
+this.value;  
+  
+}  
+);  
+  
+document.getElementById(  
+'noteInput'  
+).addEventListener(  
+'input',  
+function(){  
+  
+draftNote=  
+this.value;  
+  
+}  
+);  
+  
+document.getElementById(  
+'saveTransactionBtn'  
+).addEventListener(  
+'click',  
+saveTransaction  
+);  
+  
+document.getElementById(  
+'historyYear'  
+).addEventListener(  
+'change',  
+renderHistory  
+);  
+  
+document.getElementById(  
+'historyMonthSelect'  
+).addEventListener(  
+'change',  
+renderHistory  
+);  
+  
+document.getElementById(  
+'historyCategory'  
+).addEventListener(  
+'change',  
+renderHistory  
+);  
+  
+document.getElementById(  
+'budgetMonth'  
+).addEventListener(  
+'change',  
+function(){  
+  
+const month=  
+this.value||  
+getCurrentMonth();  
+  
+localStorage.setItem(  
+BUDGET_MONTH_KEY,  
+month  
+);  
+  
+loadBudgetInput();  
+  
+}  
+);  
+  
+document.getElementById(  
+'saveBudgetBtn'  
+).addEventListener(  
+'click',  
+saveBudget  
+);  
+  
+document.getElementById(  
+'saveNameBtn'  
+).addEventListener(  
+'click',  
+updateName  
+);  
+  
+document.getElementById(  
+'bdBtn'  
+).addEventListener(  
+'click',  
+()=>switchProfile('BD')  
+);  
+  
+document.getElementById(  
+'kwBtn'  
+).addEventListener(  
+'click',  
+()=>switchProfile('KW')  
+);  
+  
+document.getElementById(  
+'logoutBtn'  
+).addEventListener(  
+'click',  
+logout  
+);  
+  
+document.querySelectorAll(  
+'.nav-btn'  
+)  
+.forEach(btn=>{  
+  
+btn.addEventListener(  
+'click',  
+()=>openPage(  
+btn.dataset.page  
+)  
+);  
+  
+});  
+  
+window.addEventListener(  
+'online',  
+async()=>{  
+  
+if(!currentUser)return;  
+  
+updateSyncStatus(  
+'Syncing...'  
+);  
+  
+await syncPendingTransactions();  
+  
+await loadTransactions();  
+  
+}  
+);  
+  
+window.addEventListener(  
+'offline',  
+()=>{  
+  
+if(currentUser){  
+  
+updateSyncStatus(  
+'Offline'  
+);  
+  
+}  
+  
+}  
+);  
+  
+document.addEventListener(  
+'visibilitychange',  
+async()=>{  
+  
+if(  
+document.visibilityState===  
+'visible'&&  
+currentUser  
+){  
+  
+updateSyncStatus(  
+'Syncing...'  
+);  
+  
+await syncPendingTransactions();  
+  
+await loadTransactions();  
+  
+}  
+  
+});  
+  
+(function init(){  
+  
+currency=  
+normalizeProfile(  
+localStorage.getItem(  
+PROFILE_KEY  
+)||  
+'BD'  
+);  
+  
+setupHistoryFilters();  
+  
+const session=  
+loadSession();  
+  
+if(session){  
+  
+currentUser=session;  
+  
+showApp();  
+  
+}else{  
+  
+document.getElementById(  
+'loginPage'  
+).classList.remove(  
+'hidden'  
+);  
+  
+document.getElementById(  
+'app'  
+).classList.add(  
+'hidden'  
+);  
+  
+}  
+  
+})();  
+  
+if ('serviceWorker' in navigator) {  
+  window.addEventListener('load', () => {  
+    navigator.serviceWorker.register('./sw.js')  
+      .catch(() => {});  
+  });  
+}  
+   
+</script>  </body>  
 </html>
