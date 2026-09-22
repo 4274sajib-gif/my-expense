@@ -212,7 +212,15 @@ margin-top:4px;
 
 #recentTransactions,#historyTransactions{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px 3px 2px 0;}
 #recentTransactions{max-height:260px;}
-#historyTransactions{max-height:430px;}
+#historyTransactions{
+height:calc(100vh - 310px);
+max-height:none;
+overflow-y:auto;
+overflow-x:hidden;
+-webkit-overflow-scrolling:touch;
+overscroll-behavior:contain;
+padding:2px 3px 2px 0;
+}
 #recentTransactions::-webkit-scrollbar,#historyTransactions::-webkit-scrollbar{width:4px;}
 #recentTransactions::-webkit-scrollbar-thumb,#historyTransactions::-webkit-scrollbar-thumb{background:rgba(11,107,79,.35);border-radius:10px;}
 #recentTransactions::-webkit-scrollbar-track,#historyTransactions::-webkit-scrollbar-track{background:transparent;}
