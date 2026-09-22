@@ -1,0 +1,6085 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#0B6B4F">
+
+<title>আমার খরচ</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background:#f4f7f6;
+  color:#17221f;
+}
+
+body{
+  overflow-x:hidden;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none !important;
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    linear-gradient(
+      145deg,
+      #064c39,
+      #0b6b4f 55%,
+      #083f31
+    );
+}
+
+.login-box{
+  width:100%;
+  max-width:400px;
+  background:#fff;
+  border-radius:26px;
+  padding:30px 24px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.20);
+}
+
+.login-logo{
+  width:70px;
+  height:70px;
+  margin:0 auto 16px;
+  border-radius:20px;
+  background:#0b6b4f;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  font-weight:900;
+}
+
+.login-title{
+  text-align:center;
+  font-size:26px;
+  font-weight:900;
+  color:#0b6b4f;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:#78817e;
+  font-size:13px;
+  margin-top:4px;
+  margin-bottom:24px;
+}
+
+.input-group{
+  margin-bottom:14px;
+}
+
+.input-label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:7px;
+  color:#46524e;
+}
+
+.input-box{
+  width:100%;
+  height:50px;
+  border:1px solid #dfe6e3;
+  border-radius:14px;
+  padding:0 15px;
+  outline:none;
+  background:#f8faf9;
+}
+
+.input-box:focus{
+  border-color:#0b6b4f;
+  box-shadow:0 0 0 3px rgba(11,107,79,.08);
+}
+
+.login-btn{
+  width:100%;
+  height:52px;
+  margin-top:7px;
+  border-radius:15px;
+  background:#0b6b4f;
+  color:#fff;
+  font-weight:900;
+  font-size:15px;
+}
+
+.login-btn:active{
+  transform:scale(.98);
+}
+
+.login-error{
+  min-height:20px;
+  margin-top:12px;
+  text-align:center;
+  color:#c62828;
+  font-size:12px;
+  font-weight:700;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+#app{
+  min-height:100vh;
+  padding-bottom:78px;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  height:67px;
+  background:#0b6b4f;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 17px;
+  box-shadow:0 3px 12px rgba(0,0,0,.10);
+}
+
+.top-title{
+  font-size:20px;
+  font-weight:900;
+  line-height:1;
+}
+
+.top-subtitle{
+  font-size:10px;
+  opacity:.72;
+  margin-top:5px;
+}
+
+.sync-pill{
+  padding:6px 10px;
+  border-radius:20px;
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  font-size:9px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.page{
+  display:none;
+  padding:15px;
+  max-width:520px;
+  margin:auto;
+}
+
+.page.active{
+  display:block;
+}
+
+
+/* =========================================================
+   ATM CARD
+========================================================= */
+
+.atm-card{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  min-height:205px;
+  padding:20px;
+  border-radius:22px;
+  color:#fff;
+  background:
+    linear-gradient(
+      135deg,
+      #071d17 0%,
+      #0b4c3a 48%,
+      #082b22 100%
+    );
+  box-shadow:
+    0 15px 35px rgba(0,50,35,.25);
+  margin-bottom:18px;
+}
+
+.atm-card::before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  right:-80px;
+  top:-110px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.atm-card::after{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  left:-190px;
+  bottom:-210px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.card-top{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.card-brand{
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+
+.card-type{
+  font-size:8px;
+  font-weight:800;
+  opacity:.65;
+  letter-spacing:1px;
+}
+
+.card-chip{
+  position:relative;
+  z-index:2;
+  width:43px;
+  height:31px;
+  margin-top:22px;
+  border-radius:7px;
+  background:
+    linear-gradient(
+      135deg,
+      #d7d1a7,
+      #f1eac6,
+      #a9a47e
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.15);
+}
+
+.card-chip::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  width:1px;
+  height:100%;
+  background:rgba(80,70,30,.35);
+}
+
+.card-number{
+  position:relative;
+  z-index:2;
+  margin-top:17px;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+
+.card-bottom{
+  position:relative;
+  z-index:2;
+  margin-top:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.card-total-label,
+.card-budget{
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1px;
+  opacity:.58;
+}
+
+.card-total{
+  font-size:18px;
+  font-weight:900;
+  margin-top:3px;
+}
+
+.card-budget-value{
+  font-size:15px;
+  font-weight:900;
+  margin-top:5px;
+  text-align:right;
+}
+
+.card-progress{
+  width:150px;
+  height:4px;
+  margin-top:7px;
+  border-radius:10px;
+  background:rgba(255,255,255,.18);
+  overflow:hidden;
+}
+
+.card-progress-fill{
+  width:0%;
+  height:100%;
+  border-radius:10px;
+  background:rgba(255,255,255,.94);
+  transition:width .65s ease;
+}
+
+.card-expense-percent{
+  width:150px;
+  margin-top:3px;
+  font-size:8px;
+  line-height:1;
+  font-weight:800;
+  text-align:center;
+  opacity:.72;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:20px 2px 11px;
+}
+
+.section-title h3{
+  margin:0;
+  font-size:15px;
+  font-weight:900;
+}
+
+.section-title span{
+  color:#87918d;
+  font-size:10px;
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.category-btn{
+  min-height:75px;
+  background:#fff;
+  border-radius:17px;
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.055);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
+.category-btn:active{
+  transform:scale(.96);
+}
+
+.category-icon{
+  font-size:25px;
+}
+
+.category-name{
+  font-size:10px;
+  font-weight:800;
+  color:#4d5754;
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+========================================================= */
+
+.transaction-card{
+  background:#fff;
+  border-radius:15px;
+  padding:11px 12px;
+  margin-bottom:8px;
+  box-shadow:
+    0 2px 9px rgba(0,0,0,.045);
+  border-left:4px solid #0b6b4f;
+}
+
+.txn-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.txn-left{
+  min-width:0;
+}
+
+.txn-category{
+  font-size:13px;
+  font-weight:900;
+}
+
+.txn-note{
+  font-size:10px;
+  color:#8a9490;
+  margin-top:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.txn-date{
+  font-size:9px;
+  color:#9ba39f;
+  margin-top:4px;
+}
+
+.txn-amount{
+  font-size:15px;
+  font-weight:900;
+  white-space:nowrap;
+  color:#0b6b4f;
+}
+
+
+/* =========================================================
+   TRANSACTION SCROLL
+========================================================= */
+
+#recentTransactions{
+  max-height:260px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding:2px 3px 2px 0;
+}
+
+#historyTransactions{
+  max-height:430px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding:2px 3px 2px 0;
+}
+
+
+/* Scrollbar */
+
+#recentTransactions::-webkit-scrollbar,
+#historyTransactions::-webkit-scrollbar{
+  width:4px;
+}
+
+#recentTransactions::-webkit-scrollbar-thumb,
+#historyTransactions::-webkit-scrollbar-thumb{
+  background:rgba(11,107,79,.35);
+  border-radius:10px;
+}
+
+#recentTransactions::-webkit-scrollbar-track,
+#historyTransactions::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filter-box{
+  background:#fff;
+  border-radius:17px;
+  padding:12px;
+  margin-bottom:13px;
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.05);
+}
+
+.filter-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+
+/* =========================================================
+   HISTORY FILTER
+   শুধু হিসাব পেজের জন্য
+========================================================= */
+
+.history-filter-grid{
+  display:grid;
+  grid-template-columns:.85fr .95fr 1.3fr;
+  gap:7px;
+}
+
+.history-filter-item label{
+  display:block;
+  font-size:8px;
+  font-weight:800;
+  color:#69736f;
+  margin-bottom:4px;
+}
+
+.history-filter-item select{
+  width:100%;
+  height:37px;
+  border:1px solid #e0e6e3;
+  border-radius:10px;
+  padding:0 7px;
+  outline:none;
+  background:#f8faf9;
+  font-size:11px;
+  color:#27322f;
+  min-width:0;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filter-item label{
+  display:block;
+  font-size:9px;
+  font-weight:800;
+  color:#69736f;
+  margin-bottom:5px;
+}
+
+.filter-item input,
+.filter-item select{
+  width:100%;
+  height:42px;
+  border:1px solid #e0e6e3;
+  border-radius:11px;
+  padding:0 10px;
+  outline:none;
+  background:#f8faf9;
+  font-size:12px;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.total-card{
+  background:#0b6b4f;
+  color:#fff;
+  border-radius:18px;
+  padding:15px;
+  margin-bottom:13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.total-label{
+  font-size:10px;
+  opacity:.68;
+  font-weight:800;
+}
+
+.total-value{
+  font-size:24px;
+  font-weight:900;
+  margin-top:2px;
+}
+
+.total-month{
+  font-size:9px;
+  opacity:.62;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-card{
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:
+    0 4px 15px rgba(0,0,0,.06);
+}
+
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding-bottom:17px;
+  border-bottom:1px solid #edf0ef;
+}
+
+.avatar{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:#0b6b4f;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  font-weight:900;
+}
+
+.profile-name{
+  font-size:17px;
+  font-weight:900;
+}
+
+.profile-id{
+  font-size:10px;
+  color:#89928f;
+  margin-top:3px;
+}
+
+.profile-section{
+  padding-top:18px;
+}
+
+.profile-section-title{
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:9px;
+}
+
+.profile-input{
+  width:100%;
+  height:44px;
+  border:1px solid #e0e6e3;
+  border-radius:12px;
+  padding:0 12px;
+  background:#f8faf9;
+  outline:none;
+}
+
+.small-btn{
+  height:40px;
+  padding:0 14px;
+  border-radius:11px;
+  background:#0b6b4f;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.budget-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.budget-row input{
+  width:100%;
+  height:44px;
+  border:1px solid #e0e6e3;
+  border-radius:12px;
+  padding:0 10px;
+  outline:none;
+  background:#f8faf9;
+}
+
+.currency-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.currency-btn{
+  height:45px;
+  border-radius:12px;
+  background:#f0f3f2;
+  color:#5b6662;
+  font-size:12px;
+  font-weight:900;
+}
+
+.currency-btn.active{
+  background:#0b6b4f;
+  color:#fff;
+}
+
+.logout-btn{
+  width:100%;
+  height:45px;
+  margin-top:20px;
+  border-radius:12px;
+  background:#b3261e;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.bottom-nav{
+  position:fixed;
+  z-index:30;
+  left:0;
+  right:0;
+  bottom:0;
+  height:67px;
+  background:#fff;
+  border-top:1px solid #e8edeb;
+  display:flex;
+  justify-content:center;
+  box-shadow:0 -4px 18px rgba(0,0,0,.06);
+}
+
+.nav-inner{
+  width:100%;
+  max-width:520px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+}
+
+.nav-btn{
+  background:#fff;
+  color:#909a96;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+}
+
+.nav-icon{
+  font-size:19px;
+  line-height:1;
+}
+
+.nav-label{
+  font-size:9px;
+  font-weight:800;
+}
+
+.nav-btn.active{
+  color:#0b6b4f;
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.popup-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.42);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.popup-overlay.show{
+  display:flex;
+}
+
+.popup{
+  width:100%;
+  max-width:520px;
+  background:#fff;
+  border-radius:24px 24px 0 0;
+  padding:20px 17px 25px;
+}
+
+.popup-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.popup-title{
+  font-size:17px;
+  font-weight:900;
+}
+
+.popup-close{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#f0f3f2;
+  color:#66716d;
+  font-size:18px;
+}
+
+.selected-category{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#f2f7f5;
+  margin-bottom:12px;
+}
+
+.selected-category-icon{
+  font-size:22px;
+}
+
+.selected-category-name{
+  font-size:13px;
+  font-weight:900;
+}
+
+.amount-input{
+  width:100%;
+  height:58px;
+  border:2px solid #dce5e1;
+  border-radius:15px;
+  outline:none;
+  padding:0 15px;
+  font-size:25px;
+  font-weight:900;
+  text-align:right;
+  background:#fafcfb;
+}
+
+.popup-note{
+  width:100%;
+  height:46px;
+  margin-top:10px;
+  border:1px solid #dce5e1;
+  border-radius:13px;
+  padding:0 12px;
+  outline:none;
+  background:#fafcfb;
+}
+
+.save-btn{
+  width:100%;
+  height:51px;
+  margin-top:12px;
+  border-radius:14px;
+  background:#0b6b4f;
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.empty{
+  padding:35px 15px;
+  text-align:center;
+  color:#929b98;
+  font-size:12px;
+}
+
+.loading{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(255,255,255,.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.loading.show{
+  display:flex;
+}
+
+.loading-box{
+  background:#fff;
+  border-radius:16px;
+  padding:18px 25px;
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+  font-size:12px;
+  font-weight:800;
+  color:#0b6b4f;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:370px){
+
+  .category-grid{
+    gap:7px;
+  }
+
+  .category-btn{
+    min-height:70px;
+  }
+
+  .category-icon{
+    font-size:22px;
+  }
+
+  .atm-card{
+    min-height:198px;
+  }
+
+  .card-number{
+    font-size:14px;
+  }
+
+  .history-filter-grid{
+    gap:5px;
+  }
+
+  .history-filter-item select{
+    font-size:10px;
+    padding:0 5px;
+  }
+
+}
+
+#noteInput{
+  width:100%;
+  min-height:50px;
+  height:50px;
+  padding:0 14px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  background:#fff;
+  color:#111827;
+  font-size:14px;
+  outline:none;
+  box-sizing:border-box;
+}
+
+#noteInput:focus{
+  border-color:#0B6B4F;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =======================================================
+     LOGIN
+======================================================= -->
+
+<div id="loginPage">
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      খ
+    </div>
+
+    <div class="login-title">
+      আমার খরচ
+    </div>
+
+    <div class="login-subtitle">
+      দৈনিক খরচের হিসাব
+    </div>
+
+    <div class="input-group">
+
+      <label class="input-label">
+        ID
+      </label>
+
+      <input
+        id="loginId"
+        class="input-box"
+        type="text"
+        autocomplete="username"
+        placeholder="আপনার ID লিখুন">
+
+    </div>
+
+    <div class="input-group">
+
+      <label class="input-label">
+        Password
+      </label>
+
+      <input
+        id="loginPassword"
+        class="input-box"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Password লিখুন">
+
+    </div>
+
+    <button
+      id="loginBtn"
+      class="login-btn">
+      Login
+    </button>
+
+    <div
+      id="loginError"
+      class="login-error">
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     APP
+======================================================= -->
+
+<div
+  id="app"
+  class="hidden">
+
+  <div class="topbar">
+
+    <div>
+
+      <div class="top-title">
+        আমার খরচ
+      </div>
+
+      <div class="top-subtitle">
+        দৈনিক খরচের হিসাব
+      </div>
+
+    </div>
+
+    <div
+      id="syncStatus"
+      class="sync-pill">
+      Ready
+    </div>
+
+  </div>
+
+
+  <!-- HOME -->
+
+  <main
+    id="homePage"
+    class="page active">
+
+    <div class="atm-card">
+
+      <div class="card-top">
+
+        <div class="card-brand">
+          Sajib Hossain
+        </div>
+
+        <div class="card-type">
+          EXPENSE CARD
+        </div>
+
+      </div>
+
+      <div class="card-chip"></div>
+
+      <div class="card-number">
+
+        •••• &nbsp; •••• &nbsp;
+
+        <span id="cardMonth"></span>
+
+      </div>
+
+      <div class="card-bottom">
+
+        <div>
+
+          <div class="card-total-label">
+            BUDGET LEFT
+          </div>
+
+          <div
+            id="cardRemaining"
+            class="card-total">
+            ৳0
+          </div>
+
+          <div class="card-progress">
+
+            <div
+              id="cardProgressBar"
+              class="card-progress-fill">
+            </div>
+
+          </div>
+
+          <div
+            id="cardExpensePercent"
+            class="card-expense-percent">
+            0.0%
+          </div>
+
+        </div>
+
+        <div>
+
+          <div class="card-budget">
+            BUDGET
+          </div>
+
+          <div
+            id="cardBudget"
+            class="card-budget-value">
+            ৳0
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+      <h3>
+        খরচ যোগ করুন
+      </h3>
+
+      <span id="homeProfile">
+        Bangladesh
+      </span>
+
+    </div>
+
+
+    <div
+      id="categoryGrid"
+      class="category-grid">
+    </div>
+
+
+    <div class="section-title">
+
+      <h3>
+        সাম্প্রতিক হিসাব
+      </h3>
+
+      <span id="recentCount">
+        0
+      </span>
+
+    </div>
+
+
+    <div id="recentTransactions">
+    </div>
+
+  </main>
+
+
+  <!-- HISTORY -->
+
+  <main
+    id="historyPage"
+    class="page">
+
+
+    <!-- মোট খরচ সবার উপরে -->
+
+    <div class="total-card">
+
+      <div>
+
+        <div class="total-label">
+          মোট খরচ
+        </div>
+
+        <div
+          id="historyTotal"
+          class="total-value">
+          ৳0
+        </div>
+
+      </div>
+
+      <div
+        id="historyMonth"
+        class="total-month">
+        সেপ্টেম্বর 2026
+      </div>
+
+    </div>
+
+
+    <!-- সাল / মাস / Category -->
+
+    <div class="filter-box">
+
+      <div class="history-filter-grid">
+
+        <div class="history-filter-item">
+
+          <label>
+            সাল
+          </label>
+
+          <select id="historyYear">
+          </select>
+
+        </div>
+
+
+        <div class="history-filter-item">
+
+          <label>
+            মাস
+          </label>
+
+          <select id="historyMonthSelect">
+          </select>
+
+        </div>
+
+
+        <div class="history-filter-item">
+
+          <label>
+            Category
+          </label>
+
+          <select id="historyCategory">
+
+            <option value="">
+              সব Category
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+      <h3>
+        হিসাব
+      </h3>
+
+      <span id="historyProfile">
+        Bangladesh
+      </span>
+
+    </div>
+
+
+    <div id="historyTransactions">
+    </div>
+
+  </main>
+
+
+  <!-- PROFILE -->
+
+  <main
+    id="profilePage"
+    class="page">
+
+    <div class="profile-card">
+
+      <div class="profile-head">
+
+        <div
+          id="profileAvatar"
+          class="avatar">
+          S
+        </div>
+
+        <div>
+
+          <div
+            id="profileName"
+            class="profile-name">
+            Sajib Hossain
+          </div>
+
+          <div
+            id="profileId"
+            class="profile-id">
+            ID
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="profile-section">
+
+        <div class="profile-section-title">
+          নাম
+        </div>
+
+        <input
+          id="nameInput"
+          class="profile-input"
+          type="text"
+          placeholder="আপনার নাম">
+
+        <button
+          id="saveNameBtn"
+          class="small-btn">
+          নাম Save করুন
+        </button>
+
+      </div>
+
+
+      <div class="profile-section">
+
+        <div class="profile-section-title">
+          মাসিক Budget
+        </div>
+
+        <div class="budget-row">
+
+          <input
+            id="budgetMonth"
+            type="month">
+
+          <input
+            id="budgetAmount"
+            type="number"
+            inputmode="decimal"
+            placeholder="Budget">
+
+        </div>
+
+        <button
+          id="saveBudgetBtn"
+          class="small-btn">
+          Budget Save করুন
+        </button>
+
+      </div>
+
+
+      <div class="profile-section">
+
+        <div class="profile-section-title">
+          হিসাবের Profile
+        </div>
+
+        <div class="currency-row">
+
+          <button
+            id="bdBtn"
+            class="currency-btn">
+            🇧🇩 Bangladesh
+          </button>
+
+          <button
+            id="kwBtn"
+            class="currency-btn">
+            🇰🇼 Kuwait
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="logoutBtn"
+        class="logout-btn">
+        Logout
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <!-- NAV -->
+
+  <nav class="bottom-nav">
+
+    <div class="nav-inner">
+
+      <button
+        class="nav-btn active"
+        data-page="homePage">
+
+        <div class="nav-icon">
+          🏠
+        </div>
+
+        <div class="nav-label">
+          Home
+        </div>
+
+      </button>
+
+
+      <button
+        class="nav-btn"
+        data-page="historyPage">
+
+        <div class="nav-icon">
+          📊
+        </div>
+
+        <div class="nav-label">
+          হিসাব
+        </div>
+
+      </button>
+
+
+      <button
+        class="nav-btn"
+        data-page="profilePage">
+
+        <div class="nav-icon">
+          👤
+        </div>
+
+        <div class="nav-label">
+          Profile
+        </div>
+
+      </button>
+
+    </div>
+
+  </nav>
+
+</div>
+
+
+<!-- POPUP -->
+
+<div
+  id="popupOverlay"
+  class="popup-overlay">
+
+  <div class="popup">
+
+    <div class="popup-head">
+
+      <div class="popup-title">
+        খরচ যোগ করুন
+      </div>
+
+      <button
+        id="popupClose"
+        class="popup-close">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="selected-category">
+
+      <div
+        id="selectedCategoryIcon"
+        class="selected-category-icon">
+        🍚
+      </div>
+
+      <div
+        id="selectedCategoryName"
+        class="selected-category-name">
+        খাবার
+      </div>
+
+    </div>
+
+
+    <input
+      id="amountInput"
+      class="amount-input"
+      type="number"
+      inputmode="decimal"
+      step="any"
+      placeholder="0">
+
+
+    <input
+      type="text"
+      id="noteInput"
+      placeholder="নোট লিখুন"
+      autocomplete="off">
+
+
+    <button
+      id="saveTransactionBtn"
+      class="save-btn">
+      হিসাব Save করুন
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  id="loading"
+  class="loading">
+
+  <div class="loading-box">
+    Loading...
+  </div>
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   API
+========================================================= */
+
+const API =
+  'https://script.google.com/macros/s/AKfycbweL16Uzpgp5ogrrJp5ZiSPRZf-FeyH0nkOLPvptgcI7Dhra8IoVOfIvyzMTuzWbrCQ/exec';
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const SESSION_KEY =
+  'amaya_expense_session';
+
+const PROFILE_KEY =
+  'amaya_expense_currency';
+
+const BUDGET_MONTH_KEY =
+  'amaya_expense_budget_month';
+
+
+const SERVER_VERSION_KEY =
+  'amaya_expense_server_versions';
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentUser = null;
+
+let currency =
+  localStorage.getItem(
+    PROFILE_KEY
+  ) || 'BD';
+
+let transactions = [];
+
+let pendingTransactions = [];
+
+let homeBudget = 0;
+
+let selectedCategory = null;
+
+let syncTimer = null;
+
+let syncing = false;
+
+
+let draftAmount = '';
+
+let draftNote = '';
+
+let draftCategory = null;
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+const CATEGORIES = [
+
+  {name:'খাবার',icon:'🍔'},
+  {name:'বাজার',icon:'🛒'},
+  {name:'যাতায়াত',icon:'🚗'},
+  {name:'মোবাইল/ইন্টারনেট',icon:'📱'},
+  {name:'বিদ্যুৎ',icon:'💡'},
+  {name:'কেনাকাটা',icon:'🛍️'},
+  {name:'চিকিৎসা',icon:'💊'},
+  {name:'উপহার',icon:'🎁'},
+  {name:'শিক্ষা',icon:'🎓'},
+  {name:'অন্যান্য',icon:'📦'}
+
+];
+
+
+/* =========================================================
+   HISTORY FILTER
+========================================================= */
+
+const HISTORY_MONTHS = [
+
+  'জানুয়ারি',
+  'ফেব্রুয়ারি',
+  'মার্চ',
+  'এপ্রিল',
+  'মে',
+  'জুন',
+  'জুলাই',
+  'আগস্ট',
+  'সেপ্টেম্বর',
+  'অক্টোবর',
+  'নভেম্বর',
+  'ডিসেম্বর'
+
+];
+
+
+function setupHistoryFilters(){
+
+  const yearSelect =
+    document.getElementById(
+      'historyYear'
+    );
+
+
+  const monthSelect =
+    document.getElementById(
+      'historyMonthSelect'
+    );
+
+
+  if(
+    !yearSelect ||
+    !monthSelect
+  ){
+
+    return;
+
+  }
+
+
+  const now =
+    new Date();
+
+
+  const currentYear =
+    now.getFullYear();
+
+
+  const currentMonth =
+    now.getMonth() + 1;
+
+
+  /*
+   * বর্তমান বছরসহ
+   * আগের 5 বছর এবং পরের 1 বছর
+   * রাখা হয়েছে।
+   */
+
+  yearSelect.innerHTML = '';
+
+
+  for(
+    let year =
+      currentYear - 5;
+
+    year <=
+      currentYear + 1;
+
+    year++
+  ){
+
+    const option =
+      document.createElement(
+        'option'
+      );
+
+
+    option.value =
+      String(year);
+
+
+    option.textContent =
+      String(year);
+
+
+    if(
+      year ===
+      currentYear
+    ){
+
+      option.selected =
+        true;
+
+    }
+
+
+    yearSelect.appendChild(
+      option
+    );
+
+  }
+
+
+  monthSelect.innerHTML = '';
+
+
+  HISTORY_MONTHS.forEach(
+    function(month,index){
+
+      const option =
+        document.createElement(
+          'option'
+        );
+
+
+      const monthNumber =
+        index + 1;
+
+
+      option.value =
+        pad(
+          monthNumber
+        );
+
+
+      option.textContent =
+        month;
+
+
+      if(
+        monthNumber ===
+        currentMonth
+      ){
+
+        option.selected =
+          true;
+
+      }
+
+
+      monthSelect.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function normalizeProfile(value){
+
+  const v =
+    String(value || '')
+      .trim()
+      .toUpperCase();
+
+  if(
+    v === 'KW' ||
+    v === 'KUWAIT'
+  ){
+
+    return 'KW';
+
+  }
+
+  return 'BD';
+
+}
+
+
+function profileName(){
+
+  return currency === 'KW'
+    ? 'Kuwait'
+    : 'Bangladesh';
+
+}
+
+
+function transactionStorageKey(
+  profile = currency
+){
+
+  return (
+    'amaya_expense_transactions_' +
+    normalizeProfile(profile)
+  );
+
+}
+
+
+function pendingStorageKey(
+  profile = currency
+){
+
+  return (
+    'amaya_expense_pending_' +
+    normalizeProfile(profile)
+  );
+
+}
+
+
+function budgetStorageKey(
+  profile = currency,
+  month = getCurrentMonth()
+){
+
+  return (
+    'amaya_expense_budget_' +
+    normalizeProfile(profile) +
+    '_' +
+    month
+  );
+
+}
+
+
+/* =========================================================
+   SERVER VERSION STORAGE
+========================================================= */
+
+function serverVersionStorageKey(
+  profile = currency
+){
+
+  return (
+    SERVER_VERSION_KEY +
+    '_' +
+    normalizeProfile(profile)
+  );
+
+}
+
+
+function loadServerVersions(
+  profile = currency
+){
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        serverVersionStorageKey(
+          profile
+        )
+      );
+
+
+    if(!raw){
+      return {};
+    }
+
+
+    const data =
+      JSON.parse(raw);
+
+
+    return (
+      data &&
+      typeof data === 'object'
+    )
+      ? data
+      : {};
+
+  }catch(e){
+
+    return {};
+
+  }
+
+}
+
+
+function saveServerVersions(
+  data,
+  profile = currency
+){
+
+  const old =
+    loadServerVersions(
+      profile
+    );
+
+
+  const next = {
+
+    txVersion:
+      data?.txVersion ??
+      old.txVersion ??
+      '0',
+
+    budgetVersion:
+      data?.budgetVersion ??
+      old.budgetVersion ??
+      '0',
+
+    accountVersion:
+      data?.accountVersion ??
+      old.accountVersion ??
+      '0'
+
+  };
+
+
+  localStorage.setItem(
+
+    serverVersionStorageKey(
+      profile
+    ),
+
+    JSON.stringify(
+      next
+    )
+
+  );
+
+
+  return next;
+
+}
+
+
+function clearServerVersions(
+  profile = currency
+){
+
+  localStorage.removeItem(
+    serverVersionStorageKey(
+      profile
+    )
+  );
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function pad(n){
+
+  return String(n)
+    .padStart(2,'0');
+
+}
+
+
+function getCurrentMonth(){
+
+  const d =
+    new Date();
+
+  return (
+    d.getFullYear() +
+    '-' +
+    pad(
+      d.getMonth()+1
+    )
+  );
+
+}
+
+
+function getToday(){
+
+  const d =
+    new Date();
+
+  return (
+    d.getFullYear() +
+    '-' +
+    pad(
+      d.getMonth()+1
+    ) +
+    '-' +
+    pad(
+      d.getDate()
+    )
+  );
+
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function money(value){
+
+  let n =
+    Number(value);
+
+  if(!Number.isFinite(n)){
+    n = 0;
+  }
+
+
+  if(currency === 'KW'){
+
+    return (
+      n.toLocaleString(
+        'en-US',
+        {
+          minimumFractionDigits:3,
+          maximumFractionDigits:3
+        }
+      ) +
+      ' KD'
+    );
+
+  }
+
+
+  return (
+    '৳' +
+    n.toLocaleString(
+      'en-IN',
+      {
+        maximumFractionDigits:2
+      }
+    )
+  );
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function apiGet(params){
+
+  const url =
+    API +
+    '?' +
+    new URLSearchParams(
+      params
+    ).toString();
+
+  const response =
+    await fetch(
+      url,
+      {
+        method:'GET',
+        cache:'no-store'
+      }
+    );
+
+  if(!response.ok){
+
+    throw new Error(
+      'Network error'
+    );
+
+  }
+
+  return await response.json();
+
+}
+
+
+async function apiPost(
+  action,
+  data
+){
+
+  const response =
+    await fetch(
+      API,
+      {
+        method:'POST',
+        headers:{
+          'Content-Type':
+            'text/plain;charset=utf-8'
+        },
+        body:
+          JSON.stringify({
+            action,
+            data
+          })
+      }
+    );
+
+  if(!response.ok){
+
+    throw new Error(
+      'Network error'
+    );
+
+  }
+
+  return await response.json();
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function updateSyncStatus(text){
+
+  const el =
+    document.getElementById(
+      'syncStatus'
+    );
+
+  if(el){
+    el.textContent =
+      text;
+  }
+
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+function saveSession(){
+
+  localStorage.setItem(
+    SESSION_KEY,
+    JSON.stringify(
+      currentUser
+    )
+  );
+
+}
+
+
+function loadSession(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        SESSION_KEY
+      );
+
+    return raw
+      ? JSON.parse(raw)
+      : null;
+
+  }catch(e){
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   LOCAL TRANSACTIONS
+========================================================= */
+
+function loadLocalTransactions(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        transactionStorageKey()
+      );
+
+    transactions =
+      raw
+        ? JSON.parse(raw)
+        : [];
+
+    if(!Array.isArray(transactions)){
+
+      transactions = [];
+
+    }
+
+  }catch(e){
+
+    transactions = [];
+
+  }
+
+}
+
+
+function saveLocalTransactions(){
+
+  localStorage.setItem(
+    transactionStorageKey(),
+    JSON.stringify(
+      transactions
+    )
+  );
+
+}
+
+
+function loadPendingTransactions(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        pendingStorageKey()
+      );
+
+    pendingTransactions =
+      raw
+        ? JSON.parse(raw)
+        : [];
+
+    if(
+      !Array.isArray(
+        pendingTransactions
+      )
+    ){
+
+      pendingTransactions = [];
+
+    }
+
+  }catch(e){
+
+    pendingTransactions = [];
+
+  }
+
+}
+
+
+function savePendingTransactions(){
+
+  localStorage.setItem(
+    pendingStorageKey(),
+    JSON.stringify(
+      pendingTransactions
+    )
+  );
+
+}
+
+
+/* =========================================================
+   TRANSACTION ID
+========================================================= */
+
+function transactionId(t){
+
+  if(!t){
+    return '';
+  }
+
+
+  const objectId =
+    t.id ??
+    t.ID ??
+    t.transactionId ??
+    t.TransactionID;
+
+
+  if(
+    objectId !== undefined &&
+    objectId !== null &&
+    String(objectId).trim()
+  ){
+
+    return String(
+      objectId
+    ).trim();
+
+  }
+
+
+  if(Array.isArray(t)){
+
+    return String(
+      t[0] ??
+      ''
+    ).trim();
+
+  }
+
+
+  return '';
+
+}
+
+
+/* =========================================================
+   IMPORTANT AMOUNT PARSER
+========================================================= */
+
+function parseAmount(value){
+
+  if(
+    value === undefined ||
+    value === null ||
+    value === ''
+  ){
+
+    return null;
+
+  }
+
+
+  if(
+    typeof value ===
+    'number'
+  ){
+
+    return Number.isFinite(value)
+      ? value
+      : null;
+
+  }
+
+
+  let s =
+    String(value)
+      .trim();
+
+
+  if(!s){
+
+    return null;
+
+  }
+
+
+  s =
+    s
+      .replace(/,/g,'')
+      .replace(/৳/g,'')
+      .replace(/TK/gi,'')
+      .replace(/BDT/gi,'')
+      .replace(/KD/gi,'')
+      .replace(/\s+/g,'');
+
+
+  const n =
+    Number(s);
+
+
+  return Number.isFinite(n)
+    ? n
+    : null;
+
+}
+
+
+/* =========================================================
+   GET SERVER AMOUNT
+========================================================= */
+
+function getTransactionAmount(t){
+
+  if(!t){
+    return null;
+  }
+
+
+  if(Array.isArray(t)){
+
+    const parsed =
+      parseAmount(
+        t[3]
+      );
+
+    if(
+      parsed !== null
+    ){
+
+      return parsed;
+
+    }
+
+  }
+
+
+  const possibleFields = [
+
+    t.amount,
+    t.Amount,
+
+    t.bdAmount,
+    t.BDAmount,
+
+    t.kdAmount,
+    t.KDAmount,
+
+    t.value,
+    t.Value,
+
+    t.total,
+    t.Total,
+
+    t.expense,
+    t.Expense,
+
+    t.amountValue,
+    t.AmountValue
+
+  ];
+
+
+  for(
+    const value of possibleFields
+  ){
+
+    const parsed =
+      parseAmount(
+        value
+      );
+
+    if(
+      parsed !== null
+    ){
+
+      return parsed;
+
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================================================
+   NORMALIZE SERVER TRANSACTION
+========================================================= */
+
+function normalizeTransaction(t){
+
+  if(!t){
+    return null;
+  }
+
+
+  const id =
+    transactionId(t);
+
+
+  if(!id){
+    return null;
+  }
+
+
+  let date = '';
+
+  let category = '';
+
+  let note = '';
+
+  let timestamp = '';
+
+
+  if(Array.isArray(t)){
+
+    date =
+      String(
+        t[1] ??
+        ''
+      ).slice(0,10);
+
+
+    category =
+      String(
+        t[2] ??
+        ''
+      );
+
+
+    note =
+      String(
+        t[4] ??
+        ''
+      );
+
+
+    timestamp =
+      t[5] ??
+      '';
+
+  }else{
+
+    date =
+      String(
+        t.date ??
+        t.Date ??
+        ''
+      ).slice(0,10);
+
+
+    category =
+      String(
+        t.category ??
+        t.Category ??
+        ''
+      );
+
+
+    note =
+      String(
+        t.note ??
+        t.Note ??
+        ''
+      );
+
+
+    timestamp =
+      t.timestamp ??
+      t.Timestamp ??
+      '';
+
+  }
+
+
+  const amount =
+    getTransactionAmount(t);
+
+
+  return {
+
+    id:
+      id,
+
+    date:
+      date,
+
+    category:
+      category,
+
+    amount:
+      amount,
+
+    note:
+      note,
+
+    timestamp:
+      timestamp
+
+  };
+
+}
+
+
+/* =========================================================
+   MERGE SERVER + LOCAL
+========================================================= */
+
+function mergeServerTransactions(
+  serverList
+){
+
+  const localMap =
+    new Map();
+
+
+  transactions.forEach(
+    function(t){
+
+      const id =
+        transactionId(t);
+
+      if(id){
+
+        localMap.set(
+          id,
+          t
+        );
+
+      }
+
+    }
+  );
+
+
+  const result = [];
+
+
+  serverList.forEach(
+    function(raw){
+
+      const server =
+        normalizeTransaction(
+          raw
+        );
+
+
+      if(!server){
+        return;
+      }
+
+
+      const local =
+        localMap.get(
+          server.id
+        );
+
+
+      let finalAmount =
+        server.amount;
+
+
+      if(
+        finalAmount !== null &&
+        Number.isFinite(
+          Number(finalAmount)
+        )
+      ){
+
+        finalAmount =
+          Number(finalAmount);
+
+      }else{
+
+        const localAmount =
+          local
+            ? parseAmount(
+                local.amount
+              )
+            : null;
+
+
+        if(
+          localAmount !== null
+        ){
+
+          finalAmount =
+            localAmount;
+
+        }else{
+
+          finalAmount = 0;
+
+        }
+
+      }
+
+
+      result.push({
+
+        id:
+          server.id,
+
+        date:
+          server.date ||
+          local?.date ||
+          '',
+
+        category:
+          server.category ||
+          local?.category ||
+          '',
+
+        amount:
+          finalAmount,
+
+        note:
+          server.note ||
+          local?.note ||
+          '',
+
+        timestamp:
+          server.timestamp ||
+          local?.timestamp ||
+          ''
+
+      });
+
+    }
+  );
+
+
+  const serverIds =
+    new Set(
+      result.map(
+        function(t){
+          return t.id;
+        }
+      )
+    );
+
+
+  pendingTransactions.forEach(
+    function(t){
+
+      const id =
+        transactionId(t);
+
+
+      if(
+        id &&
+        !serverIds.has(id)
+      ){
+
+        const pendingAmount =
+          parseAmount(
+            t.amount
+          );
+
+
+        result.push({
+
+          id:
+            id,
+
+          date:
+            String(
+              t.date || ''
+            ).slice(0,10),
+
+          category:
+            String(
+              t.category || ''
+            ),
+
+          amount:
+            pendingAmount === null
+              ? 0
+              : pendingAmount,
+
+          note:
+            String(
+              t.note || ''
+            ),
+
+          timestamp:
+            t.timestamp || ''
+
+        });
+
+      }
+
+    }
+  );
+
+
+  const map =
+    new Map();
+
+
+  result.forEach(
+    function(t){
+
+      if(!t.id){
+        return;
+      }
+
+
+      const old =
+        map.get(
+          t.id
+        );
+
+
+      if(old){
+
+        const oldAmount =
+          parseAmount(
+            old.amount
+          );
+
+
+        const newAmount =
+          parseAmount(
+            t.amount
+          );
+
+
+        if(
+          oldAmount !== null &&
+          (
+            newAmount === null ||
+            newAmount === 0
+          ) &&
+          oldAmount !== 0
+        ){
+
+          t.amount =
+            oldAmount;
+
+        }
+
+      }
+
+
+      map.set(
+        t.id,
+        t
+      );
+
+    }
+  );
+
+
+  return Array.from(
+    map.values()
+  );
+
+}
+
+
+/* =========================================================
+   UNIQUE
+========================================================= */
+
+function uniqueTransactions(
+  list
+){
+
+  const map =
+    new Map();
+
+
+  list.forEach(
+    function(t){
+
+      const id =
+        transactionId(t);
+
+      if(!id){
+        return;
+      }
+
+
+      const old =
+        map.get(
+          id
+        );
+
+
+      if(old){
+
+        const oldAmount =
+          parseAmount(
+            old.amount
+          );
+
+
+        const newAmount =
+          parseAmount(
+            t.amount
+          );
+
+
+        if(
+          oldAmount !== null &&
+          oldAmount !== 0 &&
+          (
+            newAmount === null ||
+            newAmount === 0
+          )
+        ){
+
+          t.amount =
+            oldAmount;
+
+        }
+
+      }
+
+
+      map.set(
+        id,
+        t
+      );
+
+    }
+  );
+
+
+  return Array.from(
+    map.values()
+  );
+
+}
+
+
+/* =========================================================
+   SORT
+========================================================= */
+
+function transactionTime(t){
+
+  const timestamp =
+    t?.timestamp;
+
+
+  if(timestamp){
+
+    const n =
+      new Date(
+        timestamp
+      ).getTime();
+
+    if(!isNaN(n)){
+      return n;
+    }
+
+  }
+
+
+  const date =
+    String(
+      t?.date || ''
+    );
+
+
+  const n =
+    new Date(
+      date +
+      'T00:00:00'
+    ).getTime();
+
+
+  return isNaN(n)
+    ? 0
+    : n;
+
+}
+
+
+function compareTransactionDate(
+  a,
+  b
+){
+
+  return (
+    transactionTime(b) -
+    transactionTime(a)
+  );
+
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function renderCategories(){
+
+  const grid =
+    document.getElementById(
+      'categoryGrid'
+    );
+
+
+  if(!grid){
+    return;
+  }
+
+
+  grid.innerHTML = '';
+
+
+  CATEGORIES.forEach(
+    function(cat){
+
+      const btn =
+        document.createElement(
+          'button'
+        );
+
+
+      btn.className =
+        'category-btn';
+
+
+      btn.innerHTML =
+
+        '<div class="category-icon">' +
+          cat.icon +
+        '</div>' +
+
+        '<div class="category-name">' +
+          cat.name +
+        '</div>';
+
+
+      btn.addEventListener(
+        'click',
+        function(){
+
+          openPopup(
+            cat
+          );
+
+        }
+      );
+
+
+      grid.appendChild(
+        btn
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function renderCategoryFilter(){
+
+  const select =
+    document.getElementById(
+      'historyCategory'
+    );
+
+
+  if(!select){
+    return;
+  }
+
+
+  select.innerHTML =
+    '<option value="">' +
+      'সব Category' +
+    '</option>';
+
+
+  CATEGORIES.forEach(
+    function(cat){
+
+      const option =
+        document.createElement(
+          'option'
+        );
+
+
+      option.value =
+        cat.name;
+
+
+      option.textContent =
+        cat.icon +
+        ' ' +
+        cat.name;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   POPUP DRAFT
+========================================================= */
+
+function savePopupDraft(){
+
+  const amountEl =
+    document.getElementById(
+      'amountInput'
+    );
+
+
+  const noteEl =
+    document.getElementById(
+      'noteInput'
+    );
+
+
+  if(amountEl){
+
+    draftAmount =
+      amountEl.value;
+
+  }
+
+
+  if(noteEl){
+
+    draftNote =
+      noteEl.value;
+
+  }
+
+
+  if(selectedCategory){
+
+    draftCategory =
+      selectedCategory;
+
+  }
+
+}
+
+
+function restorePopupDraft(){
+
+  const amountEl =
+    document.getElementById(
+      'amountInput'
+    );
+
+
+  const noteEl =
+    document.getElementById(
+      'noteInput'
+    );
+
+
+  if(
+    amountEl &&
+    draftCategory
+  ){
+
+    amountEl.value =
+      draftAmount || '';
+
+  }
+
+
+  if(noteEl){
+
+    noteEl.value =
+      draftNote || '';
+
+  }
+
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+function openPopup(
+  category
+){
+
+  selectedCategory =
+    category;
+
+
+  draftCategory =
+    category;
+
+
+  draftAmount =
+    '';
+
+
+  draftNote =
+    '';
+
+
+  document.getElementById(
+    'selectedCategoryIcon'
+  ).textContent =
+    category.icon;
+
+
+  document.getElementById(
+    'selectedCategoryName'
+  ).textContent =
+    category.name;
+
+
+  document.getElementById(
+    'amountInput'
+  ).value =
+    '';
+
+
+  document.getElementById(
+    'noteInput'
+  ).value =
+    '';
+
+
+  document.getElementById(
+    'popupOverlay'
+  ).classList.add(
+    'show'
+  );
+
+
+  setTimeout(
+    function(){
+
+      document.getElementById(
+        'amountInput'
+      ).focus();
+
+    },
+    120
+  );
+
+}
+
+
+function closePopup(
+  clearDraft = true
+){
+
+  document.getElementById(
+    'popupOverlay'
+  ).classList.remove(
+    'show'
+  );
+
+
+  selectedCategory =
+    null;
+
+
+  if(clearDraft){
+
+    draftAmount =
+      '';
+
+    draftNote =
+      '';
+
+    draftCategory =
+      null;
+
+  }
+
+}
+
+
+/* =========================================================
+   CREATE TRANSACTION
+========================================================= */
+
+function createTransaction(
+  category,
+  amount,
+  note
+){
+
+  return {
+
+    id:
+      'TXN' +
+      Date.now() +
+      Math.random()
+        .toString(36)
+        .slice(2,7),
+
+    date:
+      getToday(),
+
+    category:
+      category,
+
+    amount:
+      Number(amount),
+
+    note:
+      note || '',
+
+    timestamp:
+      new Date().toISOString()
+
+  };
+
+}
+
+
+/* =========================================================
+   SAVE TRANSACTION
+========================================================= */
+
+async function saveTransaction(){
+
+  if(!selectedCategory){
+    return;
+  }
+
+
+  const amountInput =
+    document.getElementById(
+      'amountInput'
+    );
+
+
+  const amount =
+    parseAmount(
+      amountInput.value
+    );
+
+
+  if(
+    amount === null ||
+    amount <= 0
+  ){
+
+    amountInput.focus();
+
+    return;
+
+  }
+
+
+  draftAmount =
+    '';
+
+  draftNote =
+    '';
+
+  draftCategory =
+    null;
+
+
+  const txn =
+    createTransaction(
+
+      selectedCategory.name,
+
+      amount,
+
+      document.getElementById(
+        'noteInput'
+      ).value
+
+    );
+
+
+  transactions.unshift(
+    txn
+  );
+
+
+  transactions =
+    uniqueTransactions(
+      transactions
+    );
+
+
+  transactions.sort(
+    compareTransactionDate
+  );
+
+
+  saveLocalTransactions();
+
+
+  pendingTransactions.push(
+    txn
+  );
+
+
+  savePendingTransactions();
+
+
+  closePopup(
+    true
+  );
+
+
+  renderAll();
+
+
+  updateSyncStatus(
+    'Saving...'
+  );
+
+
+  syncPendingTransactions();
+
+}
+
+
+/* =========================================================
+   SYNC PENDING
+========================================================= */
+
+async function syncPendingTransactions(){
+
+  if(syncing){
+    return;
+  }
+
+
+  if(!navigator.onLine){
+
+    updateSyncStatus(
+      'Offline'
+    );
+
+    return;
+
+  }
+
+
+  if(
+    pendingTransactions.length === 0
+  ){
+
+    updateSyncStatus(
+      'Synced'
+    );
+
+    return;
+
+  }
+
+
+  syncing = true;
+
+
+  try{
+
+    while(
+      pendingTransactions.length > 0
+    ){
+
+      const txn =
+        pendingTransactions[0];
+
+
+      const result =
+        await apiPost(
+          'addTransaction',
+          {
+
+            currency:
+              currency,
+
+            profile:
+              currency,
+
+            transaction:
+              txn,
+
+            ...txn
+
+          }
+        );
+
+
+      if(
+        result &&
+        (
+          result.ok ||
+          result.success
+        )
+      ){
+
+        pendingTransactions.shift();
+
+        savePendingTransactions();
+
+
+        if(
+          result.txVersion !==
+          undefined
+        ){
+
+          saveServerVersions({
+
+            txVersion:
+              result.txVersion
+
+          });
+
+        }
+
+      }else{
+
+        throw new Error(
+          'Save failed'
+        );
+
+      }
+
+    }
+
+
+    updateSyncStatus(
+      'Synced'
+    );
+
+
+  }catch(e){
+
+    updateSyncStatus(
+      'Pending'
+    );
+
+  }finally{
+
+    syncing = false;
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD SERVER DATA
+========================================================= */
+
+async function loadServerData(
+  profile = currency,
+  force = false
+){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  savePopupDraft();
+
+
+  try{
+
+    updateSyncStatus(
+      'Syncing...'
+    );
+
+
+    loadPendingTransactions();
+
+
+    const result =
+      await apiGet({
+
+        action:
+          'getData',
+
+        currency:
+          normalizeProfile(
+            profile
+          ),
+
+        profile:
+          normalizeProfile(
+            profile
+          ),
+
+        userId:
+          currentUser.id ||
+          currentUser.ID ||
+          ''
+
+      });
+
+
+    if(
+      !result ||
+      !(
+        result.ok ||
+        result.success
+      )
+    ){
+
+      throw new Error(
+        'Server data error'
+      );
+
+    }
+
+
+    const serverList =
+      Array.isArray(
+        result.transactions
+      )
+        ? result.transactions
+        : [];
+
+
+    transactions =
+      mergeServerTransactions(
+        serverList
+      );
+
+
+    transactions =
+      uniqueTransactions(
+        transactions
+      );
+
+
+    transactions.sort(
+      compareTransactionDate
+    );
+
+
+    saveLocalTransactions();
+
+
+    if(
+      result.txVersion !==
+      undefined
+    ){
+
+      saveServerVersions({
+
+        txVersion:
+          result.txVersion,
+
+        budgetVersion:
+          result.budgetVersion,
+
+        accountVersion:
+          result.accountVersion
+
+      });
+
+    }
+
+
+    renderAll();
+
+    restorePopupDraft();
+
+
+    updateSyncStatus(
+      pendingTransactions.length
+        ? 'Pending'
+        : 'Synced'
+    );
+
+
+    await loadBudgetFromServer(
+      getCurrentMonth()
+    );
+
+
+    restorePopupDraft();
+
+
+  }catch(e){
+
+    renderAll();
+
+    restorePopupDraft();
+
+
+    updateSyncStatus(
+      navigator.onLine
+        ? 'Pending'
+        : 'Offline'
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD ONLY TRANSACTIONS
+========================================================= */
+
+async function loadServerTransactionsOnly(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  savePopupDraft();
+
+
+  try{
+
+    updateSyncStatus(
+      'Syncing...'
+    );
+
+
+    loadPendingTransactions();
+
+
+    const result =
+      await apiGet({
+
+        action:
+          'getData',
+
+        currency:
+          normalizeProfile(
+            currency
+          ),
+
+        profile:
+          normalizeProfile(
+            currency
+          ),
+
+        userId:
+          currentUser.id ||
+          currentUser.ID ||
+          ''
+
+      });
+
+
+    if(
+      !result ||
+      !(
+        result.ok ||
+        result.success
+      )
+    ){
+
+      throw new Error(
+        'Server data error'
+      );
+
+    }
+
+
+    const serverList =
+      Array.isArray(
+        result.transactions
+      )
+        ? result.transactions
+        : [];
+
+
+    transactions =
+      mergeServerTransactions(
+        serverList
+      );
+
+
+    transactions =
+      uniqueTransactions(
+        transactions
+      );
+
+
+    transactions.sort(
+      compareTransactionDate
+    );
+
+
+    saveLocalTransactions();
+
+
+    saveServerVersions({
+
+      txVersion:
+        result.txVersion,
+
+      budgetVersion:
+        result.budgetVersion,
+
+      accountVersion:
+        result.accountVersion
+
+    });
+
+
+    renderAll();
+
+    restorePopupDraft();
+
+
+    updateSyncStatus(
+      pendingTransactions.length
+        ? 'Pending'
+        : 'Synced'
+    );
+
+
+  }catch(e){
+
+    renderAll();
+
+    restorePopupDraft();
+
+
+    updateSyncStatus(
+      navigator.onLine
+        ? 'Pending'
+        : 'Offline'
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD PROFILE FROM SERVER
+========================================================= */
+
+async function loadProfileFromServer(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  try{
+
+    const result =
+      await apiGet({
+
+        action:
+          'getProfile',
+
+        userId:
+          currentUser.id ||
+          currentUser.ID ||
+          ''
+
+      });
+
+
+    if(
+      result &&
+      (
+        result.ok ||
+        result.success
+      ) &&
+      result.user
+    ){
+
+      currentUser = {
+
+        ...currentUser,
+
+        ...result.user
+
+      };
+
+
+      saveSession();
+
+      renderAll();
+
+    }
+
+
+    if(
+      result &&
+      result.accountVersion !==
+      undefined
+    ){
+
+      saveServerVersions({
+
+        accountVersion:
+          result.accountVersion
+
+    });
+
+    }
+
+  }catch(e){
+
+  }
+
+}
+
+
+/* =========================================================
+   BUDGET
+========================================================= */
+
+function getBudgetMonth(){
+
+  return (
+    localStorage.getItem(
+      BUDGET_MONTH_KEY
+    ) ||
+    getCurrentMonth()
+  );
+
+}
+
+
+function loadHomeBudgetLocal(){
+
+  const month =
+    getCurrentMonth();
+
+  const raw =
+    localStorage.getItem(
+      budgetStorageKey(
+        currency,
+        month
+      )
+    );
+
+
+  if(raw === null){
+    return;
+  }
+
+
+  const value =
+    parseAmount(raw);
+
+  if(value !== null){
+    homeBudget = value;
+  }
+
+}
+
+
+function saveLocalBudget(
+  month,
+  amount
+){
+
+  localStorage.setItem(
+    budgetStorageKey(
+      currency,
+      month
+    ),
+    String(amount)
+  );
+
+}
+
+
+/* =========================================================
+   LOAD BUDGET
+========================================================= */
+
+async function loadBudgetFromServer(month){
+
+  try{
+
+    const localKey =
+      budgetStorageKey(
+        currency,
+        month
+      );
+
+
+    const local =
+      localStorage.getItem(
+        localKey
+      );
+
+
+    if(local !== null){
+
+      const localAmount =
+        parseAmount(local);
+
+
+      if(localAmount !== null){
+
+        if(
+          month ===
+          getCurrentMonth()
+        ){
+
+          homeBudget =
+            localAmount;
+
+        }
+
+        renderAll();
+
+      }
+
+    }
+
+
+    const result =
+      await apiGet({
+
+        action:
+          'getBudget',
+
+        currency:
+          currency,
+
+        profile:
+          currency,
+
+        month:
+          month,
+
+        userId:
+          currentUser?.id ||
+          currentUser?.ID ||
+          ''
+
+      });
+
+
+    if(
+      !result ||
+      !(
+        result.ok ||
+        result.success
+      )
+    ){
+
+      return;
+
+    }
+
+
+    if(result.found === true){
+
+      const serverAmount =
+        parseAmount(
+          result.budget ??
+          result.amount
+        );
+
+
+      if(serverAmount !== null){
+
+        saveLocalBudget(
+          month,
+          serverAmount
+        );
+
+
+        if(
+          month ===
+          getCurrentMonth()
+        ){
+
+          homeBudget =
+            serverAmount;
+
+        }
+
+
+        renderAll();
+
+      }
+
+
+      return;
+
+    }
+
+
+    if(local === null){
+
+      if(
+        month ===
+        getCurrentMonth()
+      ){
+
+        homeBudget =
+          0;
+
+      }
+
+      renderAll();
+
+    }
+
+
+  }catch(e){
+
+    loadHomeBudgetLocal();
+
+    renderAll();
+
+  }
+
+}
+
+
+/* =========================================================
+   SAVE BUDGET
+========================================================= */
+
+async function saveBudget(){
+
+  const month =
+    document.getElementById(
+      'budgetMonth'
+    ).value ||
+    getCurrentMonth();
+
+
+  const amount =
+    parseAmount(
+      document.getElementById(
+        'budgetAmount'
+      ).value
+    ) ?? 0;
+
+
+  saveLocalBudget(
+    month,
+    amount
+  );
+
+
+  if(
+    month ===
+    getCurrentMonth()
+  ){
+
+    homeBudget =
+      amount;
+
+  }
+
+
+  renderAll();
+
+
+  try{
+
+    updateSyncStatus(
+      'Saving...'
+    );
+
+
+    const result =
+      await apiPost(
+        'saveBudget',
+        {
+
+          currency:
+            currency,
+
+          profile:
+            currency,
+
+          month:
+            month,
+
+          budget:
+            amount,
+
+          amount:
+            amount,
+
+          userId:
+            currentUser?.id ||
+            currentUser?.ID ||
+            ''
+
+        }
+      );
+
+
+    if(
+      result &&
+      (
+        result.ok ||
+        result.success
+      )
+    ){
+
+      if(
+        result.budgetVersion !==
+        undefined
+      ){
+
+        saveServerVersions({
+
+          budgetVersion:
+            result.budgetVersion
+
+        });
+
+      }
+
+
+      updateSyncStatus(
+        'Synced'
+      );
+
+    }else{
+
+      updateSyncStatus(
+        'Pending'
+      );
+
+    }
+
+  }catch(e){
+
+    updateSyncStatus(
+      'Pending'
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ATM CARD
+========================================================= */
+
+function updateCard(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const cardBudget =
+    document.getElementById(
+      'cardBudget'
+    );
+
+
+  const cardRemaining =
+    document.getElementById(
+      'cardRemaining'
+    );
+
+
+  const cardMonth =
+    document.getElementById(
+      'cardMonth'
+    );
+
+
+  const cardProgressBar =
+    document.getElementById(
+      'cardProgressBar'
+    );
+
+
+  const cardExpensePercent =
+    document.getElementById(
+      'cardExpensePercent'
+    );
+
+
+  const now =
+  new Date();
+
+if(cardMonth){
+
+  cardMonth.textContent =
+    new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+      year: 'numeric'
+    }).format(now);
+
+}
+
+
+  loadHomeBudgetLocal();
+
+
+  const currentMonth =
+    getCurrentMonth();
+
+
+  const totalExpense =
+    transactions
+      .filter(
+        function(t){
+
+          const date =
+            String(
+              t?.date ||
+              ''
+            );
+
+
+          return date.startsWith(
+            currentMonth
+          );
+
+        }
+      )
+      .reduce(
+        function(sum,t){
+
+          let amount =
+            parseAmount(
+              t?.amount
+            );
+
+
+          if(
+            amount === null
+          ){
+
+            amount =
+              getTransactionAmount(
+                t
+              );
+
+          }
+
+
+          if(
+            amount !== null &&
+            Number.isFinite(
+              Number(amount)
+            )
+          ){
+
+            return (
+              sum +
+              Number(amount)
+            );
+
+          }
+
+
+          return sum;
+
+        },
+        0
+      );
+
+
+  const budget =
+    parseAmount(
+      homeBudget
+    ) ?? 0;
+
+
+  const remaining =
+    Math.max(
+      0,
+      budget -
+      totalExpense
+    );
+
+
+  let expensePercent =
+    0;
+
+
+  if(
+    budget > 0
+  ){
+
+    expensePercent =
+      (
+        totalExpense /
+        budget
+      ) * 100;
+
+  }
+
+
+  expensePercent =
+    Math.min(
+      100,
+      Math.max(
+        0,
+        expensePercent
+      )
+    );
+
+
+  if(cardBudget){
+
+    cardBudget.textContent =
+      money(
+        budget
+      );
+
+  }
+
+
+  if(cardRemaining){
+
+    cardRemaining.textContent =
+      money(
+        remaining
+      );
+
+  }
+
+
+  if(cardProgressBar){
+
+    cardProgressBar.style.width =
+      expensePercent.toFixed(1) +
+      '%';
+
+  }
+
+
+  if(cardExpensePercent){
+
+    cardExpensePercent.textContent =
+      expensePercent.toFixed(1) +
+      '%';
+
+  }
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(
+  value
+){
+
+  return String(
+    value ?? ''
+  )
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+  .replace(
+    /</g,
+    '&lt;'
+  )
+  .replace(
+    />/g,
+    '&gt;'
+  )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+  .replace(
+    /'/g,
+    '&#039;'
+  );
+
+}
+
+
+/* =========================================================
+   TRANSACTION HTML
+========================================================= */
+
+function transactionHTML(t){
+
+  const cat =
+    CATEGORIES.find(
+      function(c){
+
+        return (
+          c.name ===
+          t.category
+        );
+
+      }
+    );
+
+
+  const icon =
+    cat
+      ? cat.icon
+      : '📦';
+
+
+  let amount =
+    parseAmount(
+      t.amount
+    );
+
+
+  if(
+    amount === null
+  ){
+
+    amount =
+      getTransactionAmount(
+        t
+      );
+
+  }
+
+
+  if(amount === null){
+
+    amount = 0;
+
+  }
+
+
+  return `
+
+    <div class="transaction-card">
+
+      <div class="txn-row">
+
+        <div class="txn-left">
+
+          <div class="txn-category">
+
+            ${icon}
+
+            ${escapeHTML(
+              t.category
+            )}
+
+          </div>
+
+
+          ${
+            t.note
+              ? `
+                <div class="txn-note">
+                  ${escapeHTML(
+                    t.note
+                  )}
+                </div>
+              `
+              : ''
+          }
+
+
+          <div class="txn-date">
+
+            ${escapeHTML(
+              t.date || ''
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="txn-amount">
+
+          ${money(
+            amount
+          )}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome(){
+
+  updateCard();
+
+
+  const list =
+    document.getElementById(
+      'recentTransactions'
+    );
+
+
+  const count =
+    document.getElementById(
+      'recentCount'
+    );
+
+
+  if(count){
+
+    count.textContent =
+      String(
+        transactions.length
+      );
+
+  }
+
+
+  if(!list){
+    return;
+  }
+
+
+  const recent =
+    transactions
+      .slice(0,8);
+
+
+  if(
+    recent.length === 0
+  ){
+
+    list.innerHTML =
+      '<div class="empty">' +
+      'এখনও কোনো হিসাব নেই' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    recent
+      .map(
+        transactionHTML
+      )
+      .join('');
+
+}
+
+
+/* =========================================================
+   HISTORY
+   নতুন সাল + মাস + Category FILTER
+========================================================= */
+
+function renderHistory(){
+
+  const yearSelect =
+    document.getElementById(
+      'historyYear'
+    );
+
+
+  const monthSelect =
+    document.getElementById(
+      'historyMonthSelect'
+    );
+
+
+  const categorySelect =
+    document.getElementById(
+      'historyCategory'
+    );
+
+
+  if(
+    !yearSelect ||
+    !monthSelect ||
+    !categorySelect
+  ){
+
+    return;
+
+  }
+
+
+  const now =
+    new Date();
+
+
+  const currentYear =
+    String(
+      now.getFullYear()
+    );
+
+
+  const currentMonth =
+    pad(
+      now.getMonth() + 1
+    );
+
+
+  /*
+   * যদি কোনো কারণে select এখনো তৈরি না হয়ে থাকে,
+   * বর্তমান সাল/মাস ব্যবহার করবে।
+   */
+
+  const selectedYear =
+    yearSelect.value ||
+    currentYear;
+
+
+  const selectedMonth =
+    monthSelect.value ||
+    currentMonth;
+
+
+  const category =
+    categorySelect.value;
+
+
+  const selectedYearMonth =
+    selectedYear +
+    '-' +
+    selectedMonth;
+
+
+  let list =
+    transactions.slice();
+
+
+  /*
+   * সাল + মাস দিয়ে filter
+   */
+
+  list =
+    list.filter(
+      function(t){
+
+        const date =
+          String(
+            t.date || ''
+          );
+
+
+        return date.startsWith(
+          selectedYearMonth
+        );
+
+      }
+    );
+
+
+  /*
+   * Category filter
+   */
+
+  if(category){
+
+    list =
+      list.filter(
+        function(t){
+
+          return (
+            t.category ===
+            category
+          );
+
+        }
+      );
+
+  }
+
+
+  const total =
+    list.reduce(
+      function(sum,t){
+
+        let amount =
+          parseAmount(
+            t.amount
+          );
+
+
+        if(
+          amount === null
+        ){
+
+          amount =
+            getTransactionAmount(
+              t
+            );
+
+        }
+
+
+        return (
+          sum +
+          (
+            amount === null
+              ? 0
+              : amount
+          )
+        );
+
+      },
+      0
+    );
+
+
+  document.getElementById(
+    'historyTotal'
+  ).textContent =
+    money(total);
+
+
+  document.getElementById(
+    'historyProfile'
+  ).textContent =
+    profileName();
+
+
+  /*
+   * Card-এর ডান পাশে
+   * নির্বাচিত মাস + সাল দেখাবে।
+   */
+
+  const monthIndex =
+    Number(
+      selectedMonth
+    ) - 1;
+
+
+  const historyMonthEl =
+    document.getElementById(
+      'historyMonth'
+    );
+
+
+  if(historyMonthEl){
+
+    historyMonthEl.textContent =
+      (
+        HISTORY_MONTHS[
+          monthIndex
+        ] ||
+        ''
+      ) +
+      ' ' +
+      selectedYear;
+
+  }
+
+
+  const container =
+    document.getElementById(
+      'historyTransactions'
+    );
+
+
+  if(
+    list.length === 0
+  ){
+
+    container.innerHTML =
+      '<div class="empty">' +
+      'কোনো হিসাব পাওয়া যায়নি' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    list
+      .map(
+        transactionHTML
+      )
+      .join('');
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function renderProfile(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const name =
+    currentUser.name ||
+    currentUser.Name ||
+    'Sajib Hossain';
+
+
+  const id =
+    currentUser.id ||
+    currentUser.ID ||
+    '';
+
+
+  document.getElementById(
+    'profileName'
+  ).textContent =
+    name;
+
+
+  document.getElementById(
+    'profileId'
+  ).textContent =
+    id;
+
+
+  document.getElementById(
+    'nameInput'
+  ).value =
+    name;
+
+
+  document.getElementById(
+    'profileAvatar'
+  ).textContent =
+    name
+      .trim()
+      .charAt(0)
+      .toUpperCase() ||
+    'S';
+
+
+  document.getElementById(
+    'homeProfile'
+  ).textContent =
+    profileName();
+
+
+  document.getElementById(
+    'historyProfile'
+  ).textContent =
+    profileName();
+
+
+  document.getElementById(
+    'bdBtn'
+  ).classList.toggle(
+    'active',
+    currency === 'BD'
+  );
+
+
+  document.getElementById(
+    'kwBtn'
+  ).classList.toggle(
+    'active',
+    currency === 'KW'
+  );
+
+
+  document.getElementById(
+    'budgetMonth'
+  ).value =
+    getBudgetMonth();
+
+
+  loadBudgetInput();
+
+}
+
+
+function loadBudgetInput(){
+
+  const month =
+    document.getElementById(
+      'budgetMonth'
+    ).value ||
+    getCurrentMonth();
+
+
+  const raw =
+    localStorage.getItem(
+      budgetStorageKey(
+        currency,
+        month
+      )
+    );
+
+
+  document.getElementById(
+    'budgetAmount'
+  ).value =
+    raw === null
+      ? ''
+      : raw;
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+  renderHome();
+
+  renderHistory();
+
+  renderProfile();
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function openPage(
+  pageId
+){
+
+  document
+    .querySelectorAll(
+      '.page'
+    )
+    .forEach(
+      function(page){
+
+        page.classList.toggle(
+          'active',
+          page.id === pageId
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      '.nav-btn'
+    )
+    .forEach(
+      function(btn){
+
+        btn.classList.toggle(
+          'active',
+          btn.dataset.page ===
+          pageId
+        );
+
+      }
+    );
+
+
+  if(
+    pageId ===
+    'historyPage'
+  ){
+
+    renderHistory();
+
+  }
+
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+async function updateName(){
+
+  const name =
+    document.getElementById(
+      'nameInput'
+    ).value.trim();
+
+
+  if(!name){
+    return;
+  }
+
+
+  currentUser.name =
+    name;
+
+
+  saveSession();
+
+  renderProfile();
+
+
+  try{
+
+    updateSyncStatus(
+      'Saving...'
+    );
+
+
+    const result =
+      await apiPost(
+        'updateName',
+        {
+
+          userId:
+            currentUser.id ||
+            currentUser.ID ||
+            '',
+
+          name:
+            name
+
+        }
+      );
+
+
+    if(
+      result &&
+      (
+        result.ok ||
+        result.success
+      )
+    ){
+
+      if(
+        result.accountVersion !==
+        undefined
+      ){
+
+        saveServerVersions({
+
+          accountVersion:
+            result.accountVersion
+
+        });
+
+      }
+
+
+      updateSyncStatus(
+        'Synced'
+      );
+
+    }else{
+
+      updateSyncStatus(
+        'Pending'
+      );
+
+    }
+
+
+  }catch(e){
+
+    updateSyncStatus(
+      'Pending'
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SWITCH PROFILE
+========================================================= */
+
+async function switchProfile(
+  profile
+){
+
+  profile =
+    normalizeProfile(
+      profile
+    );
+
+
+  if(
+    currency ===
+    profile
+  ){
+
+    return;
+
+  }
+
+
+  draftAmount =
+    '';
+
+  draftNote =
+    '';
+
+  draftCategory =
+    null;
+
+
+  currency =
+    profile;
+
+
+  localStorage.setItem(
+    PROFILE_KEY,
+    currency
+  );
+
+
+  transactions = [];
+
+  pendingTransactions = [];
+
+  homeBudget = 0;
+
+
+  loadLocalTransactions();
+
+  loadPendingTransactions();
+
+  loadHomeBudgetLocal();
+
+  renderAll();
+
+
+  updateSyncStatus(
+    'Syncing...'
+  );
+
+
+  await loadServerData(
+    currency,
+    true
+  );
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+  const id =
+    document.getElementById(
+      'loginId'
+    ).value.trim();
+
+
+  const password =
+    document.getElementById(
+      'loginPassword'
+    ).value;
+
+
+  const error =
+    document.getElementById(
+      'loginError'
+    );
+
+
+  if(
+    !id ||
+    !password
+  ){
+
+    error.textContent =
+      'ID এবং Password দিন';
+
+    return;
+
+  }
+
+
+  error.textContent =
+    '';
+
+
+  const btn =
+    document.getElementById(
+      'loginBtn'
+    );
+
+
+  btn.disabled =
+    true;
+
+  btn.textContent =
+    'Login হচ্ছে...';
+
+
+  try{
+
+    const result =
+      await apiGet({
+
+        action:
+          'login',
+
+        id:
+          id,
+
+        userId:
+          id,
+
+        password:
+          password
+
+      });
+
+
+    if(
+      !result ||
+      !(
+        result.ok ||
+        result.success
+      )
+    ){
+
+      throw new Error(
+        'Login failed'
+      );
+
+    }
+
+
+    currentUser =
+      result.user ||
+      result.account ||
+      {
+
+        id:
+          id,
+
+        name:
+          'Sajib Hossain'
+
+      };
+
+
+    saveSession();
+
+
+    showApp();
+
+
+  }catch(e){
+
+    error.textContent =
+      'ID অথবা Password সঠিক নয়';
+
+  }finally{
+
+    btn.disabled =
+      false;
+
+    btn.textContent =
+      'Login';
+
+  }
+
+}
+
+
+/* =========================================================
+   SHOW APP
+========================================================= */
+
+async function showApp(){
+
+  document
+    .getElementById(
+      'loginPage'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'app'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  loadLocalTransactions();
+
+  loadPendingTransactions();
+
+  loadHomeBudgetLocal();
+
+  renderCategories();
+
+  renderCategoryFilter();
+
+  renderAll();
+
+
+  await loadServerData(
+    currency,
+    true
+  );
+
+
+  syncPendingTransactions();
+
+
+  startAutoSync();
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+  stopAutoSync();
+
+
+  currentUser =
+    null;
+
+
+  localStorage.removeItem(
+    SESSION_KEY
+  );
+
+
+  document
+    .getElementById(
+      'app'
+    )
+    .classList.add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'loginPage'
+    )
+    .classList.remove(
+      'hidden'
+    );
+
+
+  document.getElementById(
+    'loginPassword'
+  ).value = '';
+
+}
+
+
+/* =========================================================
+   AUTO SYNC
+========================================================= */
+
+function stopAutoSync(){
+
+  if(syncTimer){
+
+    clearInterval(
+      syncTimer
+    );
+
+    syncTimer =
+      null;
+
+  }
+
+}
+
+
+function startAutoSync(){
+
+  stopAutoSync();
+
+
+  syncProfile();
+
+
+  syncTimer =
+    setInterval(
+      function(){
+
+        if(!currentUser){
+          return;
+        }
+
+
+        syncProfile();
+
+      },
+      5000
+    );
+
+}
+
+
+/* =========================================================
+   SYNC PROFILE
+========================================================= */
+
+async function syncProfile(){
+
+  if(
+    !currentUser ||
+    !navigator.onLine
+  ){
+
+    if(
+      currentUser &&
+      !navigator.onLine
+    ){
+
+      updateSyncStatus(
+        'Offline'
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  if(syncing){
+    return;
+  }
+
+
+  try{
+
+    if(
+      pendingTransactions.length
+    ){
+
+      await syncPendingTransactions();
+
+    }
+
+
+    const result =
+      await apiGet({
+
+        action:
+          'syncStatus',
+
+        currency:
+          normalizeProfile(
+            currency
+          ),
+
+        profile:
+          normalizeProfile(
+            currency
+          ),
+
+        userId:
+          currentUser.id ||
+          currentUser.ID ||
+          ''
+
+      });
+
+
+    if(
+      !result ||
+      !(
+        result.ok ||
+        result.success
+      )
+    ){
+
+      throw new Error(
+        'Sync status failed'
+      );
+
+    }
+
+
+    const old =
+      loadServerVersions(
+        currency
+      );
+
+
+    const txChanged =
+      String(
+        result.txVersion ??
+        '0'
+      ) !==
+      String(
+        old.txVersion ??
+        '0'
+      );
+
+
+    const budgetChanged =
+      String(
+        result.budgetVersion ??
+        '0'
+      ) !==
+      String(
+        old.budgetVersion ??
+        '0'
+      );
+
+
+    const accountChanged =
+      String(
+        result.accountVersion ??
+        '0'
+      ) !==
+      String(
+        old.accountVersion ??
+        '0'
+      );
+
+
+    if(
+      !txChanged &&
+      !budgetChanged &&
+      !accountChanged
+    ){
+
+      updateSyncStatus(
+        pendingTransactions.length
+          ? 'Pending'
+          : 'Synced'
+      );
+
+
+      return;
+
+    }
+
+
+    saveServerVersions(
+      result,
+      currency
+    );
+
+
+    if(txChanged){
+
+      await loadServerTransactionsOnly();
+
+    }
+
+
+    if(budgetChanged){
+
+      await loadBudgetFromServer(
+        getCurrentMonth()
+      );
+
+    }
+
+
+    if(accountChanged){
+
+      await loadProfileFromServer();
+
+    }
+
+
+    updateSyncStatus(
+      pendingTransactions.length
+        ? 'Pending'
+        : 'Synced'
+    );
+
+
+  }catch(e){
+
+    updateSyncStatus(
+      navigator.onLine
+        ? 'Pending'
+        : 'Offline'
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+document.getElementById(
+  'loginBtn'
+).addEventListener(
+  'click',
+  login
+);
+
+
+document.getElementById(
+  'loginPassword'
+).addEventListener(
+  'keydown',
+  function(e){
+
+    if(
+      e.key ===
+      'Enter'
+    ){
+
+      login();
+
+    }
+
+  }
+);
+
+
+document.getElementById(
+  'popupClose'
+).addEventListener(
+  'click',
+  function(){
+
+    savePopupDraft();
+
+    closePopup(
+      false
+    );
+
+  }
+);
+
+
+document.getElementById(
+  'popupOverlay'
+).addEventListener(
+  'click',
+  function(e){
+
+    if(
+      e.target ===
+      this
+    ){
+
+      savePopupDraft();
+
+      closePopup(
+        false
+      );
+
+    }
+
+  }
+);
+
+
+document.getElementById(
+  'amountInput'
+).addEventListener(
+  'input',
+  function(){
+
+    draftAmount =
+      this.value;
+
+  }
+);
+
+
+document.getElementById(
+  'noteInput'
+).addEventListener(
+  'change',
+  function(){
+
+    draftNote =
+      this.value;
+
+  }
+);
+
+
+document.getElementById(
+  'saveTransactionBtn'
+).addEventListener(
+  'click',
+  saveTransaction
+);
+
+
+/* =========================================================
+   HISTORY FILTER EVENTS
+========================================================= */
+
+document.getElementById(
+  'historyYear'
+).addEventListener(
+  'change',
+  renderHistory
+);
+
+
+document.getElementById(
+  'historyMonthSelect'
+).addEventListener(
+  'change',
+  renderHistory
+);
+
+
+document.getElementById(
+  'historyCategory'
+).addEventListener(
+  'change',
+  renderHistory
+);
+
+
+document.getElementById(
+  'budgetMonth'
+).addEventListener(
+  'change',
+  function(){
+
+    const month =
+      this.value ||
+      getCurrentMonth();
+
+
+    localStorage.setItem(
+      BUDGET_MONTH_KEY,
+      month
+    );
+
+
+    loadBudgetInput();
+
+  }
+);
+
+
+document.getElementById(
+  'saveBudgetBtn'
+).addEventListener(
+  'click',
+  saveBudget
+);
+
+
+document.getElementById(
+  'saveNameBtn'
+).addEventListener(
+  'click',
+  updateName
+);
+
+
+document.getElementById(
+  'bdBtn'
+).addEventListener(
+  'click',
+  function(){
+
+    switchProfile(
+      'BD'
+    );
+
+  }
+);
+
+
+document.getElementById(
+  'kwBtn'
+).addEventListener(
+  'click',
+  function(){
+
+    switchProfile(
+      'KW'
+    );
+
+  }
+);
+
+
+document.getElementById(
+  'logoutBtn'
+).addEventListener(
+  'click',
+  logout
+);
+
+
+document
+  .querySelectorAll(
+    '.nav-btn'
+  )
+  .forEach(
+    function(btn){
+
+      btn.addEventListener(
+        'click',
+        function(){
+
+          openPage(
+            this.dataset.page
+          );
+
+        }
+      );
+
+    }
+);
+
+
+/* =========================================================
+   ONLINE / OFFLINE
+========================================================= */
+
+window.addEventListener(
+  'online',
+  function(){
+
+    if(!currentUser){
+      return;
+    }
+
+
+    updateSyncStatus(
+      'Syncing...'
+    );
+
+
+    syncProfile();
+
+  }
+);
+
+
+window.addEventListener(
+  'offline',
+  function(){
+
+    if(!currentUser){
+      return;
+    }
+
+
+    updateSyncStatus(
+      'Offline'
+    );
+
+  }
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+(function init(){
+
+  currency =
+    normalizeProfile(
+      localStorage.getItem(
+        PROFILE_KEY
+      ) || 'BD'
+    );
+
+
+  /*
+   * হিসাব পেজের সাল ও মাস
+   * অ্যাপ চালু হলেই বর্তমান
+   * সাল ও মাসে সেট হবে।
+   */
+
+  setupHistoryFilters();
+
+
+  const session =
+    loadSession();
+
+
+  if(session){
+
+    currentUser =
+      session;
+
+
+    showApp();
+
+  }else{
+
+    document
+      .getElementById(
+        'loginPage'
+      )
+      .classList.remove(
+        'hidden'
+      );
+
+
+    document
+      .getElementById(
+        'app'
+      )
+      .classList.add(
+        'hidden'
+      );
+
+  }
+
+})();
+
+</script>
+
+</body>
+</html>
