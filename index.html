@@ -44,10 +44,13 @@ button{border:0;cursor:pointer;}
 .card-type{font-size:8px;font-weight:800;opacity:.65;letter-spacing:1px;}
 
 #daysLeft{
-font-size:8px;
-font-weight:800;
-opacity:.72;
-margin-top:3px;
+font-size:9px;
+font-weight:900;
+color:#ffb3aa;
+opacity:1;
+margin-top:4px;
+letter-spacing:.5px;
+text-shadow:0 0 5px rgba(255,120,110,.3);
 }
 
 .card-chip{position:relative;z-index:2;width:43px;height:31px;margin-top:22px;border-radius:7px;background:linear-gradient(135deg,#d7d1a7,#f1eac6,#a9a47e);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);}
@@ -636,13 +639,13 @@ minimumFractionDigits:3,
 maximumFractionDigits:3
 }
 )+' KD'
-:'৳'+
-n.toLocaleString(
+:n.toLocaleString(
 'en-IN',
 {
+minimumFractionDigits:0,
 maximumFractionDigits:2
 }
-);
+)+' TK';
 
 }
 
