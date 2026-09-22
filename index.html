@@ -2125,12 +2125,16 @@ function money(value){
 
 async function apiGet(params){
 
+  const query =
+    new URLSearchParams({
+      ...params,
+      _ts: Date.now()
+    });
+
   const url =
     API +
     '?' +
-    new URLSearchParams(
-      params
-    ).toString();
+    query.toString();
 
   const response =
     await fetch(
@@ -3555,18 +3559,18 @@ async function syncPendingTransactions(){
 
 
         if(
-          result.txVersion !==
-          undefined
-        ){
+  result.version !==
+  undefined
+){
 
-          saveServerVersions({
+  saveServerVersions({
 
-            txVersion:
-              result.txVersion
+    txVersion:
+      result.version
 
-          });
+  });
 
-        }
+}
 
       }else{
 
@@ -3694,24 +3698,18 @@ async function loadServerData(
 
 
     if(
-      result.txVersion !==
-      undefined
-    ){
+  result.version !==
+  undefined
+){
 
-      saveServerVersions({
+  saveServerVersions({
 
-        txVersion:
-          result.txVersion,
+    txVersion:
+      result.version
 
-        budgetVersion:
-          result.budgetVersion,
+  });
 
-        accountVersion:
-          result.accountVersion
-
-      });
-
-    }
+}
 
 
     renderAll();
@@ -3843,18 +3841,19 @@ async function loadServerTransactionsOnly(){
     saveLocalTransactions();
 
 
-    saveServerVersions({
+    if(
+  result.version !==
+  undefined
+){
 
-      txVersion:
-        result.txVersion,
+  saveServerVersions({
 
-      budgetVersion:
-        result.budgetVersion,
+    txVersion:
+      result.versioncache:'no-store'
 
-      accountVersion:
-        result.accountVersion
+  });
 
-    });
+}
 
 
     renderAll();
