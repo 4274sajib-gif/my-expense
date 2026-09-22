@@ -3841,7 +3841,7 @@ async function loadServerTransactionsOnly(){
     saveLocalTransactions();
 
 
-    if(
+if(
   result.version !==
   undefined
 ){
@@ -3849,23 +3849,23 @@ async function loadServerTransactionsOnly(){
   saveServerVersions({
 
     txVersion:
-      result.versioncache:'no-store'
+      result.version
 
   });
 
 }
 
 
-    renderAll();
+renderAll();
 
-    restorePopupDraft();
+restorePopupDraft();
 
 
-    updateSyncStatus(
-      pendingTransactions.length
-        ? 'Pending'
-        : 'Synced'
-    );
+updateSyncStatus(
+  pendingTransactions.length
+    ? 'Pending'
+    : 'Synced'
+);
 
 
   }catch(e){
