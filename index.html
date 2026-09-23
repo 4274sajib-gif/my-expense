@@ -650,7 +650,8 @@ let draftCategory=null;
 
 /* নতুন: Popup date draft */
 let draftDate='';
-
+let pageScrollY=0;
+  
 const CATEGORIES=[
 {name:'খাবার',icon:'🍔'},
 {name:'বাজার',icon:'🛒'},
@@ -1579,6 +1580,8 @@ draftDate||getToday();
 
 function openPopup(category){
 
+pageScrollY=window.scrollY;
+
 selectedCategory=category;
 
 draftCategory=category;
@@ -1647,6 +1650,15 @@ draftDate='';
 draftCategory=null;
 
 }
+
+setTimeout(()=>{
+
+window.scrollTo({
+top:pageScrollY,
+behavior:'instant'
+});
+
+},50);
 
 }
 
