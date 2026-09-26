@@ -651,7 +651,17 @@ let draftCategory=null;
 /* নতুন: Popup date draft */
 let draftDate='';
 let pageScrollY=0;
-  
+
+
+/* =====================================================
+   Budget Draft Protection
+   Budget Box-এ লেখা থাকলে Auto Scan overwrite করবে না
+===================================================== */
+
+let budgetDraftDirty=false;
+let budgetDraftMonth='';
+
+
 const CATEGORIES=[
 {name:'খাবার',icon:'🍔'},
 {name:'বাজার',icon:'🛒'},
@@ -2108,9 +2118,30 @@ String(amount)
 
 }
 
+/* =====================================================
+   Budget Sync
+   Sheet থেকে Budget Delete হলে Local Budget-ও Delete হবে
+   + Budget Box typing থাকলে Auto Scan overwrite করবে না
+===================================================== */
+
 async function loadBudgetFromServer(
 month
 ){
+
+/* =====================================
+   Budget Box-এ unsaved লেখা থাকলে
+   Server-এর পুরোনো Budget দিয়ে overwrite করবে না
+===================================== */
+
+if(
+budgetDraftDirty&&
+budgetDraftMonth===month
+){
+
+return;
+
+}
+
 
 const localKey=
 budgetStorageKey(
@@ -2122,6 +2153,11 @@ const local=
 localStorage.getItem(
 localKey
 );
+
+
+/* =====================================
+   আগে Local Budget দেখাবে
+===================================== */
 
 if(local!==null){
 
@@ -2146,11 +2182,17 @@ renderAll();
 
 }
 
+
+/* =====================================
+   Offline হলে Local Budget থাকবে
+===================================== */
+
 if(!navigator.onLine){
 
 return;
 
 }
+
 
 try{
 
@@ -2169,8 +2211,12 @@ userId:
 currentUser?.id||
 currentUser?.ID||
 ''
-
 });
+
+
+/* =====================================
+   API Response ঠিক না হলে
+===================================== */
 
 if(
 !result||
@@ -2185,6 +2231,11 @@ throw new Error(
 );
 
 }
+
+
+/* =====================================
+   Sheet-এ Budget পাওয়া গেছে
+===================================== */
 
 if(result.found===true){
 
@@ -2219,19 +2270,65 @@ return;
 
 }
 
+
+/* =====================================
+   Sheet-এ Budget নেই
+   অর্থাৎ Sheet থেকে DELETE করা হয়েছে
+===================================== */
+
+/* Local Budget DELETE */
+
+localStorage.removeItem(
+localKey
+);
+
+
+/* Current Month হলে Home Budget = 0 */
+
 if(
-local===null&&
 month===
 getCurrentMonth()
 ){
 
 homeBudget=0;
 
-renderAll();
+}
+
+
+/* Profile-এর Budget Input ফাঁকা */
+
+const budgetInput=
+document.getElementById(
+'budgetAmount'
+);
+
+const selectedMonth=
+document.getElementById(
+'budgetMonth'
+)?.value;
+
+
+if(
+budgetInput&&
+selectedMonth===month
+){
+
+budgetInput.value='';
 
 }
 
+
+/* UI Refresh */
+
+renderAll();
+
+
 }catch(e){
+
+/* =====================================
+   Network/API সমস্যা হলে
+   Local Budget মুছবে না
+===================================== */
 
 loadHomeBudgetLocal();
 
@@ -2255,6 +2352,16 @@ document.getElementById(
 'budgetAmount'
 ).value
 )??0;
+
+
+/* =====================================
+   Save শুরু হলে Draft Lock
+   Auto Scan পুরোনো Budget আনতে পারবে না
+===================================== */
+
+budgetDraftDirty=true;
+budgetDraftMonth=month;
+
 
 saveLocalBudget(
 month,
@@ -2314,6 +2421,16 @@ budgetVersion:v
 
 }
 
+
+/* =====================================
+   Server Save সফল
+   এখন আবার normal sync চলবে
+===================================== */
+
+budgetDraftDirty=false;
+budgetDraftMonth='';
+
+
 updateSyncStatus(
 'Synced'
 );
@@ -2327,6 +2444,11 @@ updateSyncStatus(
 }
 
 }catch(e){
+
+/* =====================================
+   Save fail হলে Draft Lock থাকবে
+   যাতে Auto Scan পুরোনো Budget না আনে
+===================================== */
 
 updateSyncStatus(
 'Pending'
@@ -2868,6 +2990,12 @@ loadBudgetInput();
 
 }
 
+
+/* =====================================================
+   Budget Input
+   Dirty থাকলে Auto Render-এ input overwrite করবে না
+===================================================== */
+
 function loadBudgetInput(){
 
 const month=
@@ -2875,6 +3003,22 @@ document.getElementById(
 'budgetMonth'
 ).value||
 getCurrentMonth();
+
+
+/* =====================================
+   User এই Month-এর Budget লিখছে
+   তাই input untouched থাকবে
+===================================== */
+
+if(
+budgetDraftDirty&&
+budgetDraftMonth===month
+){
+
+return;
+
+}
+
 
 const raw=
 localStorage.getItem(
@@ -3030,6 +3174,12 @@ draftAmount='';
 draftNote='';
 draftDate='';
 draftCategory=null;
+
+
+/* Budget Draft reset */
+budgetDraftDirty=false;
+budgetDraftMonth='';
+
 
 currency=profile;
 
@@ -3453,10 +3603,42 @@ BUDGET_MONTH_KEY,
 month
 );
 
+
+/* নতুন Month নির্বাচন করলে
+   আগের unsaved draft আর প্রযোজ্য নয়
+*/
+
+budgetDraftDirty=false;
+budgetDraftMonth='';
+
+
 loadBudgetInput();
 
 }
 );
+
+
+/* =====================================================
+   Budget Amount লিখলেই Draft Lock
+===================================================== */
+
+document.getElementById(
+'budgetAmount'
+).addEventListener(
+'input',
+function(){
+
+budgetDraftDirty=true;
+
+budgetDraftMonth=
+document.getElementById(
+'budgetMonth'
+).value||
+getCurrentMonth();
+
+}
+);
+
 
 document.getElementById(
 'saveBudgetBtn'
@@ -3559,8 +3741,7 @@ await loadTransactions();
 
 }
 
-}
-);
+});
 
 (function init(){
 
